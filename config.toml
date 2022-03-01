@@ -1,0 +1,5 @@
+baseURL = 'https://johanngerberding.github.io/'
+languageCode = 'en-us'
+title = 'Johanns Blog'
+theme = 'hugo-PaperMod'
+enableEmoji = true
