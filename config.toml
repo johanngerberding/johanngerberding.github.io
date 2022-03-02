@@ -3,3 +3,6 @@ languageCode = 'en-us'
 title = 'Johanns Blog'
 theme = 'hugo-PaperMod'
 enableEmoji = true
+
+[params]
+mainSections = ["posts"]
