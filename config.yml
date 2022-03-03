@@ -4,6 +4,10 @@ title: 'Johanns Blog'
 theme: 'hugo-PaperMod'
 enableEmoji: true
 math: true
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
 
 params:
   defaultTheme: dark
@@ -42,5 +46,3 @@ menu:
     url: /about-me/
     weight: 1
   
-markup.goldmark.renderer:
-  unsafe: true
