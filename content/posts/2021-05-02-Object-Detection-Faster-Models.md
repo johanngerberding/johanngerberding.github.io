@@ -1,7 +1,6 @@
 ---
 title: Object Detection - Faster Models
 date: 2021-05-02 10:45:16 +0200
-permalink: /:title
 author: Johann Gerberding
 summary: One-Stage Object Detection Models.
 include_toc: true
@@ -156,7 +155,7 @@ CE(p\_{t}) = - \log p\_{t}
 $$
 
 <p align="justify">
-Easily classified negatives ($p\_{t} \gg 0.5 ,y=0$) comprise the majority of the loss. You can balance the importance of the positive/negative examples by adding a balancing factor $\alpha$
+Easily classified negatives ($p_{t} \gg 0.5 ,y=0$) comprise the majority of the loss. You can balance the importance of the positive/negative examples by adding a balancing factor $\alpha$
 </p>
 
 $$
@@ -164,7 +163,7 @@ CE(p\_{t}) = - \alpha_{t} \log p\_{t}
 $$
 
 <p align="justify">
-but this does not differentiate between easy or hard examples. To overcome this the Focal Loss adds a modulating factor $(1-p\_{t})^{\gamma}$ with a tunable focusing parameter $\gamma \geq 0$:
+but this does not differentiate between easy or hard examples. To overcome this the Focal Loss adds a modulating factor $(1-p_{t})^{\gamma}$ with a tunable focusing parameter $\gamma \geq 0$:
 </p>
 
 $$
@@ -190,14 +189,14 @@ The FPN backbone for RetinaNet was constructed on top of ResNet. To really under
 {{< figure align=center alt="Featurized Pyramid Network architecture" src="/imgs/object_detection_2/featurized-image-pyramid.png" width=100% caption="Figure 4. Featurized Pyramid Network architecture">}}
 
 <p align="justify">
-The basic structure contains a sequence of pyramid levels each corresponding to one network stage. Often these stages contain multiple conv layers of the same size and stage sizes are scaled down by a factor of two. $C\_{i}$ represents the different layers of those stages (for ResNet e.g. {$C\_{2}, C\_{3}, C\_{4}, C\_{5}$}). As you can see there are two different pathways which connect the conv layers:
+The basic structure contains a sequence of pyramid levels each corresponding to one network stage. Often these stages contain multiple conv layers of the same size and stage sizes are scaled down by a factor of two. $C_{i}$ represents the different layers of those stages (for ResNet e.g. {$C_{2}, C_{3}, C_{4}, C_{5}$}). As you can see there are two different pathways which connect the conv layers:
 </p>
 
 1. **Bottom-up** pathway: regular feedback path
 2. **Top-down** pathway: goes in the opposite direction, adding coarse but semantically stronger feature maps back into the previous levels of layer size by lateral connections (1x1 conv to match dimensions) and nearest neighbor upsampling; the combination of the two maps is done by element-wise addition
 
 <p align="justify">
-The final predictions ({$P\_{i}$} where $i$ indicates the pyramid level and has resolution $2^{i}$ lower than the input) are generated out of every merged map by a 3x3 conv layer. RetinaNet utilizes feature pyramid levels $P\_{3}$ to $P\_{7}$ computed from the corresponding ResNet residual stage from $C\_{3}$ to $C\_{5}$. All pyramid levels have 256 channels (most of RetinaNet is similar to FPN with a few minor differences). The authors used translation-invariant anchor boxes as priors, similar to those used in RPN variant of FPN. To improve Average Precision the number of anchors was increased to $A=9$ (three aspect ratios {1:2, 1:1, 2:1} with three different sizes {$2^{0}, 2^{1/3}, 2^{2/3}$}). As seen before, for each anchor box the model predicts a class probability for each of $K$ classes with a classification subnet trained with Focal Loss. A box regression subnet outputs the offsets for the boxes to the nearest ground truth object. Both networks are independent Fully Convolutional Networks that don't share any parameters.
+The final predictions ({$P_{i}$} where $i$ indicates the pyramid level and has resolution $2^{i}$ lower than the input) are generated out of every merged map by a 3x3 conv layer. RetinaNet utilizes feature pyramid levels $P_{3}$ to $P_{7}$ computed from the corresponding ResNet residual stage from $C_{3}$ to $C_{5}$. All pyramid levels have 256 channels (most of RetinaNet is similar to FPN with a few minor differences). The authors used translation-invariant anchor boxes as priors, similar to those used in RPN variant of FPN. To improve Average Precision the number of anchors was increased to $A=9$ (three aspect ratios {1:2, 1:1, 2:1} with three different sizes {$2^{0}, 2^{1/3}, 2^{2/3}$}). As seen before, for each anchor box the model predicts a class probability for each of $K$ classes with a classification subnet trained with Focal Loss. A box regression subnet outputs the offsets for the boxes to the nearest ground truth object. Both networks are independent Fully Convolutional Networks that don't share any parameters.
 </p>
 
 {{< figure align=center alt="RetinaNet architecture" src="/imgs/object_detection_2/retina-net.png" width=100% caption="Figure 5. RetinaNet architecture">}}
@@ -214,7 +213,7 @@ YOLOv3 was created by applying changes to YOLOv2 inspired by, at that time, rece
 * **Darknet-53 as Feature Extractor** which performs similar to ResNet-152 but is 2x faster
 
 <p align="justify">
-Overall YOLOv3 performs better and faster than SSD, worse then RetinaNet but is 3.8x faster and comparable to state-of-the-art methods on the $AP\_{50}$ metric at that time. In the appendix Joseph (the author) adds a cool comment on his opinion about the COCO evaluation metrics. It's refreshing to see someone questioning stuff like this.
+Overall YOLOv3 performs better and faster than SSD, worse then RetinaNet but is 3.8x faster and comparable to state-of-the-art methods on the $AP_{50}$ metric at that time. In the appendix Joseph (the author) adds a cool comment on his opinion about the COCO evaluation metrics. It's refreshing to see someone questioning stuff like this.
 </p>
 
 {{< figure align=center alt="YOLOv3 performance" src="/imgs/object_detection_2/yolov3-res.png" width=80% caption="Figure 6. YOLOv3 performance">}}

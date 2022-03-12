@@ -1,7 +1,6 @@
 ---
 title: Object Detection - From R-CNN to Mask R-CNN
 date: 2021-04-03 10:23:16 +0200
-permalink: /:title
 author: Johann Gerberding
 summary: Two-Stage Object Detection Models.
 include_toc: true
@@ -12,7 +11,7 @@ math: true
 ## Introduction
 
 <p align="justify">
-In the following weeks (or months) I am going to take a deep dive into Deep Learning based Object Detection models. My goal is to create a series of posts regarding different approaches and popular architectures for this task. In this post I'll start with the description of the R-CNN ("Region-based Convolutional Neural Networks") model family, their emergence and central ideas. Nowadays there exist much more accurate and efficient architectures but I think it's a good starting point for such a series. Since the R-CNN based models are so called two-stage approaches, I'll go over a few popular one-stage architectures like YOLO in the next post as well. I'll describe in a minute what exactly this means and what the key differences are. Furthermore, following these two posts, I would like to discuss more current architectures that represent the state-of-the-art in the most recognized benchmarks like <i>EfficientDet</i> or new Transformer-based approaches like *DETR*.
+In the following weeks (or months) I am going to take a deep dive into Deep Learning based Object Detection models. My goal is to create a series of posts regarding different approaches and popular architectures for this task. In this post I'll start with the description of the R-CNN ("Region-based Convolutional Neural Networks") model family, their emergence and central ideas. Nowadays there exist much more accurate and efficient architectures but I think it's a good starting point for such a series. Since the R-CNN based models are so called two-stage approaches, I'll go over a few popular one-stage architectures like YOLO in the next post as well. I'll describe in a minute what exactly this means and what the key differences are. Furthermore, following these two posts, I would like to discuss more current architectures that represent the state-of-the-art in the most recognized benchmarks like <i>EfficientDet</i> or new Transformer-based approaches like <i>DETR</i>.
 </p>
 
 <p align="justify">
@@ -42,7 +41,7 @@ The overall training procedure is a stepwise process and requires a lot of work.
 </p>
 
 <p align="justify">
-Now let's dive a bit deeper into <b>Bounding Box Regression</b>. The offsets get calculated based on the features after $pool\_{5}$ layer of each proposal $\mathbf{p}$. The regressor is build to learn scale-invariant transformations between the centers and a log-scale transformation between widths and heights. This is illustrated down below.
+Now let's dive a bit deeper into <b>Bounding Box Regression</b>. The offsets get calculated based on the features after $pool_{5}$ layer of each proposal $\mathbf{p}$. The regressor is build to learn scale-invariant transformations between the centers and a log-scale transformation between widths and heights. This is illustrated down below.
 </p>
 
 {{< figure align=center alt="Bounding Box Regression" src="/imgs/object_detection_1/RCNN-bbox-regression.png" width=80% caption="Figure 2. R-CNN - Bounding Box Regression">}}
@@ -72,7 +71,7 @@ L\_{reg} = \sum_{i \in \{ x, y, w, h \}} (t\_{i} - d\_{i}(\mathbf{p}))^{2} + \la
 $$
 
 <p align="justify">
-The regularization term ($\lambda$ = 1000) is critical and the authors picked it by using cross validation. One benefit of the application of these transformations is that alle the box correction functions $d\_{i}(p)$ where $i \in \{ x, y, w, h \}$ can take any value $[- \infty, + \infty]$.
+The regularization term ($\lambda$ = 1000) is critical and the authors picked it by using cross validation. One benefit of the application of these transformations is that alle the box correction functions $d_{i}(p)$ where $i \in \{ x, y, w, h \}$ can take any value $[- \infty, + \infty]$.
 </p>
 
 **Shortcomings:**
@@ -121,7 +120,7 @@ $$
 $$
 
 <p align="justify">
-to ignore background classifications. $L\_{cls}(p,u) = - \log p\_{u}$ is a log loss for the true class $u$. The bounding box loss is defined as followed:
+to ignore background classifications. $L_{cls}(p,u) = - \log p_{u}$ is a log loss for the true class $u$. The bounding box loss is defined as followed:
 </p>
 
 $$
@@ -129,7 +128,7 @@ L_{box}(t^{u}, v) = \sum_{i \in \{x,y,w,h\}} smooth_{L\_{1}} (t\_{i}^{u} - v\_{i
 $$
 
 <p align="justify">
-It measures the difference between $t\_{i}^{u}$ and $v\_{i}$ using a robust smooth $L\_{1}$ loss function which is claimed to be less sensitive to outliers than the $L\_{2}$ loss.
+It measures the difference between $t_{i}^{u}$ and $v_{i}$ using a robust smooth $L_{1}$ loss function which is claimed to be less sensitive to outliers than the $L_{2}$ loss.
 </p>
 
 $$
@@ -178,7 +177,7 @@ $\lambda$ | balancing parameter, set to be 10, to balance out $L\_{reg}$ and $L\
 $N_{cls}$ | normalization term, set to be the same as the mini batch size (256)
 $N_{reg}$ | normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)
 
-The regression loss is also smooth $L_{1}$ like in Fast R-CNN. The classification loss can be calculated as followed:
+The regression loss is also smooth $L\_{1}$ like in Fast R-CNN. The classification loss can be calculated as followed:
 
 $$
 L\_{cls} (p\_{i}, p\_{i}^{\ast}) = -p\_{i}^{\ast} \log p\_{i} - (1 - p\_{i}^{\ast}) \log (1 - p\_{i})
@@ -209,7 +208,7 @@ L\_{mask} = -\frac{1}{m^{2}} \sum_{1 \leq i, j \leq m} [ y\_{ij} \log \hat{y}\_{
 $$
 
 <p align="justify">
-$y\_{ij}$ describes the label of a cell (i,j) in the true mask whereas $\hat{y}\_{ij}^{k}$ represents the predicted value of cell (i,j). The loss is defined as the average binary cross entropy loss, only including the k-th mask if the region is associated with the ground truth class $k$. The mask branch outputs $K * m^{2}$ binary masks but only the k-th mask contributes to the loss (rest gets ignored). This provides a decoupling between class and mask predictions.
+$y_{ij}$ describes the label of a cell (i,j) in the true mask whereas $\hat{y}_{ij}^{k}$ represents the predicted value of cell (i,j). The loss is defined as the average binary cross entropy loss, only including the k-th mask if the region is associated with the ground truth class $k$. The mask branch outputs $K * m^{2}$ binary masks but only the k-th mask contributes to the loss (rest gets ignored). This provides a decoupling between class and mask predictions.
 </p>
 
 ## Summary
@@ -221,7 +220,7 @@ To sum everything up and give a broad overview of all architectures covered in t
 {{< figure align=center alt="R-CNN model family" src="/imgs/object_detection_1/rcnn-family-summary.png" width=100% caption="Figure 7. Overview R-CNN model family">}}
 
 <p align="justify">
-For a general overview of the field of Deep Learning based Object Detection I highly recommend <a href="https://arxiv.org/pdf/1809.02165v1.pdf ">this survey</a> ("Deep Learning for Generic Object Detection: A Survey") from 2018 which in my opinion gives a great overview for beginners.
+For a general overview of the field of Deep Learning based Object Detection I highly recommend <a href="https://arxiv.org/pdf/1809.02165v1.pdf">this survey</a> ("Deep Learning for Generic Object Detection: A Survey") from 2018 which in my opinion gives a great overview for beginners.
 </p>
 
 ## References

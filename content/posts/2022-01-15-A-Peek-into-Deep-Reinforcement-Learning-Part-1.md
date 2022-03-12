@@ -28,7 +28,7 @@ RL in general is concerned with solving sequential decision-making problems (e.g
 {{< figure align=center alt="Reinforcement Learning Control-Loop" src="/imgs/reinforcement_learning/reinforcement_learning_loop.png" width=70% caption="Figure 1. Reinforcement Learning Control-Loop [1]">}}
 
 <p align="justify">
-The action selection function the agent uses is called a <b>policy</b>, which maps states to actions. Every action will change the environment and affect what an agent observes and does next. To determine which actions to take in different situations every RL problems needs to have an objective or goal which is described by the sum of rewards received over time. The goal is to maximize the objective by selecting good actions which the agent learns by interacting with the environment in a process of trial-and-error combined with using the reward signals it receives to reinforce good actions. The exchange signal is often called <b>experience</b> and described as tuple of $(s\_{t}, a\_{t}, r\_{t})$. Moreover we have to differentiate between <i>finite</i> and <i>infinite</i> environments. In finite environments $t=0,1,...,T$ is called one <b>episode</b> and a sequence of experiences over an episode $\tau = (s\_{0}, a\_{0}, r\_{0}), (s\_{1}, a\_{1}, r\_{1}), ...$ is called a <b>trajectory</b>. An agent typically needs many episodes to learn a good policy, ranging from hundreds to millions depending on the complexity of the problem. Now lets describe the states, actions and rewards a bit more formally:
+The action selection function the agent uses is called a <b>policy</b>, which maps states to actions. Every action will change the environment and affect what an agent observes and does next. To determine which actions to take in different situations every RL problems needs to have an objective or goal which is described by the sum of rewards received over time. The goal is to maximize the objective by selecting good actions which the agent learns by interacting with the environment in a process of trial-and-error combined with using the reward signals it receives to reinforce good actions. The exchange signal is often called <b>experience</b> and described as tuple of $(s_{t}, a_{t}, r_{t})$. Moreover we have to differentiate between <i>finite</i> and <i>infinite</i> environments. In finite environments $t=0,1,...,T$ is called one <b>episode</b> and a sequence of experiences over an episode $\tau = (s_{0}, a_{0}, r_{0}), (s_{1}, a_{1}, r_{1}), ...$ is called a <b>trajectory</b>. An agent typically needs many episodes to learn a good policy, ranging from hundreds to millions depending on the complexity of the problem. Now lets describe the states, actions and rewards a bit more formally:
 </p>
 
 * $s\_{t} \in \mathcal{S}$ is the state, $\mathcal{S}$ is the state space
@@ -42,7 +42,7 @@ Next we are diving into the framework for modeling those interactions between th
 ### RL as an Markov Decision Process
 
 <p align="justify">
-MDP in general is a mathematical framework for modeling sequential decision making and in RL the transitions of an environment between states is described as an MDP. The <b>transition function</b> has to meet the <b>Markov property</b> which assumes that the next state $s\_{t+1}$ only depends on the previous state $s\_{t}$ and action $a\_{t}$ instead of the whole history of states and actions. When we talk about a state here it is also important to distinguish between the <b>observed state</b> $s\_{t}$ from the agent and the environments <b>internal state</b> $s\_{t}^{int}$ used by the transition function. In an MDP $s\_{t} = s\_{t}^{int}$ but in many interesting real-world problems the agent has only limited information and $s\_{t} \neq s\_{t}^{int}$. In those cases the environment is described as a <b>partially oberservable</b> MDP, in short <b>POMDP</b>.
+MDP in general is a mathematical framework for modeling sequential decision making and in RL the transitions of an environment between states is described as an MDP. The <b>transition function</b> has to meet the <b>Markov property</b> which assumes that the next state $s_{t+1}$ only depends on the previous state $s_{t}$ and action $a_{t}$ instead of the whole history of states and actions. When we talk about a state here it is also important to distinguish between the <b>observed state</b> $s_{t}$ from the agent and the environments <b>internal state</b> $s_{t}^{int}$ used by the transition function. In an MDP $s_{t} = s_{t}^{int}$ but in many interesting real-world problems the agent has only limited information and $s_{t} \neq s_{t}^{int}$. In those cases the environment is described as a <b>partially oberservable</b> MDP, in short <b>POMDP</b>.
 </p>
 
 All we need for the formal MDP description of a RL problem is a 4-tuple $\mathcal{S}$, $\mathcal{A}$, $P(.)$ and $\mathcal{R}(.)$:
@@ -53,7 +53,7 @@ All we need for the formal MDP description of a RL problem is a 4-tuple $\mathca
 * $\mathcal{R}(s\_{t}, a\_{t}, s\_{t+1})$ is the reward function of the environment
 
 <p align="justify">
-It is important to note that agents to have access to the transition function of the reward function, they only get information about these functions through the $(s\_{t}, a\_{t}, r\_{t})$ tuples. The objective of an agent can be formalized by the <b>return</b> $R(\tau)$ using a trajectory from an episode
+It is important to note that agents to have access to the transition function of the reward function, they only get information about these functions through the $(s_{t}, a_{t}, r_{t})$ tuples. The objective of an agent can be formalized by the <b>return</b> $R(\tau)$ using a trajectory from an episode
 </p>
 
 $$
@@ -79,7 +79,7 @@ In RL there exist three primary functions which can be learned. One of them is t
 </p>
 
 <p align="justify">
-The second one is called a <b>value function</b>, $V^{\pi}$ or $Q^{\pi}(s,a)$, which estimates the expected return $\mathbb{E}\_{\tau}[R(\tau)]$. Value functions provide information about the objective and thereby help an agent to understand how good the states and available actions are in terms of future rewards. As mentioned before, there exist two different versions of value functions:
+The second one is called a <b>value function</b>, $V^{\pi}$ or $Q^{\pi}(s,a)$, which estimates the expected return $\mathbb{E}_{\tau}[R(\tau)]$. Value functions provide information about the objective and thereby help an agent to understand how good the states and available actions are in terms of future rewards. As mentioned before, there exist two different versions of value functions:
 </p>
 
 $$
@@ -153,7 +153,7 @@ The REINFORCE algorithm was invented in 1992 by Ronald J. Williams. It learns a 
 * method for updating the policy parameters
 
 <p align="justify">
-A neural network is used to learn a good policy by function approximation. This is often called a <i>policy network</i> $\pi\_{\theta}$ (parameterized by $\theta$). The objective function to maximize is the expected return over all complete trajectories generated by an agent:
+A neural network is used to learn a good policy by function approximation. This is often called a <i>policy network</i> $\pi_{\theta}$ (parameterized by $\theta$). The objective function to maximize is the expected return over all complete trajectories generated by an agent:
 </p>
 
 $$
@@ -209,7 +209,7 @@ Q^{\pi}(s,a) \approx r + \gamma Q^{\pi}(s',a') = Q^{\pi}\_{tar}(s,a)
 $$
 
 <p align="justify">
-But if we use the same policy to generate $\hat{Q}^{\pi}(s,a)$ and $Q\_{tar}^{\pi}(s,a)$ but how does this work or learn at all? This is possible because $Q\_{tar}^{\pi}(s,a)$ uses information one time step into the future when compared with $\hat{Q}^{\pi}(s,a)$. Thus it has access to the reward $r$ from the next state $s'$ ($Q\_{tar}^{\pi}(s,a)$ is slightly more informative about how the trajectory will turn out). TD Learning gives us a method for learning how to evaluate state action pairs, but what about choosing the actions?
+But if we use the same policy to generate $\hat{Q}^{\pi}(s,a)$ and $Q_{tar}^{\pi}(s,a)$ but how does this work or learn at all? This is possible because $Q_{tar}^{\pi}(s,a)$ uses information one time step into the future when compared with $\hat{Q}^{\pi}(s,a)$. Thus it has access to the reward $r$ from the next state $s'$ ($Q_{tar}^{\pi}(s,a)$ is slightly more informative about how the trajectory will turn out). TD Learning gives us a method for learning how to evaluate state action pairs, but what about choosing the actions?
 </p>
 
 <p align="justify">
@@ -236,7 +236,7 @@ In the next section we are going to learn more about another popular value-based
 ### General Concept
 
 <p align="justify">
-Deep Q-Networks (DQN) were proposed by Mnih et al. in 2013 and are like SARSA a value-based temporal difference learning algorithm that approximates the Q-function. It is also only applicable to environments with discrete action spaces. Instead of learning the Q-function for the current policy DQN learns the optimal Q-function which improves its stability and learning speed over SARSA. This makes it an off-policy algorithm because the optimal Q-function does not depend on the data gathering policy. This also makes it more sample efficient than SARSA. The main difference between the two is the $Q^{\pi}\_{tar}(s,a)$ construction:
+Deep Q-Networks (DQN) were proposed by Mnih et al. in 2013 and are like SARSA a value-based temporal difference learning algorithm that approximates the Q-function. It is also only applicable to environments with discrete action spaces. Instead of learning the Q-function for the current policy DQN learns the optimal Q-function which improves its stability and learning speed over SARSA. This makes it an off-policy algorithm because the optimal Q-function does not depend on the data gathering policy. This also makes it more sample efficient than SARSA. The main difference between the two is the $Q^{\pi}_{tar}(s,a)$ construction:
 </p>
 
 $$
@@ -244,7 +244,7 @@ Q^{\pi}\_{tar}(s,a) = r + \gamma \max_{a'} Q^{\pi}(s',a')
 $$
 
 <p align="justify">
-Instead of using the action $a'$ actually taken in the next state $s'$ to estimate $Q^{\pi}\_{tar}(s,a)$, DQN uses the maximum Q-value over all of the potential actions available in that state, which makes it independent from the policy. For action selection you can use e.g. $\epsilon$-greedy or <b>Boltzmann policy</b>. The $\epsilon$-greedy exploration strategy is somewhat naive because the exploration is random and do not use any previously learned knowledge about the environment. In contrast the Boltzmann policy tries to improve on this by selecting actions based on their relative Q-values which has the effect of focusing exploration on more promising actions. It is a parameterized softmax function, where a temperature parameter $\tau \in (0, \infty)$ controls how uniform or concentrated the resulting probability distribution is:
+Instead of using the action $a'$ actually taken in the next state $s'$ to estimate $Q^{\pi}_{tar}(s,a)$, DQN uses the maximum Q-value over all of the potential actions available in that state, which makes it independent from the policy. For action selection you can use e.g. $\epsilon$-greedy or <b>Boltzmann policy</b>. The $\epsilon$-greedy exploration strategy is somewhat naive because the exploration is random and do not use any previously learned knowledge about the environment. In contrast the Boltzmann policy tries to improve on this by selecting actions based on their relative Q-values which has the effect of focusing exploration on more promising actions. It is a parameterized softmax function, where a temperature parameter $\tau \in (0, \infty)$ controls how uniform or concentrated the resulting probability distribution is:
 </p>
 
 $$
@@ -271,7 +271,7 @@ Over time people have explored multiple ways to improve the DQN algorithm which 
 #### Target Networks
 
 <p align="justify">
-In the original DQN algorithm $Q\_{tar}^{\pi}$ is constantly changing because it depends on $\hat{Q}^{\pi}(s,a)$. This makes it kind of a "moving target" which can destabilize training because it makes it unclear what the network should learn. To reduce the changes in $Q\_{tar}^{\pi}(s,a)$ between training steps, you can use a target network. Second network with parameters $\varphi$ which is a lagged copy of the Q-network $Q^{\pi\_{\theta}}(s,a)$. It gets periodically updated to the current values for $\theta$, which is called a replacement update. The update frequency is problem dependent (1000 - 10000, for complex environments and 100 - 1000 for simpler ones). Down below you can see the modified Bellman equation:
+In the original DQN algorithm $Q_{tar}^{\pi}$ is constantly changing because it depends on $\hat{Q}^{\pi}(s,a)$. This makes it kind of a "moving target" which can destabilize training because it makes it unclear what the network should learn. To reduce the changes in $Q_{tar}^{\pi}(s,a)$ between training steps, you can use a target network. Second network with parameters $\varphi$ which is a lagged copy of the Q-network $Q^{\pi_{\theta}}(s,a)$. It gets periodically updated to the current values for $\theta$, which is called a replacement update. The update frequency is problem dependent (1000 - 10000, for complex environments and 100 - 1000 for simpler ones). Down below you can see the modified Bellman equation:
 </p>
 
 $$
@@ -293,7 +293,7 @@ It is important to note that each approach has its advantages and disadvantages 
 #### Double DQN
 
 <p align="justify">
-The Double DQN addresses the problem of overestimating Q-values. If you want to know in detail about why this actually happens, take a look at the following <a href="https://arxiv.org/pdf/1509.06461.pdf">paper</a>. The Q-value overestimation can hurt exploration and the error it causes will be backpropagated in time to earlier (s,a)-pairs which adds error to those as well. Double DQN reduces this by learning two Q-function estimates using different experiences. The Q-maximizing action $a'$ is selected using the first estimate and the Q-value that is used to calculate $Q\_{tar}^{\pi}(s,a)$ is generated by the second estimate using the before selected action. This removes the bias and leads to the following:
+The Double DQN addresses the problem of overestimating Q-values. If you want to know in detail about why this actually happens, take a look at the following <a href="https://arxiv.org/pdf/1509.06461.pdf">paper</a>. The Q-value overestimation can hurt exploration and the error it causes will be backpropagated in time to earlier (s,a)-pairs which adds error to those as well. Double DQN reduces this by learning two Q-function estimates using different experiences. The Q-maximizing action $a'$ is selected using the first estimate and the Q-value that is used to calculate $Q_{tar}^{\pi}(s,a)$ is generated by the second estimate using the before selected action. This removes the bias and leads to the following:
 </p>
 
 $$
@@ -322,7 +322,7 @@ P(i) = \frac{(|\omega_{i}| + \epsilon)^{\eta}}{\sum_{j}(|\omega_{i}| + \epsilon)
 $$
 
 <p align="justify">
-where $\omega\_{i}$ is the TD error of experience $i$, $\epsilon$ is a small positive number and $\eta$. $\eta$ determines how much to prioritize, so that the larger the $\eta$ the greater the prioritization. Prioritizing certain examples changes the expectation of the entire data distribution, which introduces bias into the training process. This can be corrected by multiplying the TD error for each example by a set of weights, which is called <b>importance sampling</b>.
+where $\omega_{i}$ is the TD error of experience $i$, $\epsilon$ is a small positive number and $\eta$. $\eta$ determines how much to prioritize, so that the larger the $\eta$ the greater the prioritization. Prioritizing certain examples changes the expectation of the entire data distribution, which introduces bias into the training process. This can be corrected by multiplying the TD error for each example by a set of weights, which is called <b>importance sampling</b>.
 </p>
 
 ## Summary
