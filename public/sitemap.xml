@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/2022-04-18-an-introduction-to-gans/</loc>
+    <lastmod>2022-04-18T10:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/</loc>
+    <lastmod>2022-04-18T10:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/</loc>
+    <lastmod>2022-04-18T10:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/2022-01-15-a-peek-into-deep-reinforcement-learning-part-2/</loc>
+    <lastmod>2022-03-14T10:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/about-me/</loc>
+    <lastmod>2022-03-02T00:27:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/2022-01-15-a-peek-into-deep-reinforcement-learning-part-1/</loc>
+    <lastmod>2022-01-26T10:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/2021-09-11-attention-and-the-transformer/</loc>
+    <lastmod>2021-10-15T10:45:16+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/2021-09-11-multi-object-tracking-overview/</loc>
+    <lastmod>2021-09-11T10:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/2021-05-02-object-detection-faster-models/</loc>
+    <lastmod>2021-05-02T10:45:16+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/2021-04-03-object-detection-from-r-cnn-to-mask-rcnn/</loc>
+    <lastmod>2021-04-03T10:23:16+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/posts/2020-12-18-overview-of-human-pose-estimation/</loc>
+    <lastmod>2020-12-18T10:23:16+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://johanngerberding.github.io/tags/</loc>
+  </url>
+  
+</urlset>
