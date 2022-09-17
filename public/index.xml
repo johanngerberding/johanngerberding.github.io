@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Johanns Blog</title>
     <link>https://johanngerberding.github.io/</link>
     <description>Recent content on Johanns Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 18 Apr 2022 10:00:00 +0200</lastBuildDate><atom:link href="https://johanngerberding.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>An Introduction to Generative Adversarial Networks</title>
-      <link>https://johanngerberding.github.io/posts/2022-04-18-an-introduction-to-gans/</link>
-      <pubDate>Mon, 18 Apr 2022 10:00:00 +0200</pubDate>
-      
-      <guid>https://johanngerberding.github.io/posts/2022-04-18-an-introduction-to-gans/</guid>
-      <description>A short introduction to the world of Generative Adversarial Networks including basic concepts, popular model architectures and evaluation metrics.</description>
-    </item>
+    <lastBuildDate>Wed, 02 Mar 2022 00:27:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://johanngerberding.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>A Peek into Deep Reinforcement Learning - Part II</title>
@@ -40,24 +35,6 @@
       <pubDate>Wed, 26 Jan 2022 10:00:00 +0200</pubDate>
       
       <guid>https://johanngerberding.github.io/posts/2022-01-15-a-peek-into-deep-reinforcement-learning-part-1/</guid>
-      <description>Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.</description>
-    </item>
-    
-    <item>
-      <title>Attention and the Transformer</title>
-      <link>https://johanngerberding.github.io/posts/2021-09-11-attention-and-the-transformer/</link>
-      <pubDate>Fri, 15 Oct 2021 10:45:16 +0200</pubDate>
-      
-      <guid>https://johanngerberding.github.io/posts/2021-09-11-attention-and-the-transformer/</guid>
-      <description>Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.</description>
-    </item>
-    
-    <item>
-      <title>Multi-Object Tracking - Overview</title>
-      <link>https://johanngerberding.github.io/posts/2021-09-11-multi-object-tracking-overview/</link>
-      <pubDate>Sat, 11 Sep 2021 10:00:00 +0200</pubDate>
-      
-      <guid>https://johanngerberding.github.io/posts/2021-09-11-multi-object-tracking-overview/</guid>
       <description>Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.</description>
     </item>
     
