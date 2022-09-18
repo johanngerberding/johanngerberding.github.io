@@ -4,7 +4,7 @@ date: 2022-03-02T00:27:18+01:00
 draft: false
 ---
 
-Hello everybody, my name is Johann, I am a software engineer from Germany working in a startup near Osnabrueck trying to make agricultural machines drive itself.  
+Hello everybody, my name is Johann, I am a software engineer from Germany working in a startup trying to make agricultural machines drive itself.  
 
 {{< figure align=center alt="picture of Johann Gerberding" src="/imgs/johann.jpeg" width=70% >}}
 
