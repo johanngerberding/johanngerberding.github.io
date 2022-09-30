@@ -1,7 +1,6 @@
----
-title: A Peek into Deep Reinforcement Learning - Part I
+--- 
+title: A Peek into Deep Reinforcement Learning - Part I 
 date: 2022-01-26 10:00:00 +0200
-permalink: /:title
 author: Johann Gerberding
 summary: Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.
 include_toc: true
