@@ -16,15 +16,12 @@ params:
     Content: My name is Johann and this is my blog where I sometimes post about stuff that interests me or things that I've learned.
   
   socialIcons:
-    - name: linkedin
-      url: 'https://www.linkedin.com/in/johann-gerberding-a23a31225/'
     - name: github
       url: 'https://github.com/johanngerberding'
     - name: researchgate
       url: 'https://www.researchgate.net/profile/Johann-Gerberding'
-    - name: xing
-      url: 'https://www.xing.com/profile/Johann_Gerberding/cv'
-      
+    -name: twitter
+      url: 'https://twitter.com/johanngerberd' 
   mainSections: ["posts"]
   ShowReadingTime: true
 
