@@ -4,11 +4,11 @@ date: 2022-03-02T00:27:18+01:00
 draft: false
 ---
 
-Hello everybody, my name is Johann, I am a software engineer from Germany working in a startup trying to make agricultural machines drive itself.  
+Hello everybody, my name is Johann, I am a Machine Learning Engineer from Germany working for a startup called JustAddAI.  
 
 {{< figure align=center alt="picture of Johann Gerberding" src="/imgs/johann.jpeg" width=70% >}}
 
-I am a kind of self-taught developer who considers himself still pretty much at the beginning (noob). However, I still have a lot to learn but really enjoy the process of researching new things and am currently trying to dive deeper into autonomuous driving related tasks and available datasets like the KITTI, nuScenes and Cityscapes. Moreover I have to learn ROS2 for my new job, so I play around with the TurtleBot3 example.  
+I am a kind of self-taught developer who considers himself still pretty much at the beginning (noob). However, I still have a lot to learn but really enjoy the process of researching new things and am currently trying to dive deeper into the world of LLMs. To be honest, I am much more impressed about the stuff Tesla, comma.ai and wayve.ai are doing in the world of autonomous robotics/world modeling than by LLMs but I think it's pretty useful to still learn how those things work ;). 
 
 I use my blog as a kind of learning diary in which I occasionally write short blog posts on topics related to machine learning, algorithms or other cool stuff in which I am interested or currently working on. 
 

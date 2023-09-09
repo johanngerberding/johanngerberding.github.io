@@ -20,7 +20,7 @@ params:
       url: 'https://github.com/johanngerberding'
     - name: researchgate
       url: 'https://www.researchgate.net/profile/Johann-Gerberding'
-    -name: twitter
+    - name: twitter
       url: 'https://twitter.com/johanngerberd' 
   mainSections: ["posts"]
   ShowReadingTime: true
