@@ -1,6 +1,6 @@
 ---
 title: Parameter-Efficient LLM Finetuning  
-date: 2022-09-08 10:00:00 +0200
+date: 2023-09-08 10:00:00 +0200
 permalink: /:title
 author: Johann Gerberding
 summary: Finetuning of Large Language Models in a parameter efficient way.
@@ -11,6 +11,18 @@ draft: true
 ---
 
 ## Introduction
+
+I am already quite late to the Large Language Models (LLM) party but better starting late than never. In this post I am going over a couple of popular techniques for fine-tuning these models without the need of training the whole thing which would be quite expensive. But before I dive into the techniques we should talk about what LLMs and fine-tuning are, why we need it and what the current problems are.
+
+LLMs are based on the [Transformer]() architecture, like the GPTs or BERT, which have achieved state-of-the-art results in various Natural Language Processing (NLP) tasks, like Translation, Question Answering, Summarization etc. The paradigm these days is to train such a model on generic web-scale data and fine-tune it on a downstream task. Fine-tuning in this case just means that you train the model further, but for the downstream task you need way less data. This fine-tuning results in most cases in huge performance gains when compared to using just the LLM as is (e.g. zero-shot inference).  
+
+
+- why do we need to fine-tune these models: don't perform well on more narrow or specific tasks  
+- what are the problems -> training all parameters is very expensive 
+
+huggingface provides a nice repo containing a lot of PEFT methods for you: https://github.com/huggingface/peft  
+
+In the following I will going to dive a bit deeper in how some of these methods work.
 
 What is finetuning? Why do we need it? What are the current problems? 
 <p align="justify">
@@ -52,6 +64,7 @@ What is finetuning? Why do we need it? What are the current problems?
 ## Low Rank Adaptation (LoRA)
 
 <p align="justify">
+LoRA and QLoRA 
 </p>
 
 
@@ -77,3 +90,6 @@ https://arxiv.org/pdf/2303.16199.pdf
 
 Xiang Lisa Li - Prefix-Tuning: Optimizing Continuous Prompts for Generation (2021) 
 https://arxiv.org/pdf/2101.00190.pdf
+
+Tim Dettmers et. al - QLORA: Efficient Finetuning of Quantized LLMs (2023)
+https://arxiv.org/pdf/2305.14314.pdf
