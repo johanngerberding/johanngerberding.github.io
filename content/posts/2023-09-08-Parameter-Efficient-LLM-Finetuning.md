@@ -12,34 +12,24 @@ draft: true
 
 ## Introduction
 
-I am already quite late to the Large Language Models (LLM) party but better starting late than never. In this post I am going over a couple of popular techniques for fine-tuning these models without the need of training the whole thing which would be quite expensive. But before I dive into the techniques we should talk about what LLMs and fine-tuning are, why we need it and what the current problems are.
-
-LLMs are based on the [Transformer]() architecture, like the GPTs or BERT, which have achieved state-of-the-art results in various Natural Language Processing (NLP) tasks, like Translation, Question Answering, Summarization etc. The paradigm these days is to train such a model on generic web-scale data and fine-tune it on a downstream task. Fine-tuning in this case just means that you train the model further, but for the downstream task you need way less data. This fine-tuning results in most cases in huge performance gains when compared to using just the LLM as is (e.g. zero-shot inference).  
-
-
-- why do we need to fine-tune these models: don't perform well on more narrow or specific tasks  
-- what are the problems -> training all parameters is very expensive 
-
-huggingface provides a nice repo containing a lot of PEFT methods for you: https://github.com/huggingface/peft  
-
-In the following I will going to dive a bit deeper in how some of these methods work.
-
-What is finetuning? Why do we need it? What are the current problems? 
 <p align="justify">
-- in-context learning -> models are able to perform tasks by providing them the right context (examples of your task) -> this is cool when you only have access to the model via an API or UI (this only works with generative models like the GPTs) 
-- this works fine in some cases but for more specific things you still have to gather a dataset for the task and the specific domain and then finetune that model, this would result in superior results than just in-context learning (I don't know why they call this learning)
-- what does finetuning even mean here? -> it basically means that you want to train the model on your task specific dataset 
-- there are two ways to do this: 
-1. the feature based approach, where you keep the transformer weights frozen (no training here) and just train a classifier which you feed the output embeddings of the frozen LLM (e.g. logistic regression model, random forest or XGBoost)
-2. finetuning, where you train the whole model or a bigger portion of it (e.g. your just train the output layers after the Transformer blocks) 
-- in general training the whole model will give you the best results but it is also the most expensive one    
-- the problem is, that the currently best performing models are so big that there is no way that you can finetune this thing on your personal computer anymore
-- so the question of how to utilize them more efficiently and effectively has become a very active area 
-- people want to run those models on their laptops or desktop pcs without buying multiple graphics cards 
-- so what do you do when in-context learning doesnt cut it for your use case and you don't have the compute to finetune those bigger models?
-- researchers developed several techniques to make the finetuning of LLMs much more efficient by training just a small number of parameters
-- I try to explain some of the most popular parameter-efficient finetuning techniques (PEFT) in this blogpost: Prefix Tuning, Adapters, Low Rank Adaptation (LoRA)
- 
+I am already quite late to the Large Language Models (LLM) party but better starting late than never. In this post I am going over a couple of popular techniques for fine-tuning these models without the need of training the whole thing which would be quite expensive. But before I dive into the techniques we should talk about what LLMs and fine-tuning are, why we need it and what the current problems are.
+</p>
+
+<p align="justify">
+LLMs are based on the <a href="http://jalammar.github.io/illustrated-transformer/">Transformer</a>architecture, like the GPTs or BERT, which have achieved state-of-the-art results in various Natural Language Processing (NLP) tasks, like Translation, Question Answering, Summarization etc. The paradigm these days is to train such a model on generic web-scale data (basically the whole internet) and fine-tune it on a downstream task. Fine-tuning in this case just means that you train the model further with a small dataset you collected for a specific task. This fine-tuning results in most cases in huge performance gains when compared to using just the LLM as is (e.g. zero-shot inference).  
+</p>
+
+<p align="justify">
+However, based on the current model sizes a full fine-tuning becomes infeasible to train on consumer hardware (which makes me a bit sad). In addition when you want to store and deploy multiple fine-tuning model instances for different tasks, this becomes very expensive because they are the same size as the base LLM. Because of these two main problems, people came up with more efficient methods for doing this which are referred to as Parameter-efficient fine-tuning (PEFT) procedures. These approaches basically enable you to get performance comparable to full fine-tuning while only having a small number of trainable parameters.  
+</p>
+
+<p align="justify">
+PEFT approaches only fine-tune a small number of (extra) model parameters while freezing most parameters of the pretrained LLMs, thereby greatly decreasing the computational and storage costs. They have also been shown to be better than fine-tuning in cases when you don't have that much task data and in out-of-domain scenarios. By saving just the extra model parameters you also solve the portability and cost problem because the PEFT checkpoints are much smaller, just a few MB, in contrast to the LLM checkpoints that need multiple GB. The small trained weights from PEFT approaches are added on top of the pretrained LLM. So the same LLM can be used for multiple tasks by adding small weights without having to replace the entire model. huggingface provides a nice <a href="https://github.com/huggingface/peft">library</a> for a lot of PEFT methods. 
+</p>
+
+<p align="justify">
+In the following I will going to dive a bit deeper in how some of these methods work. We will cover Prefix Tuning, Adapters and Low Rank Adaptation (LoRA).
 </p>
 
 
@@ -73,6 +63,26 @@ LoRA and QLoRA
 <p align="justify">
 </p>
 
+## Notes 
+<p align="justify">
+- in-context learning -> models are able to perform tasks by providing them the right context (examples of your task) -> this is cool when you only have access to the model via an API or UI (this only works with generative models like the GPTs) 
+- this works fine in some cases but for more specific things you still have to gather a dataset for the task and the specific domain and then finetune that model, this would result in superior results than just in-context learning (I don't know why they call this learning)
+- what does finetuning even mean here? -> it basically means that you want to train the model on your task specific dataset 
+- there are two ways to do this: 
+1. the feature based approach, where you keep the transformer weights frozen (no training here) and just train a classifier which you feed the output embeddings of the frozen LLM (e.g. logistic regression model, random forest or XGBoost)
+2. finetuning, where you train the whole model or a bigger portion of it (e.g. your just train the output layers after the Transformer blocks) 
+- in general training the whole model will give you the best results but it is also the most expensive one    
+- the problem is, that the currently best performing models are so big that there is no way that you can finetune this thing on your personal computer anymore
+- so the question of how to utilize them more efficiently and effectively has become a very active area 
+- people want to run those models on their laptops or desktop pcs without buying multiple graphics cards 
+- so what do you do when in-context learning doesnt cut it for your use case and you don't have the compute to finetune those bigger models?
+- researchers developed several techniques to make the finetuning of LLMs much more efficient by training just a small number of parameters
+- I try to explain some of the most popular parameter-efficient finetuning techniques (PEFT) in this blogpost: Prefix Tuning, Adapters, Low Rank Adaptation (LoRA)
+ 
+and Baogao et. al wrote a paper comparing a lot of these methods and introduced HiWi  
+</p>
+
+
 
 ## References 
 
@@ -93,3 +103,6 @@ https://arxiv.org/pdf/2101.00190.pdf
 
 Tim Dettmers et. al - QLORA: Efficient Finetuning of Quantized LLMs (2023)
 https://arxiv.org/pdf/2305.14314.pdf
+
+Parameter-Efficient Fine-Tuning without Introducing New Latency (2023)
+https://arxiv.org/pdf/2305.16742.pdf
