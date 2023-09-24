@@ -17,7 +17,7 @@ I am already quite late to the Large Language Models (LLM) party but better star
 </p>
 
 <p align="justify">
-LLMs are based on the <a href="http://jalammar.github.io/illustrated-transformer/">Transformer</a>architecture, like the GPTs or BERT, which have achieved state-of-the-art results in various Natural Language Processing (NLP) tasks, like Translation, Question Answering, Summarization etc. The paradigm these days is to train such a model on generic web-scale data (basically the whole internet) and fine-tune it on a downstream task. Fine-tuning in this case just means that you train the model further with a small dataset you collected for a specific task. This fine-tuning results in most cases in huge performance gains when compared to using just the LLM as is (e.g. zero-shot inference).  
+LLMs are based on the <a href="http://jalammar.github.io/illustrated-transformer/">Transformer</a> architecture, like the GPTs or BERT, which have achieved state-of-the-art results in various Natural Language Processing (NLP) tasks, like Translation, Question Answering, Summarization etc. The paradigm these days is to train such a model on generic web-scale data (basically the whole internet) and fine-tune it on a downstream task. Fine-tuning in this case just means that you train the model further with a small dataset you collected for a specific task. This fine-tuning results in most cases in huge performance gains when compared to using just the LLM as is (e.g. zero-shot inference).  
 </p>
 
 <p align="justify">
@@ -36,12 +36,12 @@ In the following I will going to dive a bit deeper in how some of these methods 
 ## Prefix Tuning  
 
 <p align="justify">
-- hard prompt tuning -> change the discrete input tokens, e.g. provide examples what the model should do, non-differentiable 
-- soft prompt tuning -> concat embeddings of input tokens with a trainable tensor that you can backpropagate through 
-- prefix tuning is a form of soft prompt tuning which keeps model parameters frozen and optimizes a small continuous task-specific vector called prefix
+There exists different forms of prompt tuning, one of them is hard prompt tuning, also called prompt engineering or in context learning, where you change the input to the model, e.g. provide examples for how the model should answer. This form of tuning is non-differentiable, so the weights don't change and you don't add any weights. Prefix tuning is a form of soft prompt tuning where you concatenate a trainable tensor to the embeddings of the input tokens. This tensor is trainable, so you add a small amount of weights. The model parameters are kept frozen and you just optimize a small continuous task-specific vector which is called prefix.  
+
+
 - idea: add a trainable tensor to each transformer block (instead of only the input embeddings)
 
-
+Prefix tuning shines especially in low-data settings and the extrapolation to new tasks, e.g. summarization of texts with different topics, is better. It has up to 1000x fewer parameters to learn than in a fine-tuning setting. 
 </p>
 
 ## Adapters 
