@@ -1,6 +1,6 @@
 ---
 title: Imitation Learning  
-date: 2022-09-25 10:00:00 +0200
+date: 2022-10-1 10:00:00 +0200
 permalink: /:title
 author: Johann Gerberding
 summary: Introduction to Imitation Learning.

@@ -37,18 +37,30 @@ In the following I will going to dive a bit deeper in how some of these methods 
 
 <p align="justify">
 There exists different forms of prompt tuning, one of them is hard prompt tuning, also called prompt engineering or in context learning, where you change the input to the model, e.g. provide examples for how the model should answer. This form of tuning is non-differentiable, so the weights don't change and you don't add any weights. Prefix tuning is a form of soft prompt tuning where you concatenate a trainable tensor to the embeddings of the input tokens. This tensor is trainable, so you add a small amount of weights. The model parameters are kept frozen and you just optimize a small continuous task-specific vector which is called prefix.  
+</p>
 
+{{< figure align=center alt="Finetuning vs. Prefix Tuning" src="/imgs/parameter_efficient_llm_finetuning/finetuning_vs_prefix_tuning.png" width=70% caption="Figure 1. Finetuning vs. Prefix Tuning">}}
 
-- idea: add a trainable tensor to each transformer block (instead of only the input embeddings)
-
-Prefix tuning shines especially in low-data settings and the extrapolation to new tasks, e.g. summarization of texts with different topics, is better. It has up to 1000x fewer parameters to learn than in a fine-tuning setting. 
+<p align="justify">
+Prefix tuning shines especially in low-data settings and the extrapolation to new tasks, e.g. summarization of texts with different topics, is better. It has up to 1000x fewer parameters to learn than in a fine-tuning setting. Another very cool thing is, that it enables personalization by having a different prefix per user trained only on the user data (no cross-contamination) and you could do batch processing of multiple users/tasks and one LLM. 
 </p>
 
 ## Adapters 
 
 <p align="justify">
-
+Adapter methods are somewhat related to prefix tuning as they also add additional trainable parameters to the original LLM. Instead of prepending prefixes to the input embeddings, you add adapter layers into the transformer blocks. As you can see in the figure down below, the fully connected network in the adapter module has a bottleneck structure similar to an autoencoder which keeps the number of added parameters low and makes the method quite efficient.
 </p>
+
+{{< figure align=center alt="Adapter Module Layout" src="/imgs/parameter_efficient_llm_finetuning/adapter_module_layout.png" width=70% caption="Figure 2. Adapter Module Layout">}}
+
+<p align="justify">
+In the orginal adapter paper, the authors trained a BERT model with this method and reached a modeling performance comparable to a fully finetuned BERT model while only requiring the training of 3.6% of the parameters. Based on the original prefix tuning paper, the performance of adapters matches the performance of prefix tuning of 0.1% of the parameters at 3%, which makes it less efficient.
+</p>
+
+<p align="justify">
+Llama-Adapter combines the two ideas of prefix tuning and adapters for LLaMA models from Meta.  
+</p>
+
 
 
 ## Low Rank Adaptation (LoRA)
