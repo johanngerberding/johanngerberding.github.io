@@ -58,7 +58,7 @@ In the orginal adapter paper, the authors trained a BERT model with this method 
 </p>
 
 <p align="justify">
-Llama-Adapter combines the two ideas of prefix tuning and adapters for LLaMA models from Meta.  
+Llama-Adapter combines the two ideas of prefix tuning and adapters for LLaMA models from Meta. Each transformer block in the model has its own distinct learned prefix, allowing for more tailored adaptation across different model layers. On top of that, LLaMA-Adapter introduces a zero-initialized attention mechanism coupled with gating.
 </p>
 
 
