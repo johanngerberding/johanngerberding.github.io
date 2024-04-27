@@ -33,7 +33,7 @@ Building on these technologies, startups <a href="https://www.trychroma.com/">li
 </p>
 
 <p align="justify">
-In the upcoming sections, we will delve deeper into the world of RAG by providing a comprehensive overview of the framework and highlighting the key components essential for an effective RAG system. Additionally, we will explore practical strategies that can enhance the quality and performance of your RAG system. While RAG offers significant benefits, it is not without its challenges. Therefore, we will also examine some of the common obstacles encountered in building RAG systems and discuss the current limitations that engineers need to be aware of as they build these kind of systems.
+In the upcoming sections, we will dig deeper into the world of RAG by providing a comprehensive overview of the framework and highlighting the key components essential for an effective RAG system. Additionally, we will explore practical strategies that can enhance the quality and performance of your RAG system. While RAG offers significant benefits, it is not without its challenges. Therefore, we will also examine some of the common obstacles encountered in building RAG systems and discuss the current limitations that engineers need to be aware of as they build these kind of systems.
 </p>
 
 
@@ -43,13 +43,15 @@ In the upcoming sections, we will delve deeper into the world of RAG by providin
 The basic workflow of a RAG system consists of three fundamental steps: indexing, retrieval, and generation. This sequence begins with indexing, where data is organized to facilitate quick and efficient access. The retrieval step can be further divided into three subparts: pre-retrieval, retrieval, and post-retrieval. Pre-retrieval involves preparing and setting up the necessary parameters for the search. Retrieval is the actual process of fetching the most relevant information based on the query. Post-retrieval includes the refinement and selection of the fetched data to ensure its relevance and accuracy. Finally, in the generation phase, the system synthesizes this information into coherent and contextually appropriate responses. These foundational steps remain at the core of every advanced RAG workflow, serving as the building blocks for more complex systems.
 </p>
 
+{{< figure align=center alt="Abstract Concept Graphic Retrieval-Augmented Generation Elements" src="/imgs/rag/rag_framework.png" width=100% caption="Figure 1. RAG Framework Paradigm [1]">}}
+
+<p align="justify">
+RAG presents a cost-effective alternative to the traditional, resource-intensive training and fine-tuning processes required for LLMs. Unlike standard LLMs that necessitate extensive data ingestion and model updates to incorporate new information, RAG dynamically integrates fresh data by retrieving relevant external content during the generation process. This capability allows RAG to remain current and adapt to new data without the need for continuous, deep integration into its core model structure. The flexibility and scalability of RAG make it particularly valuable across a variety of use cases, enabling it to provide tailored, up-to-date responses that are informed by the most recent content available. This makes RAG not only a more efficient choice in terms of computational and time resources but also a more versatile tool in rapidly evolving domains.
+</p>
+
+{{< figure align=center alt="Basic Retrieval-Augmented Generation Workflow" src="/imgs/rag/rag_workflow.png" width=100% caption="Figure 2. Basic RAG Workflow []">}}
 
 
-
-- RAG is a more cost effective alternative to the extensive training and fine-tuning processes typically required for LLMs.
-- dynamic incorporation of fresh information without integrating it into the LLM 
-- this makes RAG flexible and scalable 
-- useful for diverse use cases 
 
 - RAG evolved from just providing information to multiple interactions between the retrieval and generation components
 - conducting several rounds of retrieval to refine the accuracy of the information retrieved 
@@ -134,4 +136,4 @@ The basic workflow of a RAG system consists of three fundamental steps: indexing
 
 ## References 
 
-
+[[1]](https://arxiv.org/pdf/2404.10981) Y. Huang & J.X. Huang "A Survey on Retrieval-Augmented Text Generation for Large Language Models" (2024).
