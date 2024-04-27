@@ -12,34 +12,39 @@ draft: true
 
 ## Introduction
 
-- was introduced in 2020 by lewis et al and has advanced quite a lot since then 
+<p align="justify">
+In 2020, Lewis et al. introduced a novel approach to enhance language model outputs through the use of Retrieval-Augmented Generation (RAG). Since its inception, RAG has evolved significantly, providing a robust solution to some of the persistent challenges faced by Large Language Models (LLMs).
+</p>
 
-LLM problems:
-- hallucinations = generate convincing yet inaccurate answers (reliance on training dataset)
-- not up-to-date, new information that was generated post-training
-- subpar performance in specialized areas (LLMs are trained on broad and general data to maximize accessibility and applicability)
+<p align="justify">
+LLMs, while transformative, are not without their issues. They often produce "hallucinations" or convincing yet inaccurate answers, due to their sole reliance on the fixed dataset on which they were trained on. This limitation is compounded by their inability to incorporate information that emerges after their last training update, rendering them outdated as the world evolves. Additionally, their performance can be suboptimal in specialized areas because their training prioritizes breadth over depth to ensure broad accessibility and applicability.
+</p>
 
-RAG supplementing models by fetching external data in response to queries, thus ensuring more accurate and current outputs 
+<p align="justify">
+RAG addresses these challenges by dynamically supplementing model responses with external data fetched in real time in response to queries. This approach not only keeps the information current but also enhances the accuracy and relevancy of the responses.
+</p>
 
-central to high quality RAG:
-- effectively retrieve relevant information
-- generate accurate responses 
+<p align="justify">
+For a RAG system to deliver high-quality outputs, two core components are crucial. First, it must effectively retrieve the most relevant information from external sources. This involves a sophisticated understanding of the query context and the ability to sift through vast amounts of data quickly and efficiently. Second, it needs to generate accurate responses that integrate the retrieved information, ensuring that the final output is both coherent and contextually appropriate.
+</p>
 
+<p align="justify">
+Building on these technologies, startups <a href="https://www.trychroma.com/">like Chroma</a>, <a href="https://weaviate.io/">Weaviate</a>, and <a href="https://www.pinecone.io/">Pinecone</a> have expanded upon RAG's foundational concepts by incorporating robust text storage solutions and advanced tooling into their platforms. These enhancements facilitate more efficient data handling and retrieval processes, which are critical for delivering precise and contextually relevant responses.
+</p>
+
+<p align="justify">
+In the upcoming sections, we will delve deeper into the world of RAG by providing a comprehensive overview of the framework and highlighting the key components essential for an effective RAG system. Additionally, we will explore practical strategies that can enhance the quality and performance of your RAG system. While RAG offers significant benefits, it is not without its challenges. Therefore, we will also examine some of the common obstacles encountered in building RAG systems and discuss the current limitations that engineers need to be aware of as they build these kind of systems.
+</p>
 
 
 ## RAG Framework 
 
-- basic RAG workflow 
-1. indexing 
-2. retrieval 
-3. generation 
+<p align="justify">
+The basic workflow of a RAG system consists of three fundamental steps: indexing, retrieval, and generation. This sequence begins with indexing, where data is organized to facilitate quick and efficient access. The retrieval step can be further divided into three subparts: pre-retrieval, retrieval, and post-retrieval. Pre-retrieval involves preparing and setting up the necessary parameters for the search. Retrieval is the actual process of fetching the most relevant information based on the query. Post-retrieval includes the refinement and selection of the fetched data to ensure its relevance and accuracy. Finally, in the generation phase, the system synthesizes this information into coherent and contextually appropriate responses. These foundational steps remain at the core of every advanced RAG workflow, serving as the building blocks for more complex systems.
+</p>
 
-- this is still the basis for every more advanced RAG workflow
 
-- retrieval can further split up in 3 subparts:
-    1. pre-retrieval 
-    2. retrieval 
-    3. post-retrieval
+
 
 - RAG is a more cost effective alternative to the extensive training and fine-tuning processes typically required for LLMs.
 - dynamic incorporation of fresh information without integrating it into the LLM 
@@ -50,7 +55,7 @@ central to high quality RAG:
 - conducting several rounds of retrieval to refine the accuracy of the information retrieved 
 - then iteratively improve the quality of the generated output
 
-- Platforms: LangChain, LLamaIndex, DSPy
+- Open Source Platforms: LangChain, LLamaIndex, DSPy
 
 ## Indexing 
 
