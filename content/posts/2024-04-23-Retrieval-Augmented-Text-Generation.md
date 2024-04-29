@@ -46,21 +46,24 @@ The basic workflow of a RAG system consists of three fundamental steps: indexing
 {{< figure align=center alt="Abstract Concept Graphic Retrieval-Augmented Generation Elements" src="/imgs/rag/rag_framework.png" width=100% caption="Figure 1. RAG Framework Paradigm [1]">}}
 
 <p align="justify">
-RAG presents a cost-effective alternative to the traditional, resource-intensive training and fine-tuning processes required for LLMs. Unlike standard LLMs that necessitate extensive data ingestion and model updates to incorporate new information, RAG dynamically integrates fresh data by retrieving relevant external content during the generation process. This capability allows RAG to remain current and adapt to new data without the need for continuous, deep integration into its core model structure. The flexibility and scalability of RAG make it particularly valuable across a variety of use cases, enabling it to provide tailored, up-to-date responses that are informed by the most recent content available. This makes RAG not only a more efficient choice in terms of computational and time resources but also a more versatile tool in rapidly evolving domains.
+RAG presents a cost-effective alternative to the traditional, resource-intensive training and fine-tuning processes required for LLMs. Unlike standard LLMs that need model updates to incorporate new information, RAG dynamically integrates fresh data by retrieving relevant external content and concatenating it to the search query. This ensures flexibility and scalability to make it particularly valuable across a variety of use cases, like self-service applications where solutions get retrieved from an internal knowledge base and integrated into a helpful answer. Down below you can see the basic workflow that most RAG systems follow. 
 </p>
 
 {{< figure align=center alt="Basic Retrieval-Augmented Generation Workflow" src="/imgs/rag/rag_workflow.png" width=100% caption="Figure 2. Basic RAG Workflow []">}}
 
+<p align="justify"> 
+You start by generating document vectors using an embedding model for every document or text you want to include in your knowledge database. Embedding models (e.g. BERT, OpenAI text-embedding-ada-002) turn text into a vector representation, which is essential for the retrieval process by enabling similarity search. The documents you would want to retrieve can range from specific company guidelines or documents, a website to solution descriptions to known problems. Popular choices for such vector stores are <a href="https://github.com/facebookresearch/faiss">FAISS</a>, <a href="https://www.trychroma.com/">Chroma</a> or <a href="https://lancedb.com/">Lance</a>.  
+</p>
 
-
-- RAG evolved from just providing information to multiple interactions between the retrieval and generation components
-- conducting several rounds of retrieval to refine the accuracy of the information retrieved 
-- then iteratively improve the quality of the generated output
+<p align="justify"> 
+After you have generated the vector store you are good to go. First your query gets embedded into a vector, like we have described above, which is then used in a similarity search over your vector store to determine the most relevant documents. These documents get retrieved and concatenated to your query before its fed into the LLM. The LLM then produces based on the query and context an answer. This describes the very basic and naive workflow. In practice there are a lot of other things involved, like prompt engineering, a limited context window, limited input tokens of the embedding model, preprocessing of the query and documents, postprocessing of the answer etc. We will touch most of these things in more detail in the next sections. 
+</p>
 
 - Open Source Platforms: LangChain, LLamaIndex, DSPy
 
 ## Indexing 
 
+Let's start by looking at the indexing process.  
 - the basic rag workflow starts with the creation of an index comprising external sources (e.g. Websites, company relevant pdfs)
 - basis for retrieval of relevant information 
 
