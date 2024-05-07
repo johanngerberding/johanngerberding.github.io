@@ -121,11 +121,39 @@ Let's start by looking at the indexing process.
 - retrieval is kinda naive, how would you filter irrelevant documents? based on some distance metric, but how to define that distance? 
 </p>
 
-## Advanced RAG Pipeline
+## Advanced RAG Pipelines
+
+<p align="justify">
+The naive RAG implementation described before is rarely enough to satisfy production grade requirements. This has multiple reasons:  
+<ul>
+<li><b>Question ambiguity</b>: user questions are not well defined and may lead to irrelevant retrieval results </li>
+<li><b>Low retrieval accuracy</b>: retrieved documents may not be equally relevant to the question </li>
+<li><b>Limited knowledge</b>: the knowledge base may not include the information the user is looking for </li>
+<li><b>Context window performance limitations</b>: trying to "over-retrieve" may hit on the capacity of the context window or otherwise produce a context window that is too big to return a result in a reasonable amount of time </li>
+</ul>
+Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case.
+</p>
+
+### Self RAG
+
+<p align="justify">
+- paper describes fine-tuned models that incorporate mechanisms for adaptive information retrieval and self critique
+- the model can dynamically determine when external information is needed, and can critically evaluate its generated responses for relevance and factual accuracy
+- new things in the finetuning process -> reflection and critique tokens 
+</p>
+
+### Corrective RAG 
 
 <p align="justify">
 
 </p>
+
+### RAG Fusion 
+
+<p align="justify">
+
+</p>
+
 
 ## Evaluation
 
@@ -140,3 +168,7 @@ Let's start by looking at the indexing process.
 ## References 
 
 [[1]](https://arxiv.org/pdf/2404.10981) Y. Huang & J.X. Huang "A Survey on Retrieval-Augmented Text Generation for Large Language Models" (2024).
+
+[[2]](https://www.pinecone.io/learn/advanced-rag-techniques/) Roie Schwaber-Cohen "Advanced RAG Techniques" (2024).
+
+[[3]](https://arxiv.org/pdf/2310.11511) Asai et al. "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection" (2023)
