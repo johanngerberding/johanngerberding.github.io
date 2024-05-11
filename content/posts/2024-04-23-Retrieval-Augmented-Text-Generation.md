@@ -137,10 +137,48 @@ Many new RAG patterns have emerged to address these limitations. In the followin
 ### Self RAG
 
 <p align="justify">
-- paper describes fine-tuned models that incorporate mechanisms for adaptive information retrieval and self critique
-- the model can dynamically determine when external information is needed, and can critically evaluate its generated responses for relevance and factual accuracy
-- new things in the finetuning process -> reflection and critique tokens 
+The Self-Reflective RAG paper describes fine-tuned models that incorporate mechanisms for adaptive information retrieval and self critique. These models can dynamically determine when external information is needed, and can critically evaluate its generated responses for relevance and factual accuracy. Figure X down below shows the retrieval process using these new tokens.
 </p>
+
+{{< figure align=center alt="Flowchart of the Self RAG method" src="/imgs/rag/self_rag.png" width=100% caption="Figure X. Self RAG Process [3]">}}
+
+<p align="justify">
+First the Language Model decides about the necessity of additional information to answer the prompt. In the second step multiple segments are generated concurrently and each of them is rated in terms of relevance to the prompt and usefulness of the retrieved information. Thereafter each segments is critiqued and the best one is chosen. Then the cycle can repeat, if the model decides to retrieve more information. The table down below shows the four new tokens that make this whole process work.
+</p>
+
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Output</th>
+</tr>
+    <tr>
+        <td>Retrieval Token</td>
+        <td>Retrieve additional information from knowledge base</td>
+        <td>yes, no</td>
+    </tr>
+    <tr>
+        <td>Relevance Token</td>
+        <td>Retrieved information is relevant to the prompt</td>
+        <td>relevant, irrelevant</td>
+    </tr>
+    <tr>
+        <td>Support Token</td>
+        <td>Generated information is supported by the provided context</td>
+        <td>fully supported, partially supported, no support</td>
+    </tr>
+    <tr>
+        <td>Critique Token</td>
+        <td>Useful response to the prompt</td>
+        <td>5, 4, 3, 2, 1</td>
+    </tr>
+</table> 
+
+<p align="justify">
+
+</p>
+
 
 ### Corrective RAG 
 
