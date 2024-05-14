@@ -176,14 +176,22 @@ First the Language Model decides about the necessity of additional information t
 </table> 
 
 <p align="justify">
-
+- Why is all this a good idea? (Benchmarks) 
+- What are challenges?  
+For more detailed information regarding training, how they inserted these special tokens and data collection I'll recommend checking out the <a href="https://arxiv.org/pdf/2310.11511">paper</a>.
 </p>
 
 
 ### Corrective RAG 
 
 <p align="justify">
+The Corrective Retrieval Augmented Generation method to improve the accuracy and robustness of LM by re-incorporating information from retrieved documents. This is accomplished by the introduction of three additional components. First a lightweight evaluator model that assesses the quality of retrieved documents and determines which to use, ignore or request more documents based on a score. The second new component is an incorporated web search to extend the information base and get more up-to-date information. The last new addition is a decompose-then-recompose algorithm for selectively focusing on key information and filtering out irrelevant information that also makes use of the evaluator model. The Figure X down below gives a nice overview of the CRAG method at inference.
+</p>
 
+{{< figure align=center alt="An overview of Corrective Retrieval Augmented Generation" src="/imgs/rag/crag.png" width=100% caption="Figure X. An overview of CRAG at inference [4]">}}
+
+<p align="justify">
+The Knowledge Refinement process is quite straightforward and starts by segmenting each retrieved document into fine-grained knowledge strips through heuristic rules. Then the retrieval evaluator is used to calculate a relevance score of each knowledge strip. Based on these scores the strips are filtered and recomposed via concatenation in order.
 </p>
 
 ### RAG Fusion 
@@ -194,6 +202,15 @@ First the Language Model decides about the necessity of additional information t
 
 
 ## Evaluation
+
+- How are RAG pipelines evaluated?? 
+
+since RAG systems are comprised of multiple components, so you can evaluate single components or just the performance of the whole pipeline without looking into the components 
+
+Huggingface RAG Evaluation: 
+- build a synthetic evaluation dataset and use a LLM as a judge to compute the accuracy of the system
+
+
 
 
 - RAG Finetuning??
@@ -210,3 +227,6 @@ First the Language Model decides about the necessity of additional information t
 [[2]](https://www.pinecone.io/learn/advanced-rag-techniques/) Roie Schwaber-Cohen "Advanced RAG Techniques" (2024).
 
 [[3]](https://arxiv.org/pdf/2310.11511) Asai et al. "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection" (2023)
+
+[[4]](https://arxiv.org/pdf/2401.15884) Yan et al. "Corrective Retrieval Augmented Generation" (2024)
+
