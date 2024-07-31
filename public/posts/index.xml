@@ -8,6 +8,354 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 23 Apr 2024 10:00:00 +0200</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Retrieval-Augmented Text Generation (RAG)</title>
+      <link>http://localhost:1313/posts/2024-04-23-retrieval-augmented-text-generation/</link>
+      <pubDate>Tue, 23 Apr 2024 10:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/posts/2024-04-23-retrieval-augmented-text-generation/</guid>
+      <description>A short intro to Retrieval-Augmented Text Generation, what is it, why is it useful and how does it work.</description>
+      <content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
+<p align="justify">
+In 2020, Lewis et al. introduced a novel approach to enhance language model outputs through the use of Retrieval-Augmented Generation (RAG). Since its inception, RAG has evolved significantly, providing a robust solution to some of the persistent challenges faced by Large Language Models (LLMs).
+</p>
+<p align="justify">
+LLMs, while transformative, are not without their issues. They often produce "hallucinations" or convincing yet inaccurate answers, due to their sole reliance on the fixed dataset on which they were trained on. This limitation is compounded by their inability to incorporate information that emerges after their last training update, rendering them outdated as the world evolves. Additionally, their performance can be suboptimal in specialized areas because their training prioritizes breadth over depth to ensure broad accessibility and applicability.
+</p>
+<p align="justify">
+RAG addresses these challenges by dynamically supplementing model responses with external data fetched in real time in response to queries. This approach not only keeps the information current but also enhances the accuracy and relevancy of the responses.
+</p>
+<p align="justify">
+For a RAG system to deliver high-quality outputs, two core components are crucial. First, it must effectively retrieve the most relevant information from external sources. This involves a sophisticated understanding of the query context and the ability to sift through vast amounts of data quickly and efficiently. Second, it needs to generate accurate responses that integrate the retrieved information, ensuring that the final output is both coherent and contextually appropriate.
+</p>
+<p align="justify">
+Building on these technologies, startups <a href="https://www.trychroma.com/">like Chroma</a>, <a href="https://weaviate.io/">Weaviate</a>, and <a href="https://www.pinecone.io/">Pinecone</a> have expanded upon RAG's foundational concepts by incorporating robust text storage solutions and advanced tooling into their platforms. These enhancements facilitate more efficient data handling and retrieval processes, which are critical for delivering precise and contextually relevant responses.
+</p>
+<p align="justify">
+In the upcoming sections, we will dig deeper into the world of RAG by providing a comprehensive overview of the framework and highlighting the key components essential for an effective RAG system. Additionally, we will explore practical strategies that can enhance the quality and performance of your RAG system. While RAG offers significant benefits, it is not without its challenges. Therefore, we will also examine some of the common obstacles encountered in building RAG systems and discuss the current limitations that engineers need to be aware of as they build these kind of systems.
+</p>
+<h2 id="rag-framework">RAG Framework</h2>
+<p align="justify">
+The basic workflow of a RAG system consists of three fundamental steps: indexing, retrieval, and generation. This sequence begins with indexing, where data is organized to facilitate quick and efficient access. The retrieval step can be further divided into three subparts: pre-retrieval, retrieval, and post-retrieval. Pre-retrieval involves preparing and setting up the necessary parameters for the search. Retrieval is the actual process of fetching the most relevant information based on the query. Post-retrieval includes the refinement and selection of the fetched data to ensure its relevance and accuracy. Finally, in the generation phase, the system synthesizes this information into coherent and contextually appropriate responses. These foundational steps remain at the core of every advanced RAG workflow, serving as the building blocks for more complex systems.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/rag/rag_framework.png#center"
+         alt="Abstract Concept Graphic Retrieval-Augmented Generation Elements" width="100%"/> <figcaption>
+            <p>Figure 1. RAG Framework Paradigm [1]</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+RAG presents a cost-effective alternative to the traditional, resource-intensive training and fine-tuning processes required for LLMs. Unlike standard LLMs that need model updates to incorporate new information, RAG dynamically integrates fresh data by retrieving relevant external content and concatenating it to the search query. This ensures flexibility and scalability to make it particularly valuable across a variety of use cases, like self-service applications where solutions get retrieved from an internal knowledge base and integrated into a helpful answer. Down below you can see the basic workflow that most RAG systems follow. 
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/rag/rag_workflow.png#center"
+         alt="Basic Retrieval-Augmented Generation Workflow" width="100%"/> <figcaption>
+            <p>Figure 2. Basic RAG Workflow []</p>
+        </figcaption>
+</figure>
+
+<p align="justify"> 
+You start by generating document vectors using an embedding model for every document or text you want to include in your knowledge database. Embedding models (e.g. BERT, OpenAI text-embedding-ada-002) turn text into a vector representation, which is essential for the retrieval process by enabling similarity search. The documents you would want to retrieve can range from specific company guidelines or documents, a website to solution descriptions to known problems. Popular choices for such vector stores are <a href="https://github.com/facebookresearch/faiss">FAISS</a>, <a href="https://www.trychroma.com/">Chroma</a> or <a href="https://lancedb.com/">Lance</a>.  
+</p>
+<p align="justify"> 
+After you have generated the vector store you are good to go. First your query gets embedded into a vector, like we have described above, which is then used in a similarity search over your vector store to determine the most relevant documents. These documents get retrieved and concatenated to your query before its fed into the LLM. The LLM then produces based on the query and context an answer. This describes the very basic and naive workflow. In practice there are a lot of other things involved, like prompt engineering, a limited context window, limited input tokens of the embedding model, preprocessing of the query and documents, postprocessing of the answer etc. We will touch most of these things in more detail in the next sections. 
+</p>
+<ul>
+<li>Open Source Platforms: LangChain, LLamaIndex, DSPy</li>
+</ul>
+<h2 id="indexing">Indexing</h2>
+<p>Let&rsquo;s start by looking at the indexing process. The basic rag workflow starts with the creation of an index comprising external sources (e.g. Websites, company relevant pdfs)</p>
+<ul>
+<li>
+<p>basis for retrieval of relevant information</p>
+</li>
+<li>
+<p>data prep is key here!</p>
+</li>
+<li>
+<p>involves:
+text normalization (tokenization, stemming, removal of stop words)
+organize text segments into sentences or paragraphs to facilitate more focused searches</p>
+</li>
+<li>
+<p>generation of semantic vector representations of texts which are stored in a vector database for rapid and precise retrieval</p>
+</li>
+<li>
+<p>to achieve this you use a so called embedding model</p>
+</li>
+</ul>
+<h2 id="retrieval">Retrieval</h2>
+<ul>
+<li>
+<p>old school algorithms like BM25 focus on term frequency and presence for document ranking and they don&rsquo;t use semantic information of the queries</p>
+</li>
+<li>
+<p>this has changed quite a bit with deep learning</p>
+</li>
+<li>
+<p>modern retrieval strategies leverage pretrained LMs like BERT (Devlin et al. 2019), which capture the semantic meaning of queries more effectively</p>
+</li>
+<li>
+<p>improved search accuracy by considering synonyms and the structure of phrases</p>
+</li>
+<li>
+<p>how: measure vector distances between entries in knowledge database (e.g. some vector database) and queries</p>
+</li>
+</ul>
+<h3 id="pre-retrieval">Pre-Retrieval</h3>
+<ul>
+<li>data and query preparation</li>
+<li>it includes indexing</li>
+<li>you can imagine, based on the use case and data type, different strategies could be helpful here</li>
+<li>e.g. sentence-level indexing is beneficial for question-answering systems to precisely locate answers, while document-level indexing is more appropriate for summarizing documents to understand their main concepts and ideas</li>
+<li>the next thing you have to think about is query manipulation, which is performed to adjust user queries for a better match with the indexed data</li>
+<li>query reformulation: rewrite the query to align more closely with the user&rsquo;s intention</li>
+<li>query expansion: extend the query to capture more relevant results through synonyms or related terms</li>
+<li>query normalization: resolve differences in spelling or terminology for consistent query matching</li>
+<li>another way to enhance retrieval efficiency is data modification</li>
+<li>this includes preprocessing techniques like removing irrelevant or redundant information or enriching the data with additional information such as metadata to boost the relevance and diversity of the retrieved content</li>
+</ul>
+<h3 id="retrieval-1">Retrieval</h3>
+<p align="justify">
+- combination of search and ranking 
+- goal: select and prioritize documents from a knowledge base to enhance the quality of the generation models outputs 
+- distance based search in a vector database (cosine similarity)
+</p>
+<h3 id="post-retrieval">Post-Retrieval</h3>
+<p align="justify">
+</p>
+<h2 id="generation">Generation</h2>
+<p align="justify">
+- task: generate text that is relevant to the query and reflective of the information found in the retrieved documents
+- how: concat the query with the found information and input that into a LLM
+- challenge: ensuring the outputs alignment and accuracy with the retrieved contents isn't straightforward 
+- the generated output should accurately convey the information from the retrieved documents and align with the query's intent, while also offering the flexibility to introduce new insights or perspectives not explicitly contained within the retrieved data 
+- another challenge: what if there is no relevant information in your knowledge base for a certain query, how to detect such instances and how to behave? 
+- retrieval is kinda naive, how would you filter irrelevant documents? based on some distance metric, but how to define that distance? 
+</p>
+<h2 id="advanced-rag-pipelines">Advanced RAG Pipelines</h2>
+<p align="justify">
+The naive RAG implementation described before is rarely enough to satisfy production grade requirements. This has multiple reasons:  
+<ul>
+<li><b>Question ambiguity</b>: user questions are not well defined and may lead to irrelevant retrieval results </li>
+<li><b>Low retrieval accuracy</b>: retrieved documents may not be equally relevant to the question </li>
+<li><b>Limited knowledge</b>: the knowledge base may not include the information the user is looking for </li>
+<li><b>Context window performance limitations</b>: trying to "over-retrieve" may hit on the capacity of the context window or otherwise produce a context window that is too big to return a result in a reasonable amount of time </li>
+</ul>
+Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case.
+</p>
+<h3 id="self-rag">Self RAG</h3>
+<p align="justify">
+The Self-Reflective RAG paper describes fine-tuned models that incorporate mechanisms for adaptive information retrieval and self critique. These models can dynamically determine when external information is needed, and can critically evaluate its generated responses for relevance and factual accuracy. Figure X down below shows the retrieval process using these new tokens.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/rag/self_rag.png#center"
+         alt="Flowchart of the Self RAG method" width="100%"/> <figcaption>
+            <p>Figure X. Self RAG Process [3]</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+First the Language Model decides about the necessity of additional information to answer the prompt. In the second step multiple segments are generated concurrently and each of them is rated in terms of relevance to the prompt and usefulness of the retrieved information. Thereafter each segments is critiqued and the best one is chosen. Then the cycle can repeat, if the model decides to retrieve more information. The table down below shows the four new tokens that make this whole process work.
+</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Output</th>
+</tr>
+    <tr>
+        <td>Retrieval Token</td>
+        <td>Retrieve additional information from knowledge base</td>
+        <td>yes, no</td>
+    </tr>
+    <tr>
+        <td>Relevance Token</td>
+        <td>Retrieved information is relevant to the prompt</td>
+        <td>relevant, irrelevant</td>
+    </tr>
+    <tr>
+        <td>Support Token</td>
+        <td>Generated information is supported by the provided context</td>
+        <td>fully supported, partially supported, no support</td>
+    </tr>
+    <tr>
+        <td>Critique Token</td>
+        <td>Useful response to the prompt</td>
+        <td>5, 4, 3, 2, 1</td>
+    </tr>
+</table> 
+<p align="justify">
+- Why is all this a good idea? (Benchmarks) 
+- What are challenges?  
+For more detailed information regarding training, how they inserted these special tokens and data collection I'll recommend checking out the <a href="https://arxiv.org/pdf/2310.11511">paper</a>.
+</p>
+<h3 id="corrective-rag">Corrective RAG</h3>
+<p align="justify">
+The Corrective Retrieval Augmented Generation method to improve the accuracy and robustness of LM by re-incorporating information from retrieved documents. This is accomplished by the introduction of three additional components. First a lightweight evaluator model that assesses the quality of retrieved documents and determines which to use, ignore or request more documents based on a score. The second new component is an incorporated web search to extend the information base and get more up-to-date information. The last new addition is a decompose-then-recompose algorithm for selectively focusing on key information and filtering out irrelevant information that also makes use of the evaluator model. The Figure X down below gives a nice overview of the CRAG method at inference.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/rag/crag.png#center"
+         alt="An overview of Corrective Retrieval Augmented Generation" width="100%"/> <figcaption>
+            <p>Figure X. An overview of CRAG at inference [4]</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+The Knowledge Refinement process is quite straightforward and starts by segmenting each retrieved document into fine-grained knowledge strips through heuristic rules. Then the retrieval evaluator is used to calculate a relevance score of each knowledge strip. Based on these scores the strips are filtered and recomposed via concatenation in order.
+</p>
+<h3 id="rag-fusion">RAG Fusion</h3>
+<p align="justify">
+</p>
+<h2 id="evaluation">Evaluation</h2>
+<ul>
+<li>How are RAG pipelines evaluated??</li>
+</ul>
+<p>since RAG systems are comprised of multiple components, so you can evaluate single components or just the performance of the whole pipeline without looking into the components</p>
+<p>Huggingface RAG Evaluation:</p>
+<ul>
+<li>
+<p>build a synthetic evaluation dataset and use a LLM as a judge to compute the accuracy of the system</p>
+</li>
+<li>
+<p>RAG Finetuning??</p>
+</li>
+<li>
+<p>Long Context LLMs</p>
+</li>
+<li>
+<p>Multimodal RAG</p>
+</li>
+<li>
+<p>Advanced RAG Pipelines</p>
+</li>
+</ul>
+<h2 id="references">References</h2>
+<p><a href="https://arxiv.org/pdf/2404.10981">[1]</a> Y. Huang &amp; J.X. Huang &ldquo;A Survey on Retrieval-Augmented Text Generation for Large Language Models&rdquo; (2024).</p>
+<p><a href="https://www.pinecone.io/learn/advanced-rag-techniques/">[2]</a> Roie Schwaber-Cohen &ldquo;Advanced RAG Techniques&rdquo; (2024).</p>
+<p><a href="https://arxiv.org/pdf/2310.11511">[3]</a> Asai et al. &ldquo;Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2401.15884">[4]</a> Yan et al. &ldquo;Corrective Retrieval Augmented Generation&rdquo; (2024)</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Parameter-Efficient LLM Finetuning</title>
+      <link>http://localhost:1313/posts/2023-09-08-parameter-efficient-llm-finetuning/</link>
+      <pubDate>Fri, 08 Sep 2023 10:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/posts/2023-09-08-parameter-efficient-llm-finetuning/</guid>
+      <description>Finetuning of Large Language Models in a parameter efficient way.</description>
+      <content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
+<p align="justify">
+I am already quite late to the Large Language Models (LLM) party but better starting late than never. In this post I am going over a couple of popular techniques for fine-tuning these models without the need of training the whole thing which would be quite expensive. But before I dive into the techniques we should talk about what LLMs and fine-tuning are, why we need it and what the current problems are.
+</p>
+<p align="justify">
+LLMs are based on the <a href="http://jalammar.github.io/illustrated-transformer/">Transformer</a> architecture, like the GPTs or BERT, which have achieved state-of-the-art results in various Natural Language Processing (NLP) tasks, like Translation, Question Answering, Summarization etc. The paradigm these days is to train such a model on generic web-scale data (basically the whole internet) and fine-tune it on a downstream task. Fine-tuning in this case just means that you train the model further with a small dataset you collected for a specific task. This fine-tuning results in most cases in huge performance gains when compared to using just the LLM as is (e.g. zero-shot inference).  
+</p>
+<p align="justify">
+However, based on the current model sizes a full fine-tuning becomes infeasible to train on consumer hardware (which makes me a bit sad). In addition when you want to store and deploy multiple fine-tuning model instances for different tasks, this becomes very expensive because they are the same size as the base LLM. Because of these two main problems, people came up with more efficient methods for doing this which are referred to as Parameter-efficient fine-tuning (PEFT) procedures. These approaches basically enable you to get performance comparable to full fine-tuning while only having a small number of trainable parameters.  
+</p>
+<p align="justify">
+PEFT approaches only fine-tune a small number of (extra) model parameters while freezing most parameters of the pretrained LLMs, thereby greatly decreasing the computational and storage costs. They have also been shown to be better than fine-tuning in cases when you don't have that much task data and in out-of-domain scenarios. By saving just the extra model parameters you also solve the portability and cost problem because the PEFT checkpoints are much smaller, just a few MB, in contrast to the LLM checkpoints that need multiple GB. The small trained weights from PEFT approaches are added on top of the pretrained LLM. So the same LLM can be used for multiple tasks by adding small weights without having to replace the entire model. huggingface provides a nice <a href="https://github.com/huggingface/peft">library</a> for a lot of PEFT methods. 
+</p>
+<p align="justify">
+In the following I will going to dive a bit deeper in how some of these methods work. We will cover Prefix Tuning, Adapters and Low Rank Adaptation (LoRA).
+</p>
+<h2 id="prefix-tuning">Prefix Tuning</h2>
+<p align="justify">
+There exists different forms of prompt tuning, one of them is hard prompt tuning, also called prompt engineering or in context learning, where you change the input to the model, e.g. provide examples for how the model should answer. This form of tuning is non-differentiable, so the weights don't change and you don't add any weights. Prefix tuning is a form of soft prompt tuning where you concatenate a trainable tensor to the embeddings of the input tokens. This tensor is trainable, so you add a small amount of weights. The model parameters are kept frozen and you just optimize a small continuous task-specific vector which is called prefix.  
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/parameter_efficient_llm_finetuning/finetuning_vs_prefix_tuning.png#center"
+         alt="Finetuning vs. Prefix Tuning" width="70%"/> <figcaption>
+            <p>Figure 1. Finetuning vs. Prefix Tuning</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+Prefix tuning shines especially in low-data settings and the extrapolation to new tasks, e.g. summarization of texts with different topics, is better. It has up to 1000x fewer parameters to learn than in a fine-tuning setting. Another very cool thing is, that it enables personalization by having a different prefix per user trained only on the user data (no cross-contamination) and you could do batch processing of multiple users/tasks and one LLM. 
+</p>
+<h2 id="adapters">Adapters</h2>
+<p align="justify">
+Adapter methods are somewhat related to prefix tuning as they also add additional trainable parameters to the original LLM. Instead of prepending prefixes to the input embeddings, you add adapter layers into the transformer blocks. As you can see in the figure down below, the fully connected network in the adapter module has a bottleneck structure similar to an autoencoder which keeps the number of added parameters low and makes the method quite efficient.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/parameter_efficient_llm_finetuning/adapter_module_layout.png#center"
+         alt="Adapter Module Layout" width="70%"/> <figcaption>
+            <p>Figure 2. Adapter Module Layout</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+In the orginal adapter paper, the authors trained a BERT model with this method and reached a modeling performance comparable to a fully finetuned BERT model while only requiring the training of 3.6% of the parameters. Based on the original prefix tuning paper, the performance of adapters matches the performance of prefix tuning of 0.1% of the parameters at 3%, which makes it less efficient.
+</p>
+<p align="justify">
+Llama-Adapter combines the two ideas of prefix tuning and adapters for LLaMA models from Meta. Each transformer block in the model has its own distinct learned prefix, allowing for more tailored adaptation across different model layers. On top of that, LLaMA-Adapter introduces a zero-initialized attention mechanism coupled with gating.
+</p>
+<h2 id="low-rank-adaptation-lora">Low Rank Adaptation (LoRA)</h2>
+<p align="justify">
+LoRA and QLoRA 
+</p>
+<h2 id="conclusion">Conclusion</h2>
+<p align="justify">
+</p>
+<h2 id="notes">Notes</h2>
+<p align="justify">
+- in-context learning -> models are able to perform tasks by providing them the right context (examples of your task) -> this is cool when you only have access to the model via an API or UI (this only works with generative models like the GPTs) 
+- this works fine in some cases but for more specific things you still have to gather a dataset for the task and the specific domain and then finetune that model, this would result in superior results than just in-context learning (I don't know why they call this learning)
+- what does finetuning even mean here? -> it basically means that you want to train the model on your task specific dataset 
+- there are two ways to do this: 
+1. the feature based approach, where you keep the transformer weights frozen (no training here) and just train a classifier which you feed the output embeddings of the frozen LLM (e.g. logistic regression model, random forest or XGBoost)
+2. finetuning, where you train the whole model or a bigger portion of it (e.g. your just train the output layers after the Transformer blocks) 
+- in general training the whole model will give you the best results but it is also the most expensive one    
+- the problem is, that the currently best performing models are so big that there is no way that you can finetune this thing on your personal computer anymore
+- so the question of how to utilize them more efficiently and effectively has become a very active area 
+- people want to run those models on their laptops or desktop pcs without buying multiple graphics cards 
+- so what do you do when in-context learning doesnt cut it for your use case and you don't have the compute to finetune those bigger models?
+- researchers developed several techniques to make the finetuning of LLMs much more efficient by training just a small number of parameters
+- I try to explain some of the most popular parameter-efficient finetuning techniques (PEFT) in this blogpost: Prefix Tuning, Adapters, Low Rank Adaptation (LoRA)
+<p>and Baogao et. al wrote a paper comparing a lot of these methods and introduced HiWi</p>
+</p>
+<h2 id="references">References</h2>
+<p>Sebastian Raschka - Understanding Parameter Efficient Finetuning of Large Language Models: From Prefix Tuning to LLaMA-Adapters (2023)
+<a href="https://lightning.ai/pages/community/article/understanding-llama-adapters/">https://lightning.ai/pages/community/article/understanding-llama-adapters/</a></p>
+<p>Sebastian Raschka - Parameter-Efficient LLM Finetuning With Low Rank Adaptation (2023)
+<a href="https://lightning.ai/pages/community/tutorial/lora-llm/">https://lightning.ai/pages/community/tutorial/lora-llm/</a></p>
+<p>Edward Hu et. al - LoRA: Low-Rank Adaptation of Large Language Models (2021)
+<a href="https://arxiv.org/pdf/2106.09685.pdf">https://arxiv.org/pdf/2106.09685.pdf</a></p>
+<p>Renrui Zhang et. al - LLaMA-Adapter: Efficient Fine-tuning of Language Models with Zero-init Attention (2023)
+<a href="https://arxiv.org/pdf/2303.16199.pdf">https://arxiv.org/pdf/2303.16199.pdf</a></p>
+<p>Xiang Lisa Li - Prefix-Tuning: Optimizing Continuous Prompts for Generation (2021)
+<a href="https://arxiv.org/pdf/2101.00190.pdf">https://arxiv.org/pdf/2101.00190.pdf</a></p>
+<p>Tim Dettmers et. al - QLORA: Efficient Finetuning of Quantized LLMs (2023)
+<a href="https://arxiv.org/pdf/2305.14314.pdf">https://arxiv.org/pdf/2305.14314.pdf</a></p>
+<p>Parameter-Efficient Fine-Tuning without Introducing New Latency (2023)
+<a href="https://arxiv.org/pdf/2305.16742.pdf">https://arxiv.org/pdf/2305.16742.pdf</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Self-Supervised Learning for Computer Vision</title>
+      <link>http://localhost:1313/posts/2022-03-15-self-supervised-learning-for-computer-vision/</link>
+      <pubDate>Tue, 15 Mar 2022 10:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/posts/2022-03-15-self-supervised-learning-for-computer-vision/</guid>
+      <description>Introduction to Self-Supervised Learning in the Computer Vision space.</description>
+      <content:encoded><![CDATA[<p align="justify">
+</p>
+<br>
+<h2 id="self-supervised-learning">Self-Supervised Learning</h2>
+<ul>
+<li>What is it?</li>
+<li>Why is it important?</li>
+</ul>
+<h3 id="contrastive-learning">Contrastive Learning</h3>
+<h2 id="popular-methods">Popular Methods</h2>
+<h3 id="heading"></h3>
+]]></content:encoded>
+    </item>
+    
+    <item>
       <title>A Peek into Deep Reinforcement Learning - Part II</title>
       <link>http://localhost:1313/posts/2022-01-15-a-peek-into-deep-reinforcement-learning-part-2/</link>
       <pubDate>Mon, 14 Mar 2022 10:00:00 +0200</pubDate>
@@ -555,6 +903,119 @@ Moreover we've seen a way to categorize the different algorithm families of RL. 
 <p><a href="https://arxiv.org/pdf/1509.06461.pdf">[4]</a> van Hasselt et al., Deep Reinforcement Learning with Double Q-Learning (2015).</p>
 <p><a href="https://www.amazon.de/Deep-Reinforcement-Learning-Python-Hands/dp/0135172381">[5]</a> Graesser and Keng, Foundations of Deep Reinforcement Learning (2019).</p>
 <p><a href="https://arxiv.org/pdf/1511.05952.pdf">[6]</a> Schaul et al., Prioritized Experience Replay (2016).</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Attention and the Transformer</title>
+      <link>http://localhost:1313/posts/2021-09-11-attention-and-the-transformer/</link>
+      <pubDate>Fri, 15 Oct 2021 10:45:16 +0200</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-09-11-attention-and-the-transformer/</guid>
+      <description>Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.</description>
+      <content:encoded><![CDATA[<h2 id="whats-wrong-with-rnns">Whats wrong with RNN&rsquo;s?</h2>
+<p align="justify">
+Before we dive into the details of the (Vanilla) Transformer model architecture I want to give you a short intro about how the self-attention mechanism, which is one of the key elements of a transformer block, evolved and why it is part of so many state-of-the art approaches, especially in Natural Language Processing (In the meantime, it can be said that they are also gradually taking over the computer vision field; the state of the art in the field of image classification is a combination of a convolutional neural net and a transformer, called CoAtNet[9]). Much of this information comes from the 2019 lecture by [Justin Johnson](https://www.youtube.com/watch?v=YAgjfMR9R_M&list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r&index=14&ab_channel=MichiganOnline) (Michigan State University) and the blogpost [Attention? Attention!](https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html) from Lilian Weng, which I think are two of the best resources for getting started on the topic.
+</p>
+<p align="justify">
+Let's start by looking at pre-Transformer sequence-to-sequence architectures. Classic seq2seq models have an encoder-decoder architecture and aim to transform an input sequence (source, e.g. german sentence) into a different output sequence (target, e.g. english translation). Both sequences can be of arbitrary length and the Encoder as well as the Decoder are different Recurrent Neural Network architectures (e.g. LSTM, GRU).
+</p>
+<p>![Encoder Decoder Architecture]({{ &lsquo;/assets/imgs/transformer/encoder_decoder.png&rsquo; | relative_url}}){: style=&ldquo;width: 100%; margin: 0 auto; display: block;&rdquo;}<strong>Figure 1.</strong> Encoder Decoder Architecture [5]</p>
+<p align="justify">
+Typical transformation tasks of those kinds of models are f.e. machine translation, question-answer dialog generation, image/video captioning [7], speech recognition [6] or parsing sentences into grammar trees [8]. The encoder and the decoder network are typically connected with a fixed length context vector which transfers information between the encoded and the decoded sequence but becomes a bottleneck for longer sequences because of its fixed size. Often the model has "forgotten" the first part of a long sequence once it completes processing the whole input.
+</p>
+<p align="justify">
+To solve this problem, the **Attention mechanism** was born. Instead of only relying on the last hidden state, the idea was to create shortcut connections between the context vector and the entire source input which should negate the "forgetting". The alignment between the source and the target sequence is learned and controlled by the context vector. The illustration down below shows this mechanism.
+</p>
+<p>![Additive Attention Mechanism]({{ &lsquo;/assets/imgs/transformer/additive_attention.png&rsquo; | relative_url}}){: style=&ldquo;width: 100%; margin: 0 auto; display: block;&rdquo;}<strong>Figure 2.</strong> Additive Attention Mechanism used in [5] from [10]</p>
+<p align="justify">
+To better understand how this works I have re-implemented this [here](). Feel free to clone the repo and train the model yourself. The Attention mechanism used is called **Additive Attention** (there exist different forms of Attention mechanisms). The encoder consists of a bidirectional RNN with a forward and a backward hidden state, $\overrightarrow{\boldsymbol{h_{i}}}$ and $\overleftarrow{\boldsymbol{h_{i}}}$, which are concatenated to form the encoder state $\boldsymbol{h_{i}}$. The context vector $\boldsymbol{c_{t}}$ for the output $y_{t}$ is a sum of hidden states of the input sequence weighted by alignment scores where $n$ is the length of the input sequence:
+</p>
+<p align="center">
+$$
+\boldsymbol{c}_t = \sum_{i=1}^{n}\alpha_{t,i} \boldsymbol{h}_{i} \\
+\alpha_{t,i} = softmax(score(\boldsymbol{s}_{t}, \boldsymbol{h}_{i})) \\
+score(\boldsymbol{s}_{t}, \boldsymbol{h}_{i}) = \boldsymbol{v}_{a}^{T} tanh(\boldsymbol{W}_{a}[\boldsymbol{s}_{t}; \boldsymbol{h}_{i}])
+$$
+</p>
+<p align="justify">
+The alignment model in [5] is a feed-forward network with a single hidden layer. It assigns a score to the pair of input at position $i$ and output at position $t$ based on how well the two words match. Both $\boldsymbol{v_{a}}$ and $\boldsymbol{W_{a}}$ are learned by the alignment model. Based on this, the decoder network calculates the hidden state:
+</p>
+<p align="center">
+$$
+\boldsymbol{s}_{t} = f(\boldsymbol{s}_{t-1}, y_{t-1}, \boldsymbol{c}_{t}) \\
+$$
+</p>
+<p align="justify">
+With the alignment scores you can create pretty cool matrices which show the correlation between the source and the target words. Down below I have created such a plot with a model I trained for a few epochs on the Multi30k torchtext dataset.
+</p>
+<p>![Matrix of alignment scores]({{ &lsquo;/assets/imgs/transformer/attention_matrix.png&rsquo; | relative_url}}){: style=&ldquo;width: 80%; margin: 0 auto; display: block;&rdquo;}<strong>Figure 3.</strong> Attention score matrix</p>
+<p align="justify">
+If you want to learn more about different forms of Attention and popular alignment score functions you can take a look at [10] which provides a table summarizing this.
+</p>
+<h2 id="self-attention">(Self)-Attention</h2>
+<ul>
+<li>at each timestep of decoder, the context vector &ldquo;looks at&rdquo; different parts of the input sequence</li>
+<li>how: calculate attention scalars based on the hidden state and the decoder state for every hidden state, then multiply the hidden states by the attention scalars and sum them up to create a context vector</li>
+</ul>
+<p>this mechanism doesn&rsquo;t use the fact that hidden state i forms an ordered sequence, it just treats the hidden states as an unordered set ${h_{i}}$</p>
+<p>this means that you can use a similar architecture given any set of input hidden vectors (e.g in image captioning)</p>
+<p>in CS, if we discover something useful which is generally applicable we try to abstract</p>
+<p>![Self-Attention Layer]({{ &lsquo;/assets/imgs/transformer/self_attention_layer.png&rsquo; | relative_url}}){: style=&ldquo;width: 100%; margin: 0 auto; display: block;&rdquo;}<strong>Figure 2.</strong> Self-Attention Layer (<a href="https://www.youtube.com/watch?v=YAgjfMR9R_M&amp;list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r&amp;index=14&amp;ab_channel=MichiganOnline">Michigan Online - Justin Johnson</a>)</p>
+<p>&ldquo;Memory is attention through time&rdquo; - Alex Graves (2020)</p>
+<p>Attention is about ignoring things to focus on specific parts of the data.</p>
+<h2 id="transformer">Transformer</h2>
+<p align="justify">
+I think it is fair to say that the **Transformer** is by far the most popular model architecture choice in the research community at the moment. Vaswani et al. presented the architecture in their paper titeled "Attention is All you Need" which already gives an idea of what it is all about. The Transformer is entirely built on the self-attention mechanism presented before without using any sequence aligned recurrent architecture.
+</p>
+<h3 id="architecture">Architecture</h3>
+<p><strong>Encoder</strong></p>
+<p><strong>Decoder</strong></p>
+<h3 id="positional-encoding">Positional Encoding</h3>
+<h3 id="multi-head-attention">Multi-Head Attention</h3>
+<p><strong>Scaled Dot-Product Attention</strong></p>
+<p>$$
+Attention(Q,K,V) = softmax(QK^{T}/)V
+$$</p>
+<p><strong>Multi-Head Attention</strong></p>
+<h2 id="applications">Applications</h2>
+<h3 id="nlp">NLP</h3>
+<p>a few popular NLP architectures (GPT, Bert and stuff)</p>
+<h3 id="computer--vision">Computer  Vision</h3>
+<p>Vision Transformer</p>
+<h2 id="summary">Summary</h2>
+<h2 id="references">References</h2>
+<p><a href="https://arxiv.org/pdf/1706.03762.pdf">[1]</a> Vaswani et al. &ldquo;Attention is all you need&rdquo;, 2017.</p>
+<p><a href="http://peterbloem.nl/blog/transformers">[2]</a> Transformers from Scratch.</p>
+<p><a href="https://theaisummer.com/attention/">[3]</a> How Attention works in Deep Learning: Understanding the attention mechanism in sequence models.</p>
+<p><a href="https://www.youtube.com/watch?v=YAgjfMR9R_M&amp;list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r&amp;index=14&amp;ab_channel=MichiganOnline">[4]</a> Lecture 13: Attention, Justin Johnson.</p>
+<p><a href="https://arxiv.org/pdf/1409.0473.pdf">[5]</a> Bahdanau et al. &ldquo;Neural Machine Translation by jointly learning to align and translate&rdquo;, 2016.</p>
+<p><a href="https://arxiv.org/pdf/1610.03022.pdf">[6]</a> Zhang et al. &ldquo;Very Deep Convolutional Networks for End-to-End Speech Recognition&rdquo;, 2016.</p>
+<p><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=7505636">[7]</a> Vinyals et al. &ldquo;Show and Tell: Lessons Learned from the 2015 MSCOCO Image Captioning Challenge&rdquo;, 2017.</p>
+<p><a href="https://proceedings.neurips.cc/paper/2015/file/277281aada22045c03945dcb2ca6f2ec-Paper.pdf">[8]</a> Vinyals et al. &ldquo;Grammar as a Foreign Language&rdquo;, 2015.</p>
+<p><a href="https://arxiv.org/pdf/2106.04803v2.pdf">[9]</a> Dai et al. &ldquo;CoAtNet: Marrying Convolution and Attention for All Data Sizes&rdquo;, 2021.</p>
+<p><a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">[10]</a> Lilian Weng &ldquo;Attention? Attention!&rdquo;, 2018.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Multi-Object Tracking - Overview</title>
+      <link>http://localhost:1313/posts/2021-09-11-multi-object-tracking-overview/</link>
+      <pubDate>Sat, 11 Sep 2021 10:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-09-11-multi-object-tracking-overview/</guid>
+      <description>Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.</description>
+      <content:encoded><![CDATA[<h2 id="what-is-mot">What is MOT?</h2>
+<h2 id="approaches">Approaches</h2>
+<h2 id="evaluation">Evaluation</h2>
+<h2 id="datasets">Datasets</h2>
+<h2 id="popular-architectures">Popular Architectures</h2>
+<h2 id="summary">Summary</h2>
+<h2 id="references">References</h2>
+<p><a href="https://arxiv.org/pdf/1706.03762.pdf">[1]</a> Vaswani et al. Attention is all you need.</p>
+<p><a href="http://peterbloem.nl/blog/transformers">[2]</a> Transformers from Scratch.</p>
+<p><a href="https://theaisummer.com/attention/">[3]</a> How Attention works in Deep Learning: Understanding the attention mechanism in sequence models.
+<a href="https://www.youtube.com/watch?v=YAgjfMR9R_M&amp;list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r&amp;index=14&amp;ab_channel=MichiganOnline">[4]</a> Lecture 13: Attention, Justin Johnson.</p>
 ]]></content:encoded>
     </item>
     
@@ -1565,6 +2026,74 @@ A multi-objective fitness function was applied to create a balance between compu
 <p><a href="https://arxiv.org/pdf/1708.01101.pdf">[39]</a> W. Yang, S. Li, W. Ouyang, H. Li, and X. Wang. Learning feature pyramids for human pose estimation. In proceedings of the IEEE international conference on computer vision, pages 1281–1290, 2017.</p>
 <p><a href="http://www.cs.cmu.edu/~deva/papers/pose_pami.pdf">[40]</a> Y. Yang and D. Ramanan. Articulated human detection with flexible mixtures of parts. IEEE transactions on pattern analysis and machine intelligence, 35(12):2878–2890, 2012.</p>
 <p><a href="https://ieeexplore.ieee.org/document/6751390">[41]</a> W. Zhang, M. Zhu, and K. G. Derpanis. From actemes to action: A strongly-supervised representation for detailed action understanding. In Proceedings of the IEEE Interna- tional Conference on Computer Vision, pages 2248–2255, 2013.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Imitation Learning</title>
+      <link>http://localhost:1313/posts/2023-10-01-imitation-learning/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/posts/2023-10-01-imitation-learning/</guid>
+      <description>Introduction to Imitation Learning.</description>
+      <content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
+<p align="justify">
+As we've learned in a previous post, the goal of Reinforcement Learning is to learn an optimal policy which maximizes the long-term cumulative rewards. Generally many of these methods perform pretty well but in some cases it can be very challenging to learn a even a good policy. This is especially true for environments where the rewards are sparse, e.g. a game where the reward is only received at the end. In such cases it can be very helpful to design a reward function which provide the agent with more frequent rewards. Moreover there are a lot of use cases especially in real world scenarios where it is extremly complicated to design a reward function, e.g. in autonomuous driving.  
+</p>
+<p align="justify">
+Imitation Learning (IL) can be a straightforward and feasible solution for these problems. In IL instead of trying to learn from sparse rewards or complicated and imperfect reward functions, we utilize expert demonstrations which we try to mimic.  
+</p>
+<h2 id="imitation-learning-in-a-nutshell">Imitation Learning in a Nutshell</h2>
+<p align="justify">
+</p>
+<h2 id="types-of-imitation-learning">Types of Imitation Learning</h2>
+<ul>
+<li>Behavioral Cloning</li>
+<li>Inverse Reinforcement Learning</li>
+<li>Direct Policy Learning</li>
+</ul>
+<h2 id="formal-definition">Formal Definition</h2>
+<p align="justify">
+</p>
+<h2 id="difference-between-il-and-offline-rl">Difference between IL and Offline RL</h2>
+<p align="justify">
+- very similar, in IL you assume the expert policy is optimal and you try to recover it
+- in offline RL the goal is "order out the chaos", find a better policy than you have seen in the data
+- offline RL methods must do two things:
+	1. stay close to the provided data
+	2. maximize reward
+- the reward maximization is what is missing in IL    
+</p>
+<h2 id="inverse-reinforcement-learning">Inverse Reinforcement Learning</h2>
+<p align="justify">
+- learn the reward function 
+- with and without model 
+</p>
+<h2 id="direct-policy-learning">Direct Policy Learning</h2>
+<p align="justify">
+</p>
+<h2 id="behavior-cloning">Behavior Cloning</h2>
+<p align="justify">
+<ul>
+<li>it is really simple and easy to use
+<ul>
+<li>very stable (supervised learning)</li>
+<li>easy to debug and validate</li>
+<li>scales well to large datasets</li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="conditional-imitation-learning">Conditional Imitation Learning</h2>
+<p align="justify">
+</p>
+<h2 id="references">References</h2>
+<p>Zoltan Lorincz - A brief overview of Imitation Learning (2019)
+<a href="https://smartlabai.medium.com/a-brief-overview-of-imitation-learning-8a8a75c44a9c">https://smartlabai.medium.com/a-brief-overview-of-imitation-learning-8a8a75c44a9c</a></p>
+<p>Yue, Le - Imitation Learning Tutorial (ICML 2018)
+<a href="https://sites.google.com/view/icml2018-imitation-learning/">https://sites.google.com/view/icml2018-imitation-learning/</a></p>
+<p>Sergey Levine - Imitation Learning vs. Offline Reinforcement Learning
+<a href="https://www.youtube.com/watch?v=sVPm7zOrBxM&amp;ab_channel=RAIL">https://www.youtube.com/watch?v=sVPm7zOrBxM&amp;ab_channel=RAIL</a></p>
 ]]></content:encoded>
     </item>
     
