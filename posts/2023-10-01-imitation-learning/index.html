@@ -5,25 +5,25 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Attention and the Transformer | Johanns Blog</title>
+<title>Imitation Learning | Johanns Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.">
+<meta name="description" content="Introduction to Imitation Learning.">
 <meta name="author" content="Johann Gerberding">
-<link rel="canonical" href="http://localhost:1313/posts/2021-09-11-attention-and-the-transformer/">
+<link rel="canonical" href="http://localhost:1313/posts/2023-10-01-imitation-learning/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.2bc90b9ba234f5c20dbe846ca9c0f1952ff8ab3a239187a5083779f65790577f.css" integrity="sha256-K8kLm6I09cINvoRsqcDxlS/4qzojkYelCDd59leQV38=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2021-09-11-attention-and-the-transformer/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2023-10-01-imitation-learning/">
 
-<meta name="twitter:title" content="Attention and the Transformer | Johanns Blog" />
-<meta name="twitter:description" content="Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms." />
-<meta property="og:title" content="Attention and the Transformer | Johanns Blog" />
-<meta property="og:description" content="Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms." />
+<meta name="twitter:title" content="Imitation Learning | Johanns Blog" />
+<meta name="twitter:description" content="Introduction to Imitation Learning." />
+<meta property="og:title" content="Imitation Learning | Johanns Blog" />
+<meta property="og:description" content="Introduction to Imitation Learning." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/posts/2021-09-11-attention-and-the-transformer/" />
+<meta property="og:url" content="http://localhost:1313/posts/2023-10-01-imitation-learning/" />
 <meta property="article:section" content="posts" />
-  <meta property="article:published_time" content="2021-10-15T10:45:16&#43;02:00" />
-  <meta property="article:modified_time" content="2021-10-15T10:45:16&#43;02:00" /><meta property="og:site_name" content="Johann&#39;s Blog" />
+  
+  <meta property="og:site_name" content="Johann&#39;s Blog" />
 
 
 <script type="application/ld+json">
@@ -40,8 +40,8 @@
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "Attention and the Transformer",
-      "item": "http://localhost:1313/posts/2021-09-11-attention-and-the-transformer/"
+      "name": "Imitation Learning",
+      "item": "http://localhost:1313/posts/2023-10-01-imitation-learning/"
     }
   ]
 }
@@ -50,23 +50,23 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Attention and the Transformer | Johanns Blog",
-  "name": "Attention and the Transformer",
-  "description": "Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.",
+  "headline": "Imitation Learning | Johanns Blog",
+  "name": "Imitation Learning",
+  "description": "Introduction to Imitation Learning.",
   "keywords": [
     
   ],
-  "wordCount" : "1021",
+  "wordCount" : "325",
   "inLanguage": "en",
-  "datePublished": "2021-10-15T10:45:16+02:00",
-  "dateModified": "2021-10-15T10:45:16+02:00",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
   "author":{
     "@type": "Person",
     "name": "Johann Gerberding"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/posts/2021-09-11-attention-and-the-transformer/"
+    "@id": "http://localhost:1313/posts/2023-10-01-imitation-learning/"
   },
   "publisher": {
     "@type": "Organization",
@@ -112,7 +112,7 @@
 
 </head>
 
-<body class=" dark type-posts kind-page layout-post" id="top"><script data-no-instant>
+<body class=" dark type-posts kind-page layout-" id="top"><script data-no-instant>
 function switchTheme(theme) {
   switch (theme) {
     case 'light':
@@ -231,14 +231,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <h1 class="post-title">Attention and the Transformer<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup></h1>
+    <h1 class="post-title">Imitation Learning<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup></h1>
     <div class="post-meta"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>October 15, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" style="user-select: text;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" style="user-select: text;"></path><polyline points="14 2 14 8 20 8" style="user-select: text;"></polyline><line x1="16" y1="13" x2="8" y2="13" style="user-select: text;"></line><line x1="16" y1="17" x2="8" y2="17" style="user-select: text;"></line><polyline points="10 9 9 9 8 9" style="user-select: text;"></polyline></svg>
-  <span>1021 words</span></span><span class="meta-item">
+  <span>325 words</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 15"></polyline></svg>
-  <span>5 min</span></span>
+  <span>2 min</span></span>
 
       
       
@@ -251,29 +249,23 @@ function toggleThemeListener() {
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#whats-wrong-with-rnns" aria-label="Whats wrong with RNN&amp;rsquo;s?">Whats wrong with RNN&rsquo;s?</a></li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
                 <li>
-                    <a href="#self-attention" aria-label="(Self)-Attention">(Self)-Attention</a></li>
+                    <a href="#imitation-learning-in-a-nutshell" aria-label="Imitation Learning in a Nutshell">Imitation Learning in a Nutshell</a></li>
                 <li>
-                    <a href="#transformer" aria-label="Transformer">Transformer</a><ul>
-                        
+                    <a href="#types-of-imitation-learning" aria-label="Types of Imitation Learning">Types of Imitation Learning</a></li>
                 <li>
-                    <a href="#architecture" aria-label="Architecture">Architecture</a></li>
+                    <a href="#formal-definition" aria-label="Formal Definition">Formal Definition</a></li>
                 <li>
-                    <a href="#positional-encoding" aria-label="Positional Encoding">Positional Encoding</a></li>
+                    <a href="#difference-between-il-and-offline-rl" aria-label="Difference between IL and Offline RL">Difference between IL and Offline RL</a></li>
                 <li>
-                    <a href="#multi-head-attention" aria-label="Multi-Head Attention">Multi-Head Attention</a></li></ul>
-                </li>
+                    <a href="#inverse-reinforcement-learning" aria-label="Inverse Reinforcement Learning">Inverse Reinforcement Learning</a></li>
                 <li>
-                    <a href="#applications" aria-label="Applications">Applications</a><ul>
-                        
+                    <a href="#direct-policy-learning" aria-label="Direct Policy Learning">Direct Policy Learning</a></li>
                 <li>
-                    <a href="#nlp" aria-label="NLP">NLP</a></li>
+                    <a href="#behavior-cloning" aria-label="Behavior Cloning">Behavior Cloning</a></li>
                 <li>
-                    <a href="#computer--vision" aria-label="Computer  Vision">Computer  Vision</a></li></ul>
-                </li>
-                <li>
-                    <a href="#summary" aria-label="Summary">Summary</a></li>
+                    <a href="#conditional-imitation-learning" aria-label="Conditional Imitation Learning">Conditional Imitation Learning</a></li>
                 <li>
                     <a href="#references" aria-label="References">References</a>
                 </li>
@@ -282,88 +274,64 @@ function toggleThemeListener() {
     </details>
 </div>
 
-  <div class="post-content"><h2 id="whats-wrong-with-rnns">Whats wrong with RNN&rsquo;s?<a hidden class="anchor" aria-hidden="true" href="#whats-wrong-with-rnns">¶</a></h2>
+  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">¶</a></h2>
 <p align="justify">
-Before we dive into the details of the (Vanilla) Transformer model architecture I want to give you a short intro about how the self-attention mechanism, which is one of the key elements of a transformer block, evolved and why it is part of so many state-of-the art approaches, especially in Natural Language Processing (In the meantime, it can be said that they are also gradually taking over the computer vision field; the state of the art in the field of image classification is a combination of a convolutional neural net and a transformer, called CoAtNet[9]). Much of this information comes from the 2019 lecture by [Justin Johnson](https://www.youtube.com/watch?v=YAgjfMR9R_M&list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r&index=14&ab_channel=MichiganOnline) (Michigan State University) and the blogpost [Attention? Attention!](https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html) from Lilian Weng, which I think are two of the best resources for getting started on the topic.
-</p>
-<p align="justify">
-Let's start by looking at pre-Transformer sequence-to-sequence architectures. Classic seq2seq models have an encoder-decoder architecture and aim to transform an input sequence (source, e.g. german sentence) into a different output sequence (target, e.g. english translation). Both sequences can be of arbitrary length and the Encoder as well as the Decoder are different Recurrent Neural Network architectures (e.g. LSTM, GRU).
-</p>
-<p>![Encoder Decoder Architecture]({{ &lsquo;/assets/imgs/transformer/encoder_decoder.png&rsquo; | relative_url}}){: style=&ldquo;width: 100%; margin: 0 auto; display: block;&rdquo;}<strong>Figure 1.</strong> Encoder Decoder Architecture [5]</p>
-<p align="justify">
-Typical transformation tasks of those kinds of models are f.e. machine translation, question-answer dialog generation, image/video captioning [7], speech recognition [6] or parsing sentences into grammar trees [8]. The encoder and the decoder network are typically connected with a fixed length context vector which transfers information between the encoded and the decoded sequence but becomes a bottleneck for longer sequences because of its fixed size. Often the model has "forgotten" the first part of a long sequence once it completes processing the whole input.
+As we've learned in a previous post, the goal of Reinforcement Learning is to learn an optimal policy which maximizes the long-term cumulative rewards. Generally many of these methods perform pretty well but in some cases it can be very challenging to learn a even a good policy. This is especially true for environments where the rewards are sparse, e.g. a game where the reward is only received at the end. In such cases it can be very helpful to design a reward function which provide the agent with more frequent rewards. Moreover there are a lot of use cases especially in real world scenarios where it is extremly complicated to design a reward function, e.g. in autonomuous driving.  
 </p>
 <p align="justify">
-To solve this problem, the **Attention mechanism** was born. Instead of only relying on the last hidden state, the idea was to create shortcut connections between the context vector and the entire source input which should negate the "forgetting". The alignment between the source and the target sequence is learned and controlled by the context vector. The illustration down below shows this mechanism.
+Imitation Learning (IL) can be a straightforward and feasible solution for these problems. In IL instead of trying to learn from sparse rewards or complicated and imperfect reward functions, we utilize expert demonstrations which we try to mimic.  
 </p>
-<p>![Additive Attention Mechanism]({{ &lsquo;/assets/imgs/transformer/additive_attention.png&rsquo; | relative_url}}){: style=&ldquo;width: 100%; margin: 0 auto; display: block;&rdquo;}<strong>Figure 2.</strong> Additive Attention Mechanism used in [5] from [10]</p>
+<h2 id="imitation-learning-in-a-nutshell">Imitation Learning in a Nutshell<a hidden class="anchor" aria-hidden="true" href="#imitation-learning-in-a-nutshell">¶</a></h2>
 <p align="justify">
-To better understand how this works I have re-implemented this [here](). Feel free to clone the repo and train the model yourself. The Attention mechanism used is called **Additive Attention** (there exist different forms of Attention mechanisms). The encoder consists of a bidirectional RNN with a forward and a backward hidden state, $\overrightarrow{\boldsymbol{h_{i}}}$ and $\overleftarrow{\boldsymbol{h_{i}}}$, which are concatenated to form the encoder state $\boldsymbol{h_{i}}$. The context vector $\boldsymbol{c_{t}}$ for the output $y_{t}$ is a sum of hidden states of the input sequence weighted by alignment scores where $n$ is the length of the input sequence:
 </p>
-<p align="center">
-$$
-\boldsymbol{c}_t = \sum_{i=1}^{n}\alpha_{t,i} \boldsymbol{h}_{i} \\
-\alpha_{t,i} = softmax(score(\boldsymbol{s}_{t}, \boldsymbol{h}_{i})) \\
-score(\boldsymbol{s}_{t}, \boldsymbol{h}_{i}) = \boldsymbol{v}_{a}^{T} tanh(\boldsymbol{W}_{a}[\boldsymbol{s}_{t}; \boldsymbol{h}_{i}])
-$$
-</p>
-<p align="justify">
-The alignment model in [5] is a feed-forward network with a single hidden layer. It assigns a score to the pair of input at position $i$ and output at position $t$ based on how well the two words match. Both $\boldsymbol{v_{a}}$ and $\boldsymbol{W_{a}}$ are learned by the alignment model. Based on this, the decoder network calculates the hidden state:
-</p>
-<p align="center">
-$$
-\boldsymbol{s}_{t} = f(\boldsymbol{s}_{t-1}, y_{t-1}, \boldsymbol{c}_{t}) \\
-$$
-</p>
-<p align="justify">
-With the alignment scores you can create pretty cool matrices which show the correlation between the source and the target words. Down below I have created such a plot with a model I trained for a few epochs on the Multi30k torchtext dataset.
-</p>
-<p>![Matrix of alignment scores]({{ &lsquo;/assets/imgs/transformer/attention_matrix.png&rsquo; | relative_url}}){: style=&ldquo;width: 80%; margin: 0 auto; display: block;&rdquo;}<strong>Figure 3.</strong> Attention score matrix</p>
-<p align="justify">
-If you want to learn more about different forms of Attention and popular alignment score functions you can take a look at [10] which provides a table summarizing this.
-</p>
-<h2 id="self-attention">(Self)-Attention<a hidden class="anchor" aria-hidden="true" href="#self-attention">¶</a></h2>
+<h2 id="types-of-imitation-learning">Types of Imitation Learning<a hidden class="anchor" aria-hidden="true" href="#types-of-imitation-learning">¶</a></h2>
 <ul>
-<li>at each timestep of decoder, the context vector &ldquo;looks at&rdquo; different parts of the input sequence</li>
-<li>how: calculate attention scalars based on the hidden state and the decoder state for every hidden state, then multiply the hidden states by the attention scalars and sum them up to create a context vector</li>
+<li>Behavioral Cloning</li>
+<li>Inverse Reinforcement Learning</li>
+<li>Direct Policy Learning</li>
 </ul>
-<p>this mechanism doesn&rsquo;t use the fact that hidden state i forms an ordered sequence, it just treats the hidden states as an unordered set ${h_{i}}$</p>
-<p>this means that you can use a similar architecture given any set of input hidden vectors (e.g in image captioning)</p>
-<p>in CS, if we discover something useful which is generally applicable we try to abstract</p>
-<p>![Self-Attention Layer]({{ &lsquo;/assets/imgs/transformer/self_attention_layer.png&rsquo; | relative_url}}){: style=&ldquo;width: 100%; margin: 0 auto; display: block;&rdquo;}<strong>Figure 2.</strong> Self-Attention Layer (<a href="https://www.youtube.com/watch?v=YAgjfMR9R_M&amp;list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r&amp;index=14&amp;ab_channel=MichiganOnline">Michigan Online - Justin Johnson</a>)</p>
-<p>&ldquo;Memory is attention through time&rdquo; - Alex Graves (2020)</p>
-<p>Attention is about ignoring things to focus on specific parts of the data.</p>
-<h2 id="transformer">Transformer<a hidden class="anchor" aria-hidden="true" href="#transformer">¶</a></h2>
+<h2 id="formal-definition">Formal Definition<a hidden class="anchor" aria-hidden="true" href="#formal-definition">¶</a></h2>
 <p align="justify">
-I think it is fair to say that the **Transformer** is by far the most popular model architecture choice in the research community at the moment. Vaswani et al. presented the architecture in their paper titeled "Attention is All you Need" which already gives an idea of what it is all about. The Transformer is entirely built on the self-attention mechanism presented before without using any sequence aligned recurrent architecture.
 </p>
-<h3 id="architecture">Architecture<a hidden class="anchor" aria-hidden="true" href="#architecture">¶</a></h3>
-<p><strong>Encoder</strong></p>
-<p><strong>Decoder</strong></p>
-<h3 id="positional-encoding">Positional Encoding<a hidden class="anchor" aria-hidden="true" href="#positional-encoding">¶</a></h3>
-<h3 id="multi-head-attention">Multi-Head Attention<a hidden class="anchor" aria-hidden="true" href="#multi-head-attention">¶</a></h3>
-<p><strong>Scaled Dot-Product Attention</strong></p>
-<p>$$
-Attention(Q,K,V) = softmax(QK^{T}/)V
-$$</p>
-<p><strong>Multi-Head Attention</strong></p>
-<h2 id="applications">Applications<a hidden class="anchor" aria-hidden="true" href="#applications">¶</a></h2>
-<h3 id="nlp">NLP<a hidden class="anchor" aria-hidden="true" href="#nlp">¶</a></h3>
-<p>a few popular NLP architectures (GPT, Bert and stuff)</p>
-<h3 id="computer--vision">Computer  Vision<a hidden class="anchor" aria-hidden="true" href="#computer--vision">¶</a></h3>
-<p>Vision Transformer</p>
-<h2 id="summary">Summary<a hidden class="anchor" aria-hidden="true" href="#summary">¶</a></h2>
+<h2 id="difference-between-il-and-offline-rl">Difference between IL and Offline RL<a hidden class="anchor" aria-hidden="true" href="#difference-between-il-and-offline-rl">¶</a></h2>
+<p align="justify">
+- very similar, in IL you assume the expert policy is optimal and you try to recover it
+- in offline RL the goal is "order out the chaos", find a better policy than you have seen in the data
+- offline RL methods must do two things:
+	1. stay close to the provided data
+	2. maximize reward
+- the reward maximization is what is missing in IL    
+</p>
+<h2 id="inverse-reinforcement-learning">Inverse Reinforcement Learning<a hidden class="anchor" aria-hidden="true" href="#inverse-reinforcement-learning">¶</a></h2>
+<p align="justify">
+- learn the reward function 
+- with and without model 
+</p>
+<h2 id="direct-policy-learning">Direct Policy Learning<a hidden class="anchor" aria-hidden="true" href="#direct-policy-learning">¶</a></h2>
+<p align="justify">
+</p>
+<h2 id="behavior-cloning">Behavior Cloning<a hidden class="anchor" aria-hidden="true" href="#behavior-cloning">¶</a></h2>
+<p align="justify">
+<ul>
+<li>it is really simple and easy to use
+<ul>
+<li>very stable (supervised learning)</li>
+<li>easy to debug and validate</li>
+<li>scales well to large datasets</li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="conditional-imitation-learning">Conditional Imitation Learning<a hidden class="anchor" aria-hidden="true" href="#conditional-imitation-learning">¶</a></h2>
+<p align="justify">
+</p>
 <h2 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">¶</a></h2>
-<p><a href="https://arxiv.org/pdf/1706.03762.pdf">[1]</a> Vaswani et al. &ldquo;Attention is all you need&rdquo;, 2017.</p>
-<p><a href="http://peterbloem.nl/blog/transformers">[2]</a> Transformers from Scratch.</p>
-<p><a href="https://theaisummer.com/attention/">[3]</a> How Attention works in Deep Learning: Understanding the attention mechanism in sequence models.</p>
-<p><a href="https://www.youtube.com/watch?v=YAgjfMR9R_M&amp;list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r&amp;index=14&amp;ab_channel=MichiganOnline">[4]</a> Lecture 13: Attention, Justin Johnson.</p>
-<p><a href="https://arxiv.org/pdf/1409.0473.pdf">[5]</a> Bahdanau et al. &ldquo;Neural Machine Translation by jointly learning to align and translate&rdquo;, 2016.</p>
-<p><a href="https://arxiv.org/pdf/1610.03022.pdf">[6]</a> Zhang et al. &ldquo;Very Deep Convolutional Networks for End-to-End Speech Recognition&rdquo;, 2016.</p>
-<p><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=7505636">[7]</a> Vinyals et al. &ldquo;Show and Tell: Lessons Learned from the 2015 MSCOCO Image Captioning Challenge&rdquo;, 2017.</p>
-<p><a href="https://proceedings.neurips.cc/paper/2015/file/277281aada22045c03945dcb2ca6f2ec-Paper.pdf">[8]</a> Vinyals et al. &ldquo;Grammar as a Foreign Language&rdquo;, 2015.</p>
-<p><a href="https://arxiv.org/pdf/2106.04803v2.pdf">[9]</a> Dai et al. &ldquo;CoAtNet: Marrying Convolution and Attention for All Data Sizes&rdquo;, 2021.</p>
-<p><a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">[10]</a> Lilian Weng &ldquo;Attention? Attention!&rdquo;, 2018.</p>
+<p>Zoltan Lorincz - A brief overview of Imitation Learning (2019)
+<a href="https://smartlabai.medium.com/a-brief-overview-of-imitation-learning-8a8a75c44a9c">https://smartlabai.medium.com/a-brief-overview-of-imitation-learning-8a8a75c44a9c</a></p>
+<p>Yue, Le - Imitation Learning Tutorial (ICML 2018)
+<a href="https://sites.google.com/view/icml2018-imitation-learning/">https://sites.google.com/view/icml2018-imitation-learning/</a></p>
+<p>Sergey Levine - Imitation Learning vs. Offline Reinforcement Learning
+<a href="https://www.youtube.com/watch?v=sVPm7zOrBxM&amp;ab_channel=RAIL">https://www.youtube.com/watch?v=sVPm7zOrBxM&amp;ab_channel=RAIL</a></p>
 
 
   </div>
@@ -373,7 +341,7 @@ $$</p>
     <div class="comments-separator"></div><div class="comments">
   <div class="title">
     <span>Comments</span>
-    <span class="counter"><span class="remark42__counter" data-url="http://localhost:1313/posts/2021-09-11-attention-and-the-transformer/"></span></span>
+    <span class="counter"><span class="remark42__counter" data-url="http://localhost:1313/posts/2023-10-01-imitation-learning/"></span></span>
   </div>
   <div id="remark42">
   </div>

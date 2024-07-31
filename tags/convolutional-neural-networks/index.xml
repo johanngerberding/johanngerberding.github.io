@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Convolutional-Neural-Networks on Johanns Blog</title><link>https://johanngerberding.github.io/tags/convolutional-neural-networks/</link><description>Recent content in Convolutional-Neural-Networks on Johanns Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 02 May 2021 10:45:16 +0200</lastBuildDate><atom:link href="https://johanngerberding.github.io/tags/convolutional-neural-networks/index.xml" rel="self" type="application/rss+xml"/><item><title>Object Detection - Faster Models</title><link>https://johanngerberding.github.io/posts/2021-05-02-object-detection-faster-models/</link><pubDate>Sun, 02 May 2021 10:45:16 +0200</pubDate><guid>https://johanngerberding.github.io/posts/2021-05-02-object-detection-faster-models/</guid><description>One-Stage Object Detection Models.</description><content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
+<p align="justify">
+In the previous <a href="https://johanngerberding.github.io/johannsblog/Object-Detection-From-R-CNN-to-Mask-RCNN">post</a> we have reviewed region-based object detection algorithms (R-CNN models). In the following post I will dive a bit deeper into fast one-stage detection models like YOLO and RetinaNet which are more suited for certain applications with real-time requirements. The models I'm going to talk about here are a bit outdated and don't necessarily correspond to the state-of-the-art in this area anymore. Nevertheless, I find the general development in this area very interesting and the algorithms presented here form the basis for the current state-of-the-art. At that time, two-stage detectors were usually ahead of single-stage detectors in terms of accuracy, which is no longer the case today. In my next post I will go into more detail about state-of-the-art models such as <a href="https://arxiv.org/pdf/1911.09070.pdf">EfficientDet</a> and <a href="https://arxiv.org/pdf/2004.10934.pdf">YOLOv4</a>.
+</p>
+<h2 id="yolo">YOLO</h2>
+<p align="justify">
+As mentioned before, two stage detection models like Faster R-CNN are region based and considered to slow for certain applications that require real-time capabilities, e.g. in the robotics area or autonomous driving. So let's start with YOLO ("You Only Look Once") which was one of the first approaches to building a fast real-time object detector. Instead of relying on region proposals the authors reframed the object detection as a single regression problem, predicting bounding boxes and class probabilities directly from the images (therefore the name).
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_2/yolo-network-architecture.png#center"
+         alt="YOLO model architecture" width="100%"/> <figcaption>
+            <p>Figure 1. YOLO network architecture</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+This makes the whole system (Figure 1) fairly simple (single ConvNet) and very fast (45 fps). Since the model uses features from the entire image to predict the boxes it reasons globally.
+</p>
+<h3 id="how-it-works">How it works</h3>
+<p align="justify">
+The input image gets divided into an $S \times S$ grid, where each grid cell predicts $B$ bounding boxes and confidence scores ($S=7$,  $B=2$). If the center of an object falls into a grid cell than this grid cell is "responsible" for the detection. Each bounding box consists of 5 predictions: <i>x_center</i>, <i>y_center</i>, <i>width</i>, <i>height</i> and <i>confidence</i>. The x and y coordinates are relative to the bounds of a grid cell. The width and height are relative to the image. So all predicted values are between 0 and 1. In addition each grid cell also predicts $C$ class probabilities which are conditional on the grid cell containing an object (for PascalVOC: $C=20$). These values encode the probabilities of that class appearing in the box and how well the predicted box fits the object. One of the main limitations of this approach is the fact that each grid cell can only contain one object (max: 49 objects per image).
+</p>
+<h3 id="training">Training</h3>
+<p align="justify">
+Now let's talk about training the YOLO model. First the convolutional layers get pretrained on ImageNet for a week with an image input size of 224x224. Thereafter to finetune the network on the detection task, four convolutional layers and two fully connected layers get added and the image size is increased to 448x448. As activation LeakyReLU is applied. The loss function is Sum-Squared Error (SSE) consisting of two parts: localization and classification loss:
+</p>
+<p>$$
+L_{loc} = \lambda_{coord} \sum_{i=0}^{S^{2}} \sum_{j=0}^{B} \mathbb{1}_{ij}^{obj} [(x_{i} - \hat{x}_{i})^{2} + (y_{i} - \hat{y}_{i})^{2} + (\sqrt{w_{i}} - \sqrt{\hat{w}_{i}})^{2} + (\sqrt{h_{i}} - \sqrt{\hat{h}_{i}})^{2}]
+$$</p>
+<p>$$
+L_{cls} = \sum_{i=0}^{S^{2}} \sum_{j=0}^{B} (\mathbb{1}_{ij}^{obj} \lambda_{noobj}(1 - \mathbb{1}_{ij}^{obj})) (C_{i} - \hat{C}_{i})^{2} + \sum_{i=0}^{S^{2}} \sum_{C=C} \mathbb{1}_{i}^{obj} (p_{i}(c) - \hat{p}_{i}(c))^{2}
+$$</p>
+<p>$$
+L = L_{cls} + L_{loc}
+$$</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mathbb{1}_{i}^{obj}$</td>
+<td>indicator of whether the cell $i$ contains an object</td>
+</tr>
+<tr>
+<td>$\mathbb{1}_{ij}^{obj}$</td>
+<td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+</tr>
+<tr>
+<td>$C_{i}$</td>
+<td>confidence score of cell $i$, $Pr(contains object) * IoU (pred, truth)$</td>
+</tr>
+<tr>
+<td>$\hat{C}_{i}$</td>
+<td>predicted confidence score (box with higher IoU of the two predicted boxes)</td>
+</tr>
+<tr>
+<td>$\mathcal{C}$</td>
+<td>set of all classes (Pascal VOC: 20)</td>
+</tr>
+<tr>
+<td>$p_{i}$</td>
+<td>conditional probability of whether cell $i$ contains an object of class $c \in \mathcal{C}$</td>
+</tr>
+<tr>
+<td>$\hat{p}_{i}$</td>
+<td>predicted conditional class probabilities</td>
+</tr>
+<tr>
+<td>$S^{2}$</td>
+<td>grid size, here $S=7$</td>
+</tr>
+<tr>
+<td>$B$</td>
+<td>number of predicted bounding boxes per grid cell</td>
+</tr>
+</tbody>
+</table>
+<p align="justify">
+Because of model instability due to the inbalance between cells containing or not containing objects the authors use two scale parameters to increase the loss from bounding box predictions ($\lambda_{coord} = 0.5$) and decrease the loss from confidence predictions for boxes that don't contain objects ($\lambda_{noobj} = 0.5$). The loss function only penalizes classification error if an object is present in that grid cell and it only penalizes bbox error if the cell is "responsible" for the ground truth box.
+</p>
+<p align="justify">
+Some more training details: The authors trained YOLO on VOC 2007 and VOC 2012 with a batch size of 64, momentum of 0.9 and a weight decay of 0.0005. For regularization they rely on dropout and data augmentation.
+</p>
+<h3 id="shortcomings">Shortcomings</h3>
+<ul>
+<li>strong spatial constraints since we have only one prediction per grid cell (7x7 -&gt; max. 49 object predictions); this is one of the reasons why the model struggles with crowds of small objects</li>
+<li>struggles to generalize to objects in new or unusual aspect ratios or configurations (maybe this could be reduced with clever data augmentation or training on different image scales)</li>
+<li>many incorrect localizations due to an inappropriate loss function and coarse features for bounding box prediction (multiple downsampling layers)</li>
+</ul>
+<h2 id="yolov2">YOLOv2</h2>
+<p align="justify">
+YOLOv2 is basically an improved version of YOLO, adding some tricks to overcome its shortcomings described before. Moreover the paper covers YOLO9000 which is built on top of YOLOv2 and trained with a joint dataset combining COCO and the top 9000 classes of ImageNet (combination of detection and classification). I will only cover YOLOv2 here, for those of you who are interested in YOLO9000 and the joint training procedure, should take a look a the paper.
+</p>
+<p align="justify">
+As mentioned before, the central goal of YOLOv2 was to fix the problems of YOLO, primarily recall and localization shortcomings. The authors did this based on a variety of new ideas in the field (at that time) and they try to avoid increasing the model size at the same time to preserve the high speed:
+</p>
+<p><strong>Batch Normalization:</strong> This leads to significant improvements in convergence while eliminating the need for other forms of regularization like dropout (+2% mAP).</p>
+<p><strong>High Resolution Classifier:</strong> Finetune the classification network at higher resolution (448x448) for 10 epochs on ImageNet before detection finetuning.</p>
+<p><strong>Convolutional Anchor Box Detection:</strong> The fully connected layers from YOLO are removed and instead YOLOv2 incorporates anchor boxes (like Faster R-CNN) to predict the bounding boxes; this also decouples the class prediction from the spatial location by predicting class and objectness for every anchor box which leads to a slight decrease in accuracy (-0.3% mAP) but increases recall significantly (+7%) which gives the model more room to improve.</p>
+<p><strong>Box Dimension Clustering:</strong> Instead of using hand picked anchor box sizes, YOLOv2 runs k-means clustering on the training data to determine good priors for anchor box dimensions; to maximize IoU scores, it relies on the following distance metric:</p>
+<p>$$
+d(x, c_{i}) = 1 - IoU(x, c_{i}), \quad i=i,&hellip;k
+$$</p>
+<p>where $x$ is a ground truth box candidate and $c_{i}$ is one of the centroids / the closest centroid.</p>
+<p><strong>Direct Location Prediction:</strong> In Region Proposal Networks the box location prediction is unconstrained which means any anchor box can end up at any point in the image which can lead to an unstable training. YOLOv2 follows the approach of the original YOLO model by predicting location coordinates relative to the location of the grid cell (using a logistic activation). Given the anchor box width $p_{w}$ and height $p_{h}$ in the grid cell with the top left corner ($c_{x}, c_{y}$) the model predicts 5 values ($t_{x}, t_{y}, t_{w}, t_{h}, t_{o}$) which correspond to the following box values:</p>
+<p>$$
+b_{x} = \sigma (t_{x}) + c_{x} \
+b_{y} = \sigma (t_{y}) + c_{y} \
+b_{w} = p_{w}e^{t_{w}} \
+b_{h} = p_{h}e^{t_{h}} \
+Pr(obj) =IoU(b, obj) = \sigma (t_{o})
+$$</p>
+<p>This in combination with clustering priors improves mAP by up to 5%.</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_2/yolov2-loc.png#center"
+         alt="YOLOv2 bounding box prediction format" width="60%"/> <figcaption>
+            <p>Figure 2. YOLOv2 bounding box prediction</p>
+        </figcaption>
+</figure>
+
+<p><strong>Fine-grained Features:</strong> The grid size of the final feature map of YOLOv2 is increased from 7x7 in YOLO to 13x13. Moreover YOLOv2 incorporates a so called passthrough layer that brings features from an earlier layer at 26x26 resolution to the output layer. This process can be compared with identity mappings from ResNets to incorporate higher dimensional features (+1% mAP).</p>
+<p><strong>Multi-scale Training:</strong> To increase the robustness of the model the authors trained it on images of different sizes. Every 10 batches the input size gets randomly sampled (between 320x320 and 608x608).</p>
+<p align="justify">
+To maintain the high inference speed, YOLOv2 is based on the <b>Darknet-19</b> model, consisting of 19 convolutional and 5 max-pooling layers. For detailed information on the architecture check out Table 6 in the <a href="https://arxiv.org/pdf/1612.08242.pdf">paper</a>.
+</p>
+<h2 id="retinanet">RetinaNet</h2>
+<p align="justify">
+Next up in our list of fast detection models is RetinaNet. The creators had the goal of closing the accuracy gap between one and two-stage detection approaches. To achieve this, RetinaNet relies on two crucial building blocks, <b>Feature Pyramid Networks</b> (FPN) as a backbone and a new loss function called <b>Focal Loss</b>.
+</p>
+<h3 id="focal-loss">Focal Loss</h3>
+<p align="justify">
+The central cause for the accuracy gap between the two approaches lies in the extreme foreground-background class imbalance during training. In two-stage detectors this problem is addressed by narrowing down the number of candidate object locations (filtering out many background samples) and by using sampling heuristics like a fixed foreground-to-background ratio or online hard example mining. The proposed Focal Loss is designed to address this issue for one-stage detectors by focusing on hard negatives and down-weighting the easier predictions (obvious empty background). It is based on the normal cross entropy loss (for simplicity we use binary loss down here)
+</p>
+<p>$$CE(p,y) = -y \log p - (1-y) \log (1 - p) $$</p>
+<p align="justify">
+where $y={0,1}$ is a ground truth binary label, indicating whether a bounding box contains an object and $p \in [0,1]$ is the predicted probability that there is an object (also called objectness or confidence score). For notational convenience, let
+</p>
+<p>$$
+p_{t} =
+\begin{cases}
+p       &amp; \quad \text{if } y=1\
+1-p     &amp; \quad \text{otherwise}
+\end{cases}
+$$</p>
+<p>which leads to</p>
+<p>$$
+CE(p_{t}) = - \log p_{t}
+$$</p>
+<p align="justify">
+Easily classified negatives ($p_{t} \gg 0.5 ,y=0$) comprise the majority of the loss. You can balance the importance of the positive/negative examples by adding a balancing factor $\alpha$
+</p>
+<p>$$
+CE(p_{t}) = - \alpha_{t} \log p_{t}
+$$</p>
+<p align="justify">
+but this does not differentiate between easy or hard examples. To overcome this the Focal Loss adds a modulating factor $(1-p_{t})^{\gamma}$ with a tunable focusing parameter $\gamma \geq 0$:
+</p>
+<p>$$
+FL(p_{t}) = - (1 - p_{t})^{\gamma} \log (p_{t})
+$$</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_2/focal-loss.png#center"
+         alt="Focal Loss with different gamma values" width="70%"/> <figcaption>
+            <p>Figure 3. Focal Loss with different gamma values</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+For better control of the shape of the weighting function the authors used an $\alpha$-balanced version in practice, where $\alpha = 0.25$ and $\gamma = 2$ worked best in their experiments:
+</p>
+<p>$$
+FL(p_{t}) = - \alpha (1 - p_{t})^{\gamma} \log (p_{t})
+$$</p>
+<h3 id="feature-pyramid-network">Feature Pyramid Network</h3>
+<p align="justify">
+The FPN backbone for RetinaNet was constructed on top of ResNet. To really understand what that means you should take a look at the <a href="https://arxiv.org/pdf/1612.03144.pdf">paper</a>. Figure 4 down below shows the fundamental idea of FPN which is to leverage a ConvNets pyramidal feature hierarchy to build a feature pyramid with high level semantics throughout. It is general purpose and can be applied to many convolutional backbone architectures.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_2/featurized-image-pyramid.png#center"
+         alt="Featurized Pyramid Network architecture" width="100%"/> <figcaption>
+            <p>Figure 4. Featurized Pyramid Network architecture</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+The basic structure contains a sequence of pyramid levels each corresponding to one network stage. Often these stages contain multiple conv layers of the same size and stage sizes are scaled down by a factor of two. $C_{i}$ represents the different layers of those stages (for ResNet e.g. {$C_{2}, C_{3}, C_{4}, C_{5}$}). As you can see there are two different pathways which connect the conv layers:
+</p>
+<ol>
+<li><strong>Bottom-up</strong> pathway: regular feedback path</li>
+<li><strong>Top-down</strong> pathway: goes in the opposite direction, adding coarse but semantically stronger feature maps back into the previous levels of layer size by lateral connections (1x1 conv to match dimensions) and nearest neighbor upsampling; the combination of the two maps is done by element-wise addition</li>
+</ol>
+<p align="justify">
+The final predictions ({$P_{i}$} where $i$ indicates the pyramid level and has resolution $2^{i}$ lower than the input) are generated out of every merged map by a 3x3 conv layer. RetinaNet utilizes feature pyramid levels $P_{3}$ to $P_{7}$ computed from the corresponding ResNet residual stage from $C_{3}$ to $C_{5}$. All pyramid levels have 256 channels (most of RetinaNet is similar to FPN with a few minor differences). The authors used translation-invariant anchor boxes as priors, similar to those used in RPN variant of FPN. To improve Average Precision the number of anchors was increased to $A=9$ (three aspect ratios {1:2, 1:1, 2:1} with three different sizes {$2^{0}, 2^{1/3}, 2^{2/3}$}). As seen before, for each anchor box the model predicts a class probability for each of $K$ classes with a classification subnet trained with Focal Loss. A box regression subnet outputs the offsets for the boxes to the nearest ground truth object. Both networks are independent Fully Convolutional Networks that don't share any parameters.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_2/retina-net.png#center"
+         alt="RetinaNet architecture" width="100%"/> <figcaption>
+            <p>Figure 5. RetinaNet architecture</p>
+        </figcaption>
+</figure>
+
+<h2 id="yolov3">YOLOv3</h2>
+<p align="justify">
+YOLOv3 was created by applying changes to YOLOv2 inspired by, at that time, recent advances in the object detection world. It's a pretty short and rather unscientifically (I like it :D ) written. The following list summarizes the most important improvements:
+</p>
+<ul>
+<li><strong>Logistic Regression for objectness scores</strong> instead of sum of squared errors</li>
+<li><strong>Independent Logistic Classifiers</strong> for class prediction instead of softmax which increases the performance on non mutually exclusive multilabel datasets like Open Images</li>
+<li><strong>Multi-scale predictions</strong> inspired by FPN (3 scales per stage)</li>
+<li><strong>Darknet-53 as Feature Extractor</strong> which performs similar to ResNet-152 but is 2x faster</li>
+</ul>
+<p align="justify">
+Overall YOLOv3 performs better and faster than SSD, worse then RetinaNet but is 3.8x faster and comparable to state-of-the-art methods on the $AP_{50}$ metric at that time. In the appendix Joseph (the author) adds a cool comment on his opinion about the COCO evaluation metrics. It's refreshing to see someone questioning stuff like this.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_2/yolov3-res.png#center"
+         alt="YOLOv3 performance" width="80%"/> <figcaption>
+            <p>Figure 6. YOLOv3 performance</p>
+        </figcaption>
+</figure>
+
+<h2 id="summary">Summary</h2>
+<p align="justify">
+In this blog post, we went over four popular but now somewhat aging fast object recognition systems and you got a first introduction to the world of real-time object recognition. In the next post I would like to talk about some more recent models like EfficientDet and YOLOv4.
+</p>
+<h2 id="references">References</h2>
+<p><a href="https://arxiv.org/pdf/1506.02640.pdf">[1]</a> Joseph Redmon, et al. “You only look once: Unified, real-time object detection.” CVPR 2016.</p>
+<p><a href="https://arxiv.org/pdf/1612.08242.pdf">[2]</a> Joseph Redmon and Ali Farhadi. “YOLO9000: Better, Faster, Stronger.” CVPR 2017.</p>
+<p><a href="https://arxiv.org/pdf/1804.02767.pdf">[3]</a> Joseph Redmon, Ali Farhadi. “YOLOv3: An incremental improvement.”.</p>
+<p><a href="https://arxiv.org/pdf/1612.03144.pdf">[4]</a> Tsung-Yi Lin, et al. “Feature Pyramid Networks for Object Detection.” CVPR 2017.</p>
+<p><a href="https://arxiv.org/pdf/1708.02002.pdf">[5]</a> Tsung-Yi Lin, et al. “Focal Loss for Dense Object Detection.” IEEE transactions on pattern analysis and machine intelligence, 2018.</p>
+]]></content:encoded></item><item><title>Object Detection - From R-CNN to Mask R-CNN</title><link>https://johanngerberding.github.io/posts/2021-04-03-object-detection-from-r-cnn-to-mask-rcnn/</link><pubDate>Sat, 03 Apr 2021 10:23:16 +0200</pubDate><guid>https://johanngerberding.github.io/posts/2021-04-03-object-detection-from-r-cnn-to-mask-rcnn/</guid><description>Two-Stage Object Detection Models.</description><content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
+<p align="justify">
+In the following weeks (or months) I am going to take a deep dive into Deep Learning based Object Detection models. My goal is to create a series of posts regarding different approaches and popular architectures for this task. In this post I'll start with the description of the R-CNN ("Region-based Convolutional Neural Networks") model family, their emergence and central ideas. Nowadays there exist much more accurate and efficient architectures but I think it's a good starting point for such a series. Since the R-CNN based models are so called two-stage approaches, I'll go over a few popular one-stage architectures like YOLO in the next post as well. I'll describe in a minute what exactly this means and what the key differences are. Furthermore, following these two posts, I would like to discuss more current architectures that represent the state-of-the-art in the most recognized benchmarks like <i>EfficientDet</i> or new Transformer-based approaches like <i>DETR</i>.
+</p>
+<p align="justify">
+As mentioned before, we can broadly distinguish between one and two-stage detection frameworks. A typical two-stage pipeline consists of an initial category-independent region-proposal stage followed by the feature extraction and classification. This allows for a high localization and recognition accuracy. In contrast single-stage object detectors do not require prior proposals which makes them faster but less accurate. But more on that in the next post. Now let's start with the R-CNN models.
+</p>
+<h2 id="r-cnn">R-CNN</h2>
+<p align="justify">
+Ross Girshick et al. presented their approach called "Region-based Convolutional Neural Networks" (R-CNN) in 2014. It was one of the first methods based on deep convolutional networks (CNNs) besides e.g. <i>Overfeat</i>. The main idea is to tackle the problem of Object Detection in several successive steps, as shown in Figure 1.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_1/RCNN.png#center"
+         alt="R-CNN model workflow" width="100%"/> <figcaption>
+            <p>Figure 1. R-CNN model workflow [1]</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+It was an important contribution to the Computer Vision community because of the significant improvement of the state-of-the-art at that time (mAP improvement of more than 30% on PASCAL VOC). Moreover the structure as well as the workflow of the framework are pretty straightforward:
+</p>
+<ol>
+<li>Extract around 2000 of category-independent bounding box object region candidates per image using <a href="https://ivi.fnwi.uva.nl/isis/publications/bibtexbrowser.php?key=UijlingsIJCV2013&amp;bib=all.bib">selective search</a></li>
+<li>Each region candidate gets warped to have a fixed size of 227x227 pixels which is required by the CNN (you can detailed information on how this is done in the Appendix of the paper)</li>
+<li>Extract the features of each candidate with a CNN (AlexNet)</li>
+<li>Classification of each region with class-specific Support Vector Machines (SVM)</li>
+<li>Bounding box regression based on the predicted class, predict bounding box offsets (boosts up mAP by 3-4 points)</li>
+</ol>
+<p align="justify">
+The overall training procedure is a stepwise process and requires a lot of work. First you have to pretrain your CNN classification on ImageNet. In the next step you have to get rid of the last classification layer and insert a new one with $K+1$ classes ($K$ = number of classes ;+1 for background). Start finetuning this network using warped proposal windows. It is very important for training that you reduce your learning rate when finetuning (0.01 for ImageNet and 0.001 for finetuning). In the training process all proposals with an Intersection over Union (IoU) >= 0.5 are considered positive samples. The mini-batch size here was 128, consisting of 32 positive and 96 negative boxes, so its biased towards the positives (selective search produces much more negatives than positives). After finetuning your CNN we start building the class-specific binary SVMs. Here a the authors used grid search to choose the IoU threshold of 0.3. In addition to speed up the process they used hard negativ mining. If you want the details on why it is done this way you can look it up in the Appendix of the paper. The last step of the training procedure is the creation of class-specific bounding box regressors, which output bbox offsets. To train these only proposals with an IoU >= 0.6 are used.
+</p>
+<p align="justify">
+Now let's dive a bit deeper into <b>Bounding Box Regression</b>. The offsets get calculated based on the features after $pool_{5}$ layer of each proposal $\mathbf{p}$. The regressor is build to learn scale-invariant transformations between the centers and a log-scale transformation between widths and heights. This is illustrated down below.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_1/RCNN-bbox-regression.png#center"
+         alt="Bounding Box Regression" width="80%"/> <figcaption>
+            <p>Figure 2. R-CNN - Bounding Box Regression</p>
+        </figcaption>
+</figure>
+
+<p>$$
+\hat{g}_{x} = p_{w}d_{x}(\mathbf{p}) + p_{x} \
+\hat{g}_{y} = p_{h}d_{y}(\mathbf{p}) + p_{y} \
+\hat{g}_{w} = p_{w}e^{d_{w}(\mathbf{p})} \
+\hat{g}_{h} = p_{h}e^{d_{h}(\mathbf{p})}
+$$</p>
+<p>$\mathbf{p}$ represents the predicted bbox information $(p_{x}, p_{y}, p_{w}, p_{h})$ whereas $\mathbf{g}$ contains the ground truth values $(g_{x}, g_{y}, g_{w}, g_{h})$. The targets to learn are the following:</p>
+<p>$$
+t_{x} = (g_{x} - p_{x}) / p_{w} \
+t_{y} = (g_{y} - p_{y}) / p_{h} \
+t_{w} = \log (g_{w} / p_{w}) \
+t_{h} = \log (g_{h} / p_{h})
+$$</p>
+<p align="justify">
+A regression model can solve the problem by minimizing the Sum of Squared Error Loss with regularization (ridge regression):
+</p>
+<p>$$
+L_{reg} = \sum_{i \in { x, y, w, h }} (t_{i} - d_{i}(\mathbf{p}))^{2} + \lambda | \mathbf{w} |^{2}
+$$</p>
+<p align="justify">
+The regularization term ($\lambda$ = 1000) is critical and the authors picked it by using cross validation. One benefit of the application of these transformations is that alle the box correction functions $d_{i}(p)$ where $i \in \{ x, y, w, h \}$ can take any value $[- \infty, + \infty]$.
+</p>
+<p><strong>Shortcomings:</strong></p>
+<ul>
+<li>training is a multi-stage pipeline</li>
+<li>training is expensive in space and time</li>
+<li>speed bottleneck due to selective search and feature vector generation for every region proposal ($N$ images $*$ 2000)</li>
+</ul>
+<h2 id="fast-r-cnn">Fast R-CNN</h2>
+<p align="justify">
+To overcome these shortcomings described above, Girshick improved the R-CNN training procedure by unifying the three models into one jointly trainable framework called <b>Fast R-CNN</b>. Instead of extracting feature vectors for every object proposal separately, here the entire image gets forward passed through a deep CNN (<a href="https://arxiv.org/pdf/1409.1556.pdf">VGG16</a>)) to produce a convolutional feature map. For each object proposal a <b>Region of Interest (RoI) pooling layer</b> extracts a fixed length feature vector from this feature map. Those feature vectors are then fed into multiple fully-connected layers which finally branch into the object classifier and a bounding box regressor. This intergration leads to a lot of shared computation which speeds up the whole prediction process.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_1/fast-RCNN.png#center"
+         alt="Fast R-CNN model workflow" width="100%"/> <figcaption>
+            <p>Figure 3. Fast R-CNN architecture</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+One new key component of the proposed framework is the RoI pooling layer which is a type of max pooling that allows us to convert the features inside any valid region proposals into a feature map with a fixed window of size H $\times$ W. This is done by dividing the input region into H $\times$ W small grids where every subwindow size is approximately of size [h/H $\times$ w/W]. In each of those grid cells apply regular max pooling.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_1/roi_pooling.png#center"
+         alt="Region of Interest Pooling" width="100%"/> <figcaption>
+            <p>Figure 4. Region of Interest Pooling</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+The training procedure of this framework is somewhat similar to the one of R-CNN. Here they also pre-train a deep CNN on ImageNet and use selective search for proposal generation. After pre-training the last max pooling layer is replaced by a RoI pooling layer which is set to be compatible with the nets first fully connected layer, for VGG16 H = W = 7. The last fully connected layer and softmax are replaced by two sibling layers, one for classification consisting of one fully connected layer followed by a softmax over $K+1$ categories and one for category-specific bounding box regressors. Another major advantage of this approach is the possibility of end-to-end training with a multi-task loss. This loss function sums up the cost of classification and bbox prediction:
+</p>
+<p>$$
+L(p,u,t^{u},v) = L_{cls}(p,u) + \lambda [u \geq 1] L_{loc}(t^{u}, v)
+$$</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$p$</td>
+<td>discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
+</tr>
+<tr>
+<td>$u$</td>
+<td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+</tr>
+<tr>
+<td>$t^{u}$</td>
+<td>predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
+</tr>
+<tr>
+<td>$v$</td>
+<td>true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
+</tr>
+<tr>
+<td>$\lambda$</td>
+<td>hyperparameter to control the balance between the two losses</td>
+</tr>
+</tbody>
+</table>
+<p>The indicator function $[u \geq 1]$ is defined as</p>
+<p>$$
+[u \geq 1] =
+\begin{cases}
+1       &amp; \quad \text{if } u \geq 1\
+0       &amp; \quad \text{otherwise}
+\end{cases}
+$$</p>
+<p align="justify">
+to ignore background classifications. $L_{cls}(p,u) = - \log p_{u}$ is a log loss for the true class $u$. The bounding box loss is defined as followed:
+</p>
+<p>$$
+L_{box}(t^{u}, v) = \sum_{i \in {x,y,w,h}} smooth_{L_{1}} (t_{i}^{u} - v_{i})
+$$</p>
+<p align="justify">
+It measures the difference between $t_{i}^{u}$ and $v_{i}$ using a robust smooth $L_{1}$ loss function which is claimed to be less sensitive to outliers than the $L_{2}$ loss.
+</p>
+<p>$$
+L_{1}^{smooth}(x) =
+\begin{cases}
+0.5x^2       &amp; \quad \text{if } |x| &lt; 1\
+|x| - 0.5      &amp; \quad \text{otherwise}
+\end{cases}
+$$</p>
+<p align="justify">
+As mentioned before Fast R-CNN is much faster in training and testing but one speed bottleneck in form of selective search still remains which leads us to the next evolutionary stage of the architecture.
+</p>
+<h2 id="faster-r-cnn">Faster R-CNN</h2>
+<p align="justify">
+Here the region proposal step gets integrated into the CNN in form of a so called <b>Region Proposal Network</b> (RPN) that shares conv features with the detection network ("it tells the classification network where to look").
+</p>
+<p align="justify">
+The RPN takes an image of arbitrary size as input and outputs a set of rectangular object proposals and objectness scores (= object vs. background). It is important to keep in mind that the goal here is to share computation, so a set of conv layers is chosen to be also part of the object detection pipeline to extract features.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_1/faster-RCNN.png#center"
+         alt="Faster R-CNN model" width="100%"/> <figcaption>
+            <p>Figure 5. Faster R-CNN architecture (left) and RPN workflow (right)</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+To generate region proposals, a small $n \times n$ spatial window gets slided over the last shareable conv feature map to create lower dimensional feature vectors (256 dims). These reduced feature vectors get fed into two sibling fully connected layers, a bbox regression  layer and a box classification layer. It is implemented using one $n \times n$ convolution and two $1 \times 1$ conv layers. The classification part is implemented as a two class softmax layer. At each sliding window location $k$ regions of various scales and ratios get proposed simultaneously (k = 9). Those proposals are parameterized relative to $k$ reference boxes called <b>anchors</b>. Each anchor is centered at the sliding window position and is associated with a combination of different aspect ratios (1:1, 1:2, 2:1) and scales (128x128, 256x256, 512x512). This multi-scale anchor-based design is a key component for sharing features without extra cost for addressing scales and aspect ratios.
+</p>
+<p align="justify">
+The loss function used to train the RPN is also a multi-task loss which is similar to the one of Fast R-CNN we discussed before:
+</p>
+<p>$$
+L({p_{i}},{t_{i}}) = \frac{1}{N_{cls}} \sum L_{cls} (p_{i}, p_{i}^{\ast}) + \lambda \frac{1}{N_{reg}} \sum p_{i}^{\ast} L_{reg} (t_{i}, t_{i}^{\ast})
+$$</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$p_{i}$</td>
+<td>predicted probability that anchor $i$ is an object</td>
+</tr>
+<tr>
+<td>$p_{i}^{\ast}$</td>
+<td>ground-truth label (1 or 0)</td>
+</tr>
+<tr>
+<td>$t_{i}$</td>
+<td>predicted parameterized coordinates $(x,y,w,h)$</td>
+</tr>
+<tr>
+<td>$t_{i}^{\ast}$</td>
+<td>ground-truth parameterized coordinates $(x,y,w,h)$</td>
+</tr>
+<tr>
+<td>$\lambda$</td>
+<td>balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
+</tr>
+<tr>
+<td>$N_{cls}$</td>
+<td>normalization term, set to be the same as the mini batch size (256)</td>
+</tr>
+<tr>
+<td>$N_{reg}$</td>
+<td>normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
+</tr>
+</tbody>
+</table>
+<p>The regression loss is also smooth $L_{1}$ like in Fast R-CNN. The classification loss can be calculated as followed:</p>
+<p>$$
+L_{cls} (p_{i}, p_{i}^{\ast}) = -p_{i}^{\ast} \log p_{i} - (1 - p_{i}^{\ast}) \log (1 - p_{i})
+$$</p>
+<p align="justify">
+For the calculations of $t\_{i}$ and $t\_{i}^{\ast}$ take a look at section 3.1.2 of the <a href="https://arxiv.org/abs/1506.01497">paper</a>. To train the network the authors use a mini batch size of 256 randomly sampled anchors consisting of 128 positives and negatives (padded with negative ones if necessary). All anchors which are beyond the image boundaries are ignored in the training process. For the Fast R-CNN framework integration the authors experimented with different training strategies and chose an alternating one. First they train the RPN and then the Fast R-CNN using the RPN proposals and the trainede backbone. Thereafter they initialize the RPN with the tuned Fast R-CNN network and iterate a couple of times. For detailed evaluation and benchmarks take a look at the paper.
+</p>
+<h2 id="mask-r-cnn">Mask R-CNN</h2>
+<p align="justify">
+In the last step of this "evolution", Faster R-CNN was further extended to the task of pixel level instance segmentation, called <b>Mask R-CNN</b>. A third branch is added in parallel to the existing classification and localization branches for predicting binary object masks for every proposed RoI of size $m \times m$.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_1/mask-rcnn.png#center"
+         alt="Mask R-CNN model" width="100%"/> <figcaption>
+            <p>Figure 6. Mask R-CNN architecture</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+The mask branch consists of a fully convolutional network (FCN) which allows each layer to maintain the explicit $m \times m$ object spatial layout without collapsing it into a vector representation that lacks those spatial dimensions. To ensure high quality and precision mask predictions the RoI features have to be well aligned to preserve the explicit per-pixel spatial correspondence. The RoI pooling layer lacks the required precision because of quantization which motivated the authors to develop the so called <b>RoI Align</b> layer. RoI Align avoids quantization and instead uses <a href="https://en.wikipedia.org/wiki/Bilinear_interpolation">Bilinear Interpolation</a> to compute the exact values of the input features at four regularly sampled locations in each RoI bin and aggregate the result (max or avg pooling). This leads to large improvements in mask prediction quality. To get a good understanding of how RoI Align works, take a look at the following <a href="https://towardsdatascience.com/understanding-region-of-interest-part-2-roi-align-and-roi-warp-f795196fc193">blogpost</a>.
+</p>
+<p align="justify">
+The authors also demonstrate the generality of the proposed framework by experimenting with different backbones (ResNet, ResNext, FPN, ...) and heads for prediction of bboxes, classification and mask prediction. Moreover, they show that the framework is able to predict keypoints with minimal adjustments. For details on this, take a look at the <a href="https://arxiv.org/abs/1703.06870">paper</a>. For training the multi-task loss of Faster R-CNN for each RoI gets extended by adding a mask loss:
+</p>
+<p>$$
+L_{mask} = -\frac{1}{m^{2}} \sum_{1 \leq i, j \leq m} [ y_{ij} \log \hat{y}_{ij}^{k} + (1-y_{ij}) \log (1 - \hat{y}_{ij}^{k}) ]
+$$</p>
+<p align="justify">
+$y_{ij}$ describes the label of a cell (i,j) in the true mask whereas $\hat{y}_{ij}^{k}$ represents the predicted value of cell (i,j). The loss is defined as the average binary cross entropy loss, only including the k-th mask if the region is associated with the ground truth class $k$. The mask branch outputs $K * m^{2}$ binary masks but only the k-th mask contributes to the loss (rest gets ignored). This provides a decoupling between class and mask predictions.
+</p>
+<h2 id="summary">Summary</h2>
+<p align="justify">
+To sum everything up and give a broad overview of all architectures covered in this post take a look at the following overview created by Lilian Weng.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/object_detection_1/rcnn-family-summary.png#center"
+         alt="R-CNN model family" width="100%"/> <figcaption>
+            <p>Figure 7. Overview R-CNN model family</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+For a general overview of the field of Deep Learning based Object Detection I highly recommend <a href="https://arxiv.org/pdf/1809.02165v1.pdf">this survey</a> ("Deep Learning for Generic Object Detection: A Survey") from 2018 which in my opinion gives a great overview for beginners.
+</p>
+<h2 id="references">References</h2>
+<p><a href="https://arxiv.org/pdf/1311.2524.pdf">[1]</a> R. Girshick, J. Donahue, T. Darrell, J. Malik. Rich feature hierarchies for accurate object detection and semantic segmentation, 2014.</p>
+<p><a href="https://arxiv.org/pdf/1504.08083.pdf">[2]</a> Ross Girshick. Fast R-CNN, 2015.</p>
+<p><a href="https://arxiv.org/pdf/1506.01497.pdf">[3]</a> S. Ren, K. He, R. Girshick, J. Sun. Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks, 2016.</p>
+<p><a href="https://arxiv.org/pdf/1703.06870.pdf">[4]</a> k. He, G. Gkioxari, P. Dollár, R. Girshick. Mask R-CNN, 2017.</p>
+]]></content:encoded></item></channel></rss>
