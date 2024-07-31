@@ -1,8 +1,12 @@
 baseURL: 'https://johanngerberding.github.io/'
 languageCode: 'en-us'
 title: 'Johanns Blog'
-theme: 'hugo-PaperMod'
+theme: 'PaperModX'
+paginate: 5
 enableEmoji: true
+enableInlineShortcodes: true
+enableRobotsTXT: true
+
 math: true
 markup:
   goldmark:
@@ -10,7 +14,17 @@ markup:
       unsafe: true
 
 params:
+  env: production 
+  TocSide: 'right'
+  ShowToc: true 
+  TocOpen: true
+  title: "Johann's Blog"
+  description: ""
+  author: "Johann Gerberding"
   defaultTheme: dark
+  ShowWordCount: true 
+  ShowReadingTime: true 
+  ShowShareButtons: true  
   homeInfoParams: 
     Title: Hi there!
     Content: My name is Johann and this is my blog where I sometimes post about stuff that interests me or things that I've learned.
@@ -20,10 +34,18 @@ params:
       url: 'https://github.com/johanngerberding'
     - name: researchgate
       url: 'https://www.researchgate.net/profile/Johann-Gerberding'
-    - name: twitter
-      url: 'https://twitter.com/johanngerberd' 
+  
   mainSections: ["posts"]
   ShowReadingTime: true
+
+  commentSystems:
+    disqus:
+      shortname: johannsblog 
+    remark42:
+      url: https://remark42.johannsblog.com
+      site: johanngerberding.github.io
+  defaultCommentSystems:
+    remark42: true
 
 menu:
   main:
@@ -33,6 +55,14 @@ menu:
       class: highlight-menu-item
     pre: <i class='fa fa-heart'></i>
     url: /posts/
+    weight: 1
+
+  - identifier: tags 
+    name: tags 
+    params:
+      class: highlight-menu-item
+    pre: <i class='fa fa-heart'></i>
+    url: /tags/
     weight: 2
 
   - identifier: about-me
@@ -41,5 +71,13 @@ menu:
       class: highlight-menu-item
     pre: <i class='fa fa-heart'></i>
     url: /about-me/
-    weight: 1
+    weight: 4
   
+  - identifier: reading 
+    name: reading 
+    params:
+      class: highlight-menu-item
+    pre: <i class='fa fa-heart'></i>
+    url: /reading/
+    weight: 3
+ 

@@ -6,6 +6,7 @@ summary: One-Stage Object Detection Models.
 include_toc: true
 showToc: true
 math: true
+tags: ["deep-learning", "computer-vision", "convolutional-neural-networks"]
 ---
 
 ## Introduction
