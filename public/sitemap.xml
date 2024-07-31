@@ -11,11 +11,26 @@
     <loc>http://localhost:1313/posts/2022-01-15-a-peek-into-deep-reinforcement-learning-part-2/</loc>
     <lastmod>2022-03-14T10:00:00+02:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/tags/reinforcement-learning/</loc>
+    <lastmod>2022-03-14T10:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2022-03-14T10:00:00+02:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/about-me/</loc>
     <lastmod>2022-03-02T00:27:18+01:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/2022-01-15-a-peek-into-deep-reinforcement-learning-part-1/</loc>
     <lastmod>2022-01-26T10:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/computer-vision/</loc>
+    <lastmod>2021-05-02T10:45:16+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/convolutional-neural-networks/</loc>
+    <lastmod>2021-05-02T10:45:16+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/deep-learning/</loc>
+    <lastmod>2021-05-02T10:45:16+02:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/2021-05-02-object-detection-faster-models/</loc>
     <lastmod>2021-05-02T10:45:16+02:00</lastmod>
@@ -29,7 +44,5 @@
     <loc>http://localhost:1313/categories/</loc>
   </url><url>
     <loc>http://localhost:1313/reading/</loc>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>

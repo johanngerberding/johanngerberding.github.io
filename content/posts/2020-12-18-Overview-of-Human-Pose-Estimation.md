@@ -5,7 +5,9 @@ author: Johann Gerberding
 summary: Overview of Human Pose Estimation Algorithms, Datasets and Benchmarks.
 include_toc: true
 showToc: true
+TocOpen: true
 math: true
+tags: ["deep-learning", "computer-vision"]
 ---
 
 
