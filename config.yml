@@ -14,10 +14,10 @@ markup:
       unsafe: true
 
 params:
+  env: production 
   TocSide: 'right'
   ShowToc: true 
   TocOpen: true
-  env: production 
   title: "Johann's Blog"
   description: ""
   author: "Johann Gerberding"
