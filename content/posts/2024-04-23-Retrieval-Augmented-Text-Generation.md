@@ -8,6 +8,7 @@ include_toc: true
 showToc: true
 math: true
 draft: true
+tags: ["rag", "transformer", "llm"]
 ---
 
 ## Introduction

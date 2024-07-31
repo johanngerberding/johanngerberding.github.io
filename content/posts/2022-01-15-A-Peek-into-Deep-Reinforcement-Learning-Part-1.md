@@ -6,6 +6,7 @@ summary: Introduction to the world of Reinforcement Learning, where I cover the 
 include_toc: true
 showToc: true
 math: true
+tags: ["reinforcement-learning"]
 ---
 
 <p align="justify">
