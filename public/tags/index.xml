@@ -28,11 +28,31 @@
     </item>
     
     <item>
+      <title>Retrieval</title>
+      <link>http://localhost:1313/tags/retrieval/</link>
+      <pubDate>Tue, 23 Apr 2024 10:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/tags/retrieval/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
       <title>Transformer</title>
       <link>http://localhost:1313/tags/transformer/</link>
       <pubDate>Tue, 23 Apr 2024 10:00:00 +0200</pubDate>
       
       <guid>http://localhost:1313/tags/transformer/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Vector-Database</title>
+      <link>http://localhost:1313/tags/vector-database/</link>
+      <pubDate>Tue, 23 Apr 2024 10:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/tags/vector-database/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>

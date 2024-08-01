@@ -2,6 +2,7 @@
 title: "About me"
 date: 2022-03-02T00:27:18+01:00
 draft: false
+include_toc: false
 ---
 
 <p align="justify">

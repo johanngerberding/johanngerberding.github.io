@@ -61,31 +61,9 @@ You start by generating document vectors using an embedding model for every docu
 After you have generated the vector store you are good to go. First your query gets embedded into a vector, like we have described above, which is then used in a similarity search over your vector store to determine the most relevant documents. These documents get retrieved and concatenated to your query before its fed into the LLM. The LLM then produces based on the query and context an answer. This describes the very basic and naive workflow. In practice there are a lot of other things involved, like prompt engineering, a limited context window, limited input tokens of the embedding model, preprocessing of the query and documents, postprocessing of the answer etc. We will touch most of these things in more detail in the next sections. 
 </p>
 <ul>
-<li>Open Source Platforms: LangChain, LLamaIndex, DSPy</li>
-</ul>
-<h2 id="indexing">Indexing</h2>
-<p>Let&rsquo;s start by looking at the indexing process. The basic rag workflow starts with the creation of an index comprising external sources (e.g. Websites, company relevant pdfs)</p>
-<ul>
 <li>
-<p>basis for retrieval of relevant information</p>
+<p>Open Source Platforms: LangChain, LLamaIndex, DSPy</p>
 </li>
-<li>
-<p>data prep is key here!</p>
-</li>
-<li>
-<p>involves:
-text normalization (tokenization, stemming, removal of stop words)
-organize text segments into sentences or paragraphs to facilitate more focused searches</p>
-</li>
-<li>
-<p>generation of semantic vector representations of texts which are stored in a vector database for rapid and precise retrieval</p>
-</li>
-<li>
-<p>to achieve this you use a so called embedding model</p>
-</li>
-</ul>
-<h2 id="retrieval">Retrieval</h2>
-<ul>
 <li>
 <p>old school algorithms like BM25 focus on term frequency and presence for document ranking and they don&rsquo;t use semantic information of the queries</p>
 </li>
@@ -103,9 +81,37 @@ organize text segments into sentences or paragraphs to facilitate more focused s
 </li>
 </ul>
 <h3 id="pre-retrieval">Pre-Retrieval</h3>
+<p>The pre-retrieval phase is all about the data or the knowledge base. The goal is to ensure efficient and correct information retrieval.</p>
+<h4 id="indexing">Indexing</h4>
+<p>It starts with indexing which is dependent on the task and data type. In the classical workflow, documents are split into chunks and then each chunk is embedded (into a feature vector) and indexed. The embeddings are created through the use of an embedding model.</p>
+<p>But how do you determine the size of each chunk? Use every page?</p>
+<ul>
+<li>chunk size is kind of a hyperparameter</li>
+<li>different chunking strategies</li>
+<li>retrieved data doesn&rsquo;t have to be the same we used while indexing</li>
+<li>which embedding model do you use?</li>
+</ul>
+<p>Let&rsquo;s start by looking at the indexing process. The basic rag workflow starts with the creation of an index comprising external sources (e.g. Websites, company relevant pdfs) which is the basis for retrieval of relevant information.</p>
+<ul>
+<li>
+<p>data prep is key here!</p>
+</li>
+<li>
+<p>involves:
+text normalization (tokenization, stemming, removal of stop words)
+organize text segments into sentences or paragraphs to facilitate more focused searches</p>
+</li>
+<li>
+<p>generation of semantic vector representations of texts which are stored in a vector database for rapid and precise retrieval</p>
+</li>
+<li>
+<p>to achieve this you use a so called embedding model</p>
+</li>
+</ul>
+<p>MEMWALKER</p>
+<h4 id="query-manipulation">Query Manipulation</h4>
 <ul>
 <li>data and query preparation</li>
-<li>it includes indexing</li>
 <li>you can imagine, based on the use case and data type, different strategies could be helpful here</li>
 <li>e.g. sentence-level indexing is beneficial for question-answering systems to precisely locate answers, while document-level indexing is more appropriate for summarizing documents to understand their main concepts and ideas</li>
 <li>the next thing you have to think about is query manipulation, which is performed to adjust user queries for a better match with the indexed data</li>
@@ -115,7 +121,8 @@ organize text segments into sentences or paragraphs to facilitate more focused s
 <li>another way to enhance retrieval efficiency is data modification</li>
 <li>this includes preprocessing techniques like removing irrelevant or redundant information or enriching the data with additional information such as metadata to boost the relevance and diversity of the retrieved content</li>
 </ul>
-<h3 id="retrieval-1">Retrieval</h3>
+<h4 id="data-modification">Data Modification</h4>
+<h3 id="retrieval">Retrieval</h3>
 <p align="justify">
 - combination of search and ranking 
 - goal: select and prioritize documents from a knowledge base to enhance the quality of the generation models outputs 
@@ -124,7 +131,7 @@ organize text segments into sentences or paragraphs to facilitate more focused s
 <h3 id="post-retrieval">Post-Retrieval</h3>
 <p align="justify">
 </p>
-<h2 id="generation">Generation</h2>
+<h3 id="generation">Generation</h3>
 <p align="justify">
 - task: generate text that is relevant to the query and reflective of the information found in the retrieved documents
 - how: concat the query with the found information and input that into a LLM
