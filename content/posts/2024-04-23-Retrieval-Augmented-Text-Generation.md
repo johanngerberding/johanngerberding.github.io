@@ -82,30 +82,17 @@ It starts with indexing which is dependent on the task and data type. In the cla
 {{< figure align=center alt="Basic Chunking/Indexing Workflow" src="/imgs/rag/indexing.png" width=80% caption="Figure 3. Basic Chunking/Indexing Workflow">}}
 
 <p align="justify">
-As you might already know, LLMs have limited capacity to process text or more specifically tokens, which is often described as context length. E.g. GPT3.5 has a context length of 4,096 tokens which it can process at once. This roughly about 6 pages of english text after tokenization. By chunking our documents we first of all have to make sure, that the chunk size is smaller than the maximum context length of our LLM of choice. Nowadays there exist models like Llama3.1 that have extensive context lengths like 128K tokens. Some people might argue that RAG will become irrelevant in the long term because we can shove our whole knowledge base in-context but that's for the future. In most cases we just need small passages of text from a document and we want to combine it with information from other documents as well to answer our question. Determining the chunk size is a critical decision that not only influences the accuracy but also the efficiency of the retrieval and the overall RAG system. The goal is to choose the correct chunks of optimal lengths so that you can give the LLM as much relevant information as possible.</p>
+As you might already know, LLMs have limited capacity to process text or more specifically tokens, which is often described as context length. E.g. GPT3.5 has a context length of 4,096 tokens which it can process at once. This roughly about 6 pages of english text after tokenization. By chunking our documents we first of all have to make sure, that the chunk size is smaller than the maximum context length of our LLM of choice. Nowadays there exist models like Llama3.1 that have extensive context lengths like 128K tokens. Some people might argue that RAG will become irrelevant in the long term because we can shove our whole knowledge base in-context but that's for the future. In most cases we just need small passages of text from a document and we want to combine it with information from other documents as well to answer our question. Determining the chunk size is a critical decision that not only influences the accuracy but also the efficiency (response generation time) of the retrieval and the overall RAG system. The goal is to choose the correct chunks of optimal lengths so that you can give the LLM as much relevant information as possible.</p>
 
 <p align="justify">
-There are a bunch of different possibilities of how to chunk you documents, e.g. page-level, sentence-level or you try to split by sections. You can imagine, based on the use case and data type, different strategies could be helpful here. There is no one size fits all approach and most of the time you have to do a bit of experimenting. E.g. Sentence-level indexing is beneficial for question-answering systems to precisely locate answers, while document-level indexing is more appropriate for summarizing documents to understand their main concepts and ideas. In some cases the retrieved data doesn't even have to be the same we used while indexing. For example you could use a LLM to generate questions that every chunk answers and then you retrieve based on similarity of questions. Or you could generate summaries for every chunk and index those which can reduce redundant information and irrelevant details.</p>
+There are a bunch of different possibilities of how to chunk you documents, e.g. page-level, sentence-level or you try to split by sections. You can imagine, based on the use case and data type, different strategies could be helpful here. There is no one size fits all approach and most of the time you have to do a bit of experimenting. E.g. Sentence-level indexing is beneficial for question-answering systems to precisely locate answers, while document-level indexing is more appropriate for summarizing documents to understand their main concepts and ideas. In some cases the retrieved data doesn't even have to be the same we used while indexing. For example you could use a LLM to generate questions that every chunk answers and then you retrieve based on similarity of questions. Or you could generate summaries for every chunk and index those which can reduce redundant information and irrelevant details (Figure 4).</p>
 
 {{< figure align=center alt="Advanced Chunking/Indexing Workflow" src="/imgs/rag/advanced_indexing.png" width=90% caption="Figure 4. Advanced Chunking/Indexing Workflow">}}
 
 
 <p align="justify">
-Both strategies shown above are just two examples of how to improve the chunk indexing and you can be creative here, based on you use case.
+Both strategies shown above are just two examples of how to improve the chunk indexing and you can be creative here, based on you use case. Another interesting way of indexing is described in MemWalker paper [6], where the documents are split into segments which are recursively summarized and combined to form a memory tree. To generate answers the tree is navigated down to the most important segments. The method outperforms various long context LLMs.
 </p>
-
-
-- different chunking strategies
-- retrieved data doesn't have to be the same we used while indexing
-- which embedding model do you use?
-
-
-- data prep is key here! 
-- involves: 
-    text normalization (tokenization, stemming, removal of stop words)
-    organize text segments into sentences or paragraphs to facilitate more focused searches 
-
-- MEMWALKER
 
 #### Data Modification
 
@@ -172,13 +159,15 @@ Both strategies shown above are just two examples of how to improve the chunk in
 ## Advanced RAG Pipelines
 
 <p align="justify">
-The naive RAG implementation described before is rarely enough to satisfy production grade requirements. This has multiple reasons:  
+The naive RAG implementation described before is rarely enough to satisfy production grade requirements. This has multiple reasons:
+</p>  
 <ul>
 <li><b>Question ambiguity</b>: user questions are not well defined and may lead to irrelevant retrieval results </li>
 <li><b>Low retrieval accuracy</b>: retrieved documents may not be equally relevant to the question </li>
 <li><b>Limited knowledge</b>: the knowledge base may not include the information the user is looking for </li>
 <li><b>Context window performance limitations</b>: trying to "over-retrieve" may hit on the capacity of the context window or otherwise produce a context window that is too big to return a result in a reasonable amount of time </li>
 </ul>
+<p align="justify">
 Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case.
 </p>
 
@@ -255,11 +244,33 @@ The Knowledge Refinement process is quite straightforward and starts by segmenti
 
 </p>
 
-### RAG Finetuning
+### Self-Reasoning  
 
 <p align="justify">
-
+The method described in this paper focuses on the problem of irrelevant document retrieval which may result in unhelpful response generation or even performance deterioration. It is similar to the Self-RAG without the need of extra models and datasets. The authors propose an end-to-end self-reasoning framework to improve on these problems and especially improve reliability and traceability. 
 </p>
+
+{{< figure align=center alt="Self-Reasoning Framework to Improve RAG" src="/imgs/rag/self-reasoning.png" width=100% caption="Figure X. Self-Reasoning Framework to Improve RAG [5]">}}
+
+<p align="justify">
+As shown above the framework consists of three processes, the Relevance-Aware Process, the Evidence-Aware Selective Process and the Trajectory Analysis Process.
+</p>
+
+<p align="justify">
+<b>Relevance-Aware Process</b>: Instruct the model to judge the relevance between the retrieved documents $\mathcal{D}$ and the given question $\mathcal{q}$. In addition the model is requested to generate reasons explaining the relevance of each document. The self-reasoning trajectories are defined as $\mathcal{\tau_{r}}$. If none of the documents is classified as relevant, the answer should be generated by the basic LLM. 
+</p>
+
+<p align="justify">
+<b>Evidence-Aware Selective Process</b>: Instruct the model to choose relevant documents and select snippets of key sentences for the selected documents. Then the model has to generate the reason why the selected snippets can answer the question, so that you end up with a list containing the cited content and the reason for the cite. The self-reasoning trajectories generated in this process are defined as $\mathcal{\tau_{e}}$.</p>
+
+<p align="justify">
+<b>Trajectory Analysis Process</b>: Here the self-reasoning trajectories ($\mathcal{\tau_{r}}$ & $\mathcal{\tau_{e}}$) are consolidated to form a chain of reasoning snippets. With these snippets as context the LLM is instructed to output content with two fields: analysis (long-form answer) and answer (short-form). 
+</p>
+
+<p align="justify">
+Regarding the training process the authors propose a stage-wise training because of problems with the generation of long reasoning trajectories. In the first stage only the first two stage trajectories are masked, in the second stage only the trajectories from the third process are masked. Finally all trajectories are concatenated and trained end-to-end. For more details on this procedure, check out the paper.</p>
+
+
 
 ### Multimodal RAG
 
@@ -289,3 +300,6 @@ Huggingface RAG Evaluation:
 
 [[4]](https://arxiv.org/pdf/2401.15884) Yan et al. "Corrective Retrieval Augmented Generation" (2024)
 
+[[5]](https://arxiv.org/pdf/2407.19813) Xia et al. "Improving Retrieval Augmented Language Model with Self-Reasoning" (2024)
+
+[[6]](https://arxiv.org/pdf/2310.05029) Chen et al. "Walking Down the Memory Maze: Beyond Context Limit Through Interactive Reading" (2023)
