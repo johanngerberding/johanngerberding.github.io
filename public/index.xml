@@ -109,12 +109,24 @@ Both strategies shown above are just two examples of how to improve the chunk in
 </p>
 <h4 id="data-modification">Data Modification</h4>
 <ul>
-<li>base data preparation: how to get documents you need and how to prepare them before indexing</li>
-<li>base data manipulation, as mentioned above, you don&rsquo;t have to use the original data, you want quality</li>
-<li>text normalization (tokenization, stemming, removal of stop words)</li>
-<li>prepare documents for chunking by organizing them into sentences or paragraphs, removing certain non-interesting parts</li>
-<li>what data are you working with? excel files? ocr&rsquo;d pdfs?</li>
-<li>text cleanup if you ocr your documents because ocr makes mistakes</li>
+<li>
+<p>removing irrelevant or redundant information to improve the quality of retrieval results</p>
+</li>
+<li>
+<p>enriching the data with additional information such as metadata to boost relevance and diversity of the retrieved content</p>
+</li>
+<li>
+<p>text normalization (tokenization, stemming, removal of stop words)</p>
+</li>
+<li>
+<p>base data preparation: how to get documents you need and how to prepare them before indexing: not all documents are perfectly machine readable documents, in practice you are also dealing e.g. with a lot of scanned documents which have to be ocr&rsquo;d and cleaned. If you have worked with classic OCR engines like tesseract you know about the poor quality of text recognition</p>
+</li>
+<li>
+<p>base data manipulation, as mentioned above, you don&rsquo;t have to use the original data, you want quality</p>
+</li>
+<li>
+<p>and what about images, diagrams, PowerPoint presentations or excel sheets, how do you include this type of data which is the biggest part of documents in companies and most often those kind of documents contain the most important data</p>
+</li>
 </ul>
 <p align="justify">
 </p>

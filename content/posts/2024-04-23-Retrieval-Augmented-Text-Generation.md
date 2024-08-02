@@ -96,12 +96,14 @@ Both strategies shown above are just two examples of how to improve the chunk in
 
 #### Data Modification
 
-- base data preparation: how to get documents you need and how to prepare them before indexing
-- base data manipulation, as mentioned above, you don't have to use the original data, you want quality 
+- removing irrelevant or redundant information to improve the quality of retrieval results
+- enriching the data with additional information such as metadata to boost relevance and diversity of the retrieved content
 - text normalization (tokenization, stemming, removal of stop words)
-- prepare documents for chunking by organizing them into sentences or paragraphs, removing certain non-interesting parts 
-- what data are you working with? excel files? ocr'd pdfs? 
-- text cleanup if you ocr your documents because ocr makes mistakes
+
+- base data preparation: how to get documents you need and how to prepare them before indexing: not all documents are perfectly machine readable documents, in practice you are also dealing e.g. with a lot of scanned documents which have to be ocr'd and cleaned. If you have worked with classic OCR engines like tesseract you know about the poor quality of text recognition
+- base data manipulation, as mentioned above, you don't have to use the original data, you want quality 
+- and what about images, diagrams, PowerPoint presentations or excel sheets, how do you include this type of data which is the biggest part of documents in companies and most often those kind of documents contain the most important data
+
 
 <p align="justify">
 
