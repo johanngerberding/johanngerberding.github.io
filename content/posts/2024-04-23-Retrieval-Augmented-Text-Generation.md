@@ -282,10 +282,10 @@ Regarding the training process the authors propose a stage-wise training because
 ## Evaluation
 
 <p align="justify">
-Now you have built you fancy RAG engine, but how do you determine if this thing is any good? Is it even better as a vanilla LLM or is it even worse? Since RAG systems are comprised of multiple components and can get kinda complicated as we have seen above, you can evaluate single components individually or just the performance of the whole thing. Because of the AI hype and the push of LLMs into prodcution systems, this has become an important area of research. 
+Now you have built you fancy RAG engine, but how do you determine if this thing is any good? Is it even better as a vanilla LLM or is it even worse? Since RAG systems are comprised of multiple components and can get kinda complicated as we have seen above, you can evaluate single components individually or just the performance of the whole thing on the downstream task. Because of the AI hype and the push of LLMs into prodcution systems, this has become an important area of research. 
 </p>
 
-Datasets: 
+Datasets for measuring performance on downstream tasks like you would assess a regular LLM using established metrics like F1 or Exact Match (EM): 
 - TriviaQA
 - HotpotQA
 - FEVER 
@@ -293,9 +293,14 @@ Datasets:
 - Wizard of Wikipedia
 - T-REX 
 
-two aspects to look at: 
-- retrieval  
-- generation 
+The problem with this? Which component fucks up?? So more finegrained evaluation:
+
+- Evaluate Retrieval 
+
+
+- Evaluate Generation 
+
+
 
 problems: 
 how to evaluate pre-retrieval stuff? (create multiple different indexes and compare??)
