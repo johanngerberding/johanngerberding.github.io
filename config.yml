@@ -2,7 +2,7 @@ baseURL: 'https://johanngerberding.github.io/'
 languageCode: 'en-us'
 title: 'Johanns Blog'
 theme: 'PaperModX'
-paginate: 5
+paginate: 7
 enableEmoji: true
 enableInlineShortcodes: true
 enableRobotsTXT: true

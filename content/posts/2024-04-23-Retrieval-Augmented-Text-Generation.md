@@ -73,11 +73,21 @@ After you have generated the vector store you are good to go. First your query g
 
 The pre-retrieval phase is all about the data or the knowledge base. The goal is to ensure efficient and correct information retrieval.
 
+#### Data Preparation & Modification
+
+<p align="justify">
+If you have worked on an applied ML project with real customers than you are aware of the quality of company data. It would be pretty naive to assume all the information you want to have in your knowledge base is in an easy to read and parse format. Let's be real, most of the company knowledge is in Excel sheets and PowerPoint presentations or in pdf scans that have no pretty text layers. Most of the current RAG pipelines just work on text data, so you have to think about ways to transform everything into text. In the long run, I think you will have multimodal pipelines that can also work with images for example so you can embed e.g. a presentation as a sequence of images. Most of the data preparation phase is about OCR (which still is far from being solved), data cleaning and being creative about how to incorporate all the knowledge you have. You can use frameworks like <a href="https://github.com/Unstructured-IO/unstructured">unstructured</a> for parsing your data. This is really helpful for quickly getting a prototype up and running. But if you have ever seen business Excel sheets you might know why I think that those tools are definitely not good enough and we will need something that works on images.
+</p>
+
+<p align="justify">
+Data Modification is another important component of the pre-retrieval phase for enhancing retrieval efficiency. It includes e.g. removing irrelevant or redundant information from your text to improve the quality of retrieval results or enriching the data with additional information such as metadata to boost relevance and diversity of the retrieved content. You could e.g. use visual models to describe images and diagrams in text form or use a LLM to extract metadata from documents.
+</p>
+
+
 #### Indexing
 
 <p align="justify">
-It starts with indexing which is dependent on the task and data type. In the classical workflow, documents are split into chunks and then each chunk is embedded (into a feature vector) and indexed. The embeddings are created through the use of an embedding model. 
-</p>
+After our data is clean and pretty we follow up with indexing which is dependent on the task and data type. In the classical workflow, documents/texts are split into chunks and then each chunk is embedded and indexed. The embeddings are created through the use of an embedding model like the one from <a href="https://docs.mistral.ai/capabilities/embeddings/">Mistral</a>. Such an embedding model turns your text into a feature vector that captures the semantic meaning of chunks. Unfortunately most of these embedding models are closed sourced but feel free to build your own.</p>
 
 {{< figure align=center alt="Basic Chunking/Indexing Workflow" src="/imgs/rag/indexing.png" width=80% caption="Figure 3. Basic Chunking/Indexing Workflow">}}
 
@@ -91,61 +101,63 @@ There are a bunch of different possibilities of how to chunk you documents, e.g.
 
 
 <p align="justify">
-Both strategies shown above are just two examples of how to improve the chunk indexing and you can be creative here, based on you use case. Another interesting way of indexing is described in MemWalker paper [6], where the documents are split into segments which are recursively summarized and combined to form a memory tree. To generate answers the tree is navigated down to the most important segments. The method outperforms various long context LLMs.
-</p>
-
-#### Data Modification
-
-- removing irrelevant or redundant information to improve the quality of retrieval results
-- enriching the data with additional information such as metadata to boost relevance and diversity of the retrieved content
-- text normalization (tokenization, stemming, removal of stop words)
-
-- base data preparation: how to get documents you need and how to prepare them before indexing: not all documents are perfectly machine readable documents, in practice you are also dealing e.g. with a lot of scanned documents which have to be ocr'd and cleaned. If you have worked with classic OCR engines like tesseract you know about the poor quality of text recognition
-- base data manipulation, as mentioned above, you don't have to use the original data, you want quality 
-- and what about images, diagrams, PowerPoint presentations or excel sheets, how do you include this type of data which is the biggest part of documents in companies and most often those kind of documents contain the most important data
-
-
-<p align="justify">
-
+Both strategies shown above are just two examples of how to improve the chunk indexing and you can be creative here, based on you use case. Another interesting way of indexing is described in MemWalker paper <a href="#references">[6]</a>, where the documents are split into segments which are recursively summarized and combined to form a memory tree. To generate answers the tree is navigated down to the most important segments. The method outperforms various long context LLMs.
 </p>
 
 
 #### Query Manipulation
 
-- data and query preparation 
- the next thing you have to think about is query manipulation, which is performed to adjust user queries for a better match with the indexed data
-- query reformulation: rewrite the query to align more closely with the user's intention 
-- query expansion: extend the query to capture more relevant results through synonyms or related terms 
-- query normalization: resolve differences in spelling or terminology for consistent query matching
-- another way to enhance retrieval efficiency is data modification
-- this includes preprocessing techniques like removing irrelevant or redundant information or enriching the data with additional information such as metadata to boost the relevance and diversity of the retrieved content
+<p align="justify">
+After the indexing is done the last possibility to improve you retrieval pipeline is through query manipulation to adjust the user queries for a better match with the indexed data. Examples of this include:
+</p>
+<ul>
+<li><b>Query Reformulation/Refinement</b>: Rewrite the query to align more closely with the user's 'real' intention (this is hard to do) or create multiple queries with the same intention.</li>
+<li><b>Query Expansion</b>: Extend the query to capture more relevant results through e.g. including synonyms or related terms or identifying people/places/companies and add information regarding those.</li>
+<li><b>Query Normalization</b>: Resolve differences in spelling or terminology for more consistent query matching.</li>
+</ul>
+<p align="justify">
+This is another part of the pipeline where you can be creative and experiment with different approaches, combine them or modify them for your specific use case. Here is a short list of papers that implemented those strategies or combinations of them: Rewrite-Retrieve-Read <a href="#references">[11]</a>, FiD (Fusion-in-Decoder) <a href="#references">[7]</a>, CoK (Chain-of-Knowledge) <a href="#references">[8]</a>, Query2Doc <a href="#references">[10]</a>, Step-Back <a href="#references">[9]</a> or FLARE (Forward-Looking Active Retrieval) <a href="#references">[12]</a>.
+</p>
 
+### Retrieval 
 
-#### Embedding Model
+<p align="justify">
+The retrieval process is a combination of search and ranking algorithms. The overall goal is to select and prioritize documents from a knowledge base to enhance the quality of the generation model outputs. The first thing you have to think about here is the type of search strategy you want to use. There are three main choices you can select from, vector search, keyword search or a hybrid approach. 
 
-- what is an embedding model?
-- how to choose the embedding model? 
-- which ones are out there? 
+<p align="justify">
+Since you have embedded all your knowledge into feature vectors it's kinda easy to just use cosine similarity and k-Nearest-Neighbors to identify the 'k' vectors that are most similar to the query. kNN is a very popular choice due to its simplicity and explainability. One shortcoming of this strategy is the computational intensity of this approach when you have a very large knowledge base. Instead of cosine similarity you can also use euclidean distance or the dot prodoct which can lead to better search results in some cases.
+
+</p>
+- BM25 is the most popular keyword retrieval function that is based on bag-of-words
+- extensions: BM25F which adds different weights to fields of a document and BM25+ which addresses a problem with the unfair scoring of longer documents
+
 <p align="justify">
 
 </p>
 
 
 
-
-
-### Retrieval 
-
+- what do you do when you have your search results?
+- reciprocal rank fusion for hybrid search?
 <p align="justify">
-- combination of search and ranking 
-- goal: select and prioritize documents from a knowledge base to enhance the quality of the generation models outputs 
-- distance based search in a vector database (cosine similarity)
 </p>
 
 ### Post-Retrieval
 
 <p align="justify">
 </p>
+
+#### Re-Ranking
+
+<p align="justify">
+</p>
+
+#### Filtering 
+
+<p align="justify">
+</p>
+
+
 
 ### Generation 
 
@@ -240,12 +252,6 @@ The Knowledge Refinement process is quite straightforward and starts by segmenti
 </p>
 
 
-### Agents in RAG
-
-<p align="justify">
-
-</p>
-
 ### Self-Reasoning  
 
 <p align="justify">
@@ -273,26 +279,38 @@ As shown above the framework consists of three processes, the Relevance-Aware Pr
 Regarding the training process the authors propose a stage-wise training because of problems with the generation of long reasoning trajectories. In the first stage only the first two stage trajectories are masked, in the second stage only the trajectories from the third process are masked. Finally all trajectories are concatenated and trained end-to-end. For more details on this procedure, check out the paper.</p>
 
 
-
-### Multimodal RAG
-
-<p align="justify">
-
-</p>
-
 ## Evaluation
 
-- How are RAG pipelines evaluated?? 
+<p align="justify">
+Now you have built you fancy RAG engine, but how do you determine if this thing is any good? Is it even better as a vanilla LLM or is it even worse? Since RAG systems are comprised of multiple components and can get kinda complicated as we have seen above, you can evaluate single components individually or just the performance of the whole thing. Because of the AI hype and the push of LLMs into prodcution systems, this has become an important area of research. 
+</p>
 
-since RAG systems are comprised of multiple components, so you can evaluate single components or just the performance of the whole pipeline without looking into the components 
+Datasets: 
+- TriviaQA
+- HotpotQA
+- FEVER 
+- Natural Questions 
+- Wizard of Wikipedia
+- T-REX 
+
+two aspects to look at: 
+- retrieval  
+- generation 
+
+problems: 
+how to evaluate pre-retrieval stuff? (create multiple different indexes and compare??)
 
 Huggingface RAG Evaluation: 
 - build a synthetic evaluation dataset and use a LLM as a judge to compute the accuracy of the system
 
+## Future of RAG
 
-
+- obsolete because of giant context LLMs? 
+- Multimodal RAG? 
 
 ## References 
+
+<a name="references"></a>
 
 [[1]](https://arxiv.org/pdf/2404.10981) Y. Huang & J.X. Huang "A Survey on Retrieval-Augmented Text Generation for Large Language Models" (2024).
 
@@ -305,3 +323,15 @@ Huggingface RAG Evaluation:
 [[5]](https://arxiv.org/pdf/2407.19813) Xia et al. "Improving Retrieval Augmented Language Model with Self-Reasoning" (2024)
 
 [[6]](https://arxiv.org/pdf/2310.05029) Chen et al. "Walking Down the Memory Maze: Beyond Context Limit Through Interactive Reading" (2023)
+
+[[7]](https://arxiv.org/pdf/2007.01282) G. Izacard & E. Grave "Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering" (2020)
+
+[[8]](https://arxiv.org/pdf/2305.13269) Xingxuan et al. "Chain-of-Knowledge: Grounding Large Language Models via Dynamic Knowledge Adapting over Heterogeneous Sources" (2024)
+
+[[9]](https://arxiv.org/pdf/2310.06117) Zheng et al. "Take a Step Back: Evoking Reasoning via Abstraction in Large Language Models" (2023)
+
+[[10]](https://arxiv.org/pdf/2303.07678) Wang et al. "Query2doc: Query Expansion with Large Language Models" (2023)
+
+[[11]](https://arxiv.org/pdf/2305.14283) Ma et al. "Query Rewriting for Retrieval-Augmented Large Language Models" (2023)
+
+[[12]](https://arxiv.org/pdf/2305.06983) Jiang et al. "Active Retrieval Augmented Generation" (2023)

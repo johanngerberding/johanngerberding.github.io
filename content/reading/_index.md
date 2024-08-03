@@ -6,7 +6,8 @@ paginate: 10
 ---
 
 <p align="justify">
-Hello everybody, here is a short list of some very interesting books I read recently. I am thinking about writing short summaries for them but not sure if I will find the time to do so. Let's see.</p>
+Hello everybody, here is a overview of some very interesting books I read recently. I am thinking about writing short summaries for them but not sure if I will find the time to do so. If I do, you will find it in the posts section.</p>
+
 
 <h2>2024</h2>
 
