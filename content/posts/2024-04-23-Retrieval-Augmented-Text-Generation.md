@@ -133,16 +133,27 @@ There is a lot of research going on here and the following is a list of a couple
 ### Post-Retrieval
 
 <p align="justify">
+This phase serves to refine the initially retrieved documents to improve the quality of text generation. This phase consists of re-ranking and filtering, each aimed at optimizing the document selection for the final generation task.
 </p>
 
 #### Re-Ranking
 
 <p align="justify">
+In the re-ranking step, the documents previously retrieved are reassessed, scored, and reorganized. The objective is to more accurately highlight the documents most relevant to the query and diminish the importance of the less relevant ones. There are a bunch of different methods out there for re-ranking:
 </p>
+
+<ul>
+<li><b>Re2G</b> <a href="#references">[28]</a>: </li>
+<li><b>PROMPTAGATOR</b> <a href="#references">[29]</a>: </li>
+<li><b>In-Context RALM</b> <a href="#references">[30]</a>: </li>
+<li><b>ITER-RETGEN</b> <a href="#references">[31]</a>: </li>
+<li><b>DKS-RAC</b> <a href="#references">[32]</a>: </li>
+</ul>
 
 #### Filtering 
 
 <p align="justify">
+Filtering aims to remove documents that fail to meet specified quality or relevance standards. This can be done through several approaches, such as establishing a minimum relevance score threshold to exclude documents below a certain relevance level. Furthermore, the use of feedback from users or prior relevance evaluations assists in adjusting the filtering process, guaranteeing that only the most relevant documents are retained for text generation.
 </p>
 
 
@@ -364,3 +375,13 @@ Let's take a closer look at the evaluation of the two components:
 [[26]](https://arxiv.org/pdf/2305.18846) Kang et al. "Knowledge Graph Augmented Language Models for Knowledge Grounded Dialog Generation" (2023)
 
 [[27]](https://aclanthology.org/2023.emnlp-main.326.pdf) Yang et al. "PRCA: Fitting Black-Box Large Language Models for Retrieval Question Answering via Pluggable Reward-Driven Contextual Adapter" (2023)
+
+[[28]]() et al. "" ()
+
+[[29]]() et al. "" ()
+
+[[30]]() et al. "" ()
+
+[[31]]() et al. "" ()
+
+[[32]]() et al. "" ()
