@@ -213,8 +213,18 @@ The Corrective Retrieval Augmented Generation method to improve the accuracy and
 The Knowledge Refinement process is quite straightforward and starts by segmenting each retrieved document into fine-grained knowledge strips through heuristic rules. Then the retrieval evaluator is used to calculate a relevance score of each knowledge strip. Based on these scores the strips are filtered and recomposed via concatenation in order.
 </p>
 <h3 id="rag-fusion">RAG Fusion</h3>
+<ul>
+<li>research from a guy from Infineon</li>
+</ul>
 <p align="justify">
 </p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/rag/rag_fusion.png#center"
+         alt="RAG Fusion" width="100%"/> <figcaption>
+            <p>Figure X. RAG Fusion [24]</p>
+        </figcaption>
+</figure>
+
 <h3 id="self-reasoning">Self-Reasoning</h3>
 <p align="justify">
 The method described in this paper focuses on the problem of irrelevant document retrieval which may result in unhelpful response generation or even performance deterioration. It is similar to the Self-RAG without the need of extra models and datasets. The authors propose an end-to-end self-reasoning framework to improve on these problems and especially improve reliability and traceability. 
@@ -305,11 +315,6 @@ Let's take a closer look at the evaluation of the two components:
 <p align="justify">
 <b>Evaluate Generation</b>: This part is more common and there are a lot of different standard metrics based on the downstream task. Those metrics assess linguistic quality and coherence (BLEU score, ROUGE-L), accuracy and the extent to which the generated text reflects the ground truth data (EM, F1 score). Beyond the standard metrics, the evaluation can incorporate task-specific criteria and novel metrics tailored to particular applications. In dialog generation perplexity and entropy are used to evaluate response diversity and naturalness. Based on your specific use case, you can get creative here.
 </p>
-<h2 id="future-of-rag">Future of RAG</h2>
-<ul>
-<li>obsolete because of giant context LLMs?</li>
-<li>Multimodal RAG?</li>
-</ul>
 <h2 id="references">References</h2>
 <p><a name="references"></a></p>
 <p><a href="https://arxiv.org/pdf/2404.10981">[1]</a> Y. Huang &amp; J.X. Huang &ldquo;A Survey on Retrieval-Augmented Text Generation for Large Language Models&rdquo; (2024).</p>
@@ -334,6 +339,7 @@ Let's take a closer look at the evaluation of the two components:
 <p><a href="https://aclanthology.org/Q19-1026.pdf">[20]</a> Kwiatowski el al. &ldquo;Natural Questions: A Benchmark for Question Answering Research&rdquo; (2019)</p>
 <p><a href="https://arxiv.org/pdf/1811.01241">[21]</a> Dinan et al. &ldquo;Wizard of Wikipedia: Knowledge Powered Conversational Agents&rdquo; (2019)</p>
 <p><a href="https://aclanthology.org/L18-1544.pdf">[22]</a> ElSahar et al. &ldquo;T-REx: A Large Scale Alignment of Natural Language with Knowledge Base Triples&rdquo; (2018)</p>
+<p><a href="https://arxiv.org/pdf/2402.03367">[23]</a> Z. Rackauckas &ldquo;RAG-Fusion: a New Take on Retrieval Augmented Generation&rdquo; (2024)</p>
 ]]></content:encoded>
     </item>
     
