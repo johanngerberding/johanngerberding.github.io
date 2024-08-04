@@ -238,10 +238,11 @@ The Knowledge Refinement process is quite straightforward and starts by segmenti
 
 ### RAG Fusion 
 
+- research from a guy from Infineon 
 <p align="justify">
 
 </p>
-
+{{< figure align=center alt="RAG Fusion" src="/imgs/rag/rag_fusion.png" width=100% caption="Figure X. RAG Fusion [24]">}}
 
 ### Self-Reasoning  
 
@@ -308,10 +309,6 @@ Let's take a closer look at the evaluation of the two components:
 <b>Evaluate Generation</b>: This part is more common and there are a lot of different standard metrics based on the downstream task. Those metrics assess linguistic quality and coherence (BLEU score, ROUGE-L), accuracy and the extent to which the generated text reflects the ground truth data (EM, F1 score). Beyond the standard metrics, the evaluation can incorporate task-specific criteria and novel metrics tailored to particular applications. In dialog generation perplexity and entropy are used to evaluate response diversity and naturalness. Based on your specific use case, you can get creative here.
 </p>
 
-## Future of RAG
-
-- obsolete because of giant context LLMs? 
-- Multimodal RAG? 
 
 ## References 
 
@@ -360,3 +357,5 @@ Let's take a closer look at the evaluation of the two components:
 [[21]](https://arxiv.org/pdf/1811.01241) Dinan et al. "Wizard of Wikipedia: Knowledge Powered Conversational Agents" (2019)
 
 [[22]](https://aclanthology.org/L18-1544.pdf) ElSahar et al. "T-REx: A Large Scale Alignment of Natural Language with Knowledge Base Triples" (2018)
+
+[[23]](https://arxiv.org/pdf/2402.03367) Z. Rackauckas "RAG-Fusion: a New Take on Retrieval Augmented Generation" (2024)
