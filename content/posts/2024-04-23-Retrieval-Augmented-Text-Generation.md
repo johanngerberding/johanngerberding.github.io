@@ -60,15 +60,6 @@ You start by generating document vectors using an embedding model for every docu
 After you have generated the vector store you are good to go. First your query gets embedded into a vector, like we have described above, which is then used in a similarity search over your vector store to determine the most relevant documents. These documents get retrieved and concatenated to your query before its fed into the LLM. The LLM then produces based on the query and context an answer. This describes the very basic and naive workflow. In practice there are a lot of other things involved, like prompt engineering, a limited context window, limited input tokens of the embedding model, preprocessing of the query and documents, postprocessing of the answer etc. We will touch most of these things in more detail in the next sections. 
 </p>
 
-- Open Source Platforms: LangChain, LLamaIndex, DSPy
-
-- old school algorithms like BM25 focus on term frequency and presence for document ranking and they don't use semantic information of the queries 
-
-- this has changed quite a bit with deep learning 
-- modern retrieval strategies leverage pretrained LMs like BERT (Devlin et al. 2019), which capture the semantic meaning of queries more effectively 
-- improved search accuracy by considering synonyms and the structure of phrases
-- how: measure vector distances between entries in knowledge database (e.g. some vector database) and queries
-
 ### Pre-Retrieval
 
 The pre-retrieval phase is all about the data or the knowledge base. The goal is to ensure efficient and correct information retrieval.
@@ -286,13 +277,14 @@ Now you have built you fancy RAG engine, but how do you determine if this thing 
 </p>
 
 Datasets for measuring performance on downstream tasks like you would assess a regular LLM using established metrics like F1 or Exact Match (EM): 
-- TriviaQA
-- HotpotQA
-- FEVER 
-- Natural Questions 
-- Wizard of Wikipedia
-- T-REX 
-
+<ul>
+<li>TriviaQA <a href="#references">[17]</a></li>
+<li>HotpotQA <a href="#references">[18]</a></li>
+<li>FEVER <a href="#references">[19]</a></li>
+<li>Natural Questions <a href="#references">[20]</a></li>    
+<li>Wizard of Wikipedia <a href="#references">[21]</a></li>
+<li>T-REX <a href="#references">[22]</a></li>
+</ul>
 <p align="justify">
 For the further development of the methods we need a more finegrained evaluation for identifying the components of the pipeline that are the weak points and we need to be able to analyze those weaknesses in more detail. Various frameworks were introduced in the recent past to evaluate RAG pipelines across multiple dimensions, including the relevance of the retrieved documents, the quality of the generated text and the resilience to misinformation. The following table from <a href="#references">[1]</a> shows more details about the different frameworks, their methods and metrics as well as the datasets they use. 
 </p>
@@ -313,15 +305,8 @@ Let's take a closer look at the evaluation of the two components:
 </p>
 
 <p align="justify">
-<b>Evaluate Generation</b>:
+<b>Evaluate Generation</b>: This part is more common and there are a lot of different standard metrics based on the downstream task. Those metrics assess linguistic quality and coherence (BLEU score, ROUGE-L), accuracy and the extent to which the generated text reflects the ground truth data (EM, F1 score). Beyond the standard metrics, the evaluation can incorporate task-specific criteria and novel metrics tailored to particular applications. In dialog generation perplexity and entropy are used to evaluate response diversity and naturalness. Based on your specific use case, you can get creative here.
 </p>
-
-
-problems: 
-how to evaluate pre-retrieval stuff? (create multiple different indexes and compare??)
-
-Huggingface RAG Evaluation: 
-- build a synthetic evaluation dataset and use a LLM as a judge to compute the accuracy of the system
 
 ## Future of RAG
 
@@ -363,3 +348,15 @@ Huggingface RAG Evaluation:
 [[15]](https://arxiv.org/pdf/2311.08147) Liu et al. "RECALL: A Benchmark for LLMs Robustness against External Counterfactual Knowledge" (2023)
 
 [[16]](https://arxiv.org/pdf/2309.01431) Chen et al. "Benchmarking Large Language Models in Retrieval-Augmented Generation" (2023)
+
+[[17]](https://arxiv.org/pdf/1705.03551) Joshi el al. "TriviaQA: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension" (2017)
+
+[[18]](https://arxiv.org/pdf/1809.09600) Yang et al. "HOTPOTQA: A Dataset for Diverse, Explainable Multi-hop Question Answering" (2018)
+
+[[19]](https://arxiv.org/pdf/1803.05355) Thorne et al. "FEVER: A large-scale dataset for Fact Extraction and VERification" (2018)
+
+[[20]](https://aclanthology.org/Q19-1026.pdf) Kwiatowski el al. "Natural Questions: A Benchmark for Question Answering Research" (2019)
+
+[[21]](https://arxiv.org/pdf/1811.01241) Dinan et al. "Wizard of Wikipedia: Knowledge Powered Conversational Agents" (2019)
+
+[[22]](https://aclanthology.org/L18-1544.pdf) ElSahar et al. "T-REx: A Large Scale Alignment of Natural Language with Knowledge Base Triples" (2018)
