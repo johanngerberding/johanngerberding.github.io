@@ -434,27 +434,6 @@ LoRA and QLoRA
     </item>
     
     <item>
-      <title>Self-Supervised Learning for Computer Vision</title>
-      <link>http://localhost:1313/posts/2022-03-15-self-supervised-learning-for-computer-vision/</link>
-      <pubDate>Tue, 15 Mar 2022 10:00:00 +0200</pubDate>
-      
-      <guid>http://localhost:1313/posts/2022-03-15-self-supervised-learning-for-computer-vision/</guid>
-      <description>Introduction to Self-Supervised Learning in the Computer Vision space.</description>
-      <content:encoded><![CDATA[<p align="justify">
-</p>
-<br>
-<h2 id="self-supervised-learning">Self-Supervised Learning</h2>
-<ul>
-<li>What is it?</li>
-<li>Why is it important?</li>
-</ul>
-<h3 id="contrastive-learning">Contrastive Learning</h3>
-<h2 id="popular-methods">Popular Methods</h2>
-<h3 id="heading"></h3>
-]]></content:encoded>
-    </item>
-    
-    <item>
       <title>A Peek into Deep Reinforcement Learning - Part II</title>
       <link>http://localhost:1313/posts/2022-01-15-a-peek-into-deep-reinforcement-learning-part-2/</link>
       <pubDate>Mon, 14 Mar 2022 10:00:00 +0200</pubDate>
@@ -1094,27 +1073,6 @@ $$</p>
 <p><a href="https://proceedings.neurips.cc/paper/2015/file/277281aada22045c03945dcb2ca6f2ec-Paper.pdf">[8]</a> Vinyals et al. &ldquo;Grammar as a Foreign Language&rdquo;, 2015.</p>
 <p><a href="https://arxiv.org/pdf/2106.04803v2.pdf">[9]</a> Dai et al. &ldquo;CoAtNet: Marrying Convolution and Attention for All Data Sizes&rdquo;, 2021.</p>
 <p><a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">[10]</a> Lilian Weng &ldquo;Attention? Attention!&rdquo;, 2018.</p>
-]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Multi-Object Tracking - Overview</title>
-      <link>http://localhost:1313/posts/2021-09-11-multi-object-tracking-overview/</link>
-      <pubDate>Sat, 11 Sep 2021 10:00:00 +0200</pubDate>
-      
-      <guid>http://localhost:1313/posts/2021-09-11-multi-object-tracking-overview/</guid>
-      <description>Introduction to the world of Reinforcement Learning, where I cover the basics and some algorithms.</description>
-      <content:encoded><![CDATA[<h2 id="what-is-mot">What is MOT?</h2>
-<h2 id="approaches">Approaches</h2>
-<h2 id="evaluation">Evaluation</h2>
-<h2 id="datasets">Datasets</h2>
-<h2 id="popular-architectures">Popular Architectures</h2>
-<h2 id="summary">Summary</h2>
-<h2 id="references">References</h2>
-<p><a href="https://arxiv.org/pdf/1706.03762.pdf">[1]</a> Vaswani et al. Attention is all you need.</p>
-<p><a href="http://peterbloem.nl/blog/transformers">[2]</a> Transformers from Scratch.</p>
-<p><a href="https://theaisummer.com/attention/">[3]</a> How Attention works in Deep Learning: Understanding the attention mechanism in sequence models.
-<a href="https://www.youtube.com/watch?v=YAgjfMR9R_M&amp;list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r&amp;index=14&amp;ab_channel=MichiganOnline">[4]</a> Lecture 13: Attention, Justin Johnson.</p>
 ]]></content:encoded>
     </item>
     
