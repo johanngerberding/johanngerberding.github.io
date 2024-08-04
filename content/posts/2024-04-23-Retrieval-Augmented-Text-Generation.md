@@ -117,21 +117,18 @@ The retrieval process is a combination of search and ranking algorithms. The ove
 
 <p align="justify">
 Since you have embedded all your knowledge into feature vectors it's kinda easy to just use cosine similarity and k-Nearest-Neighbors to identify the 'k' vectors that are most similar to the query. kNN is a very popular choice due to its simplicity and explainability. One shortcoming of this strategy is the computational intensity of this approach when you have a very large knowledge base. Instead of cosine similarity you can also use euclidean distance or the dot prodoct which can lead to better search results in some cases.
-
 </p>
-- BM25 is the most popular keyword retrieval function that is based on bag-of-words
-- extensions: BM25F which adds different weights to fields of a document and BM25+ which addresses a problem with the unfair scoring of longer documents
 
 <p align="justify">
-
+There is a lot of research going on here and the following is a list of a couple of interesting methods:
 </p>
 
-
-
-- what do you do when you have your search results?
-- reciprocal rank fusion for hybrid search?
-<p align="justify">
-</p>
+<ul>
+<li><b>Atlas</b> <a href="#references">[24]</a>: Attention Distillation and Perplexity Distillation to steer the retriever to more relevant documents.</li>
+<li><b>IRCOT</b> <a href="#references">[25]</a>: Improve retrieval effectiveness by integrating reasoning.</li>
+<li><b>SURGE</b> <a href="#references">[26]</a>: Subgraph retriever to extract relevant subgraphs from a knowledge graph.</li>
+<li><b>PRCA</b> <a href="#references">[27]</a>: Employ domain specific abstract summarization to extract relevant and context-rich information using a supervised learning strategy.</li>
+</ul>
 
 ### Post-Retrieval
 
@@ -359,3 +356,11 @@ Let's take a closer look at the evaluation of the two components:
 [[22]](https://aclanthology.org/L18-1544.pdf) ElSahar et al. "T-REx: A Large Scale Alignment of Natural Language with Knowledge Base Triples" (2018)
 
 [[23]](https://arxiv.org/pdf/2402.03367) Z. Rackauckas "RAG-Fusion: a New Take on Retrieval Augmented Generation" (2024)
+
+[[24]](https://arxiv.org/pdf/2208.03299) Izacard et al. "Atlas: Few-shot learning with retrieval augmented language models" (2023)
+
+[[25]](https://arxiv.org/pdf/2212.10509) Trivedi et al. "Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions" (2023)
+
+[[26]](https://arxiv.org/pdf/2305.18846) Kang et al. "Knowledge Graph Augmented Language Models for Knowledge Grounded Dialog Generation" (2023)
+
+[[27]](https://aclanthology.org/2023.emnlp-main.326.pdf) Yang et al. "PRCA: Fitting Black-Box Large Language Models for Retrieval Question Answering via Pluggable Reward-Driven Contextual Adapter" (2023)
