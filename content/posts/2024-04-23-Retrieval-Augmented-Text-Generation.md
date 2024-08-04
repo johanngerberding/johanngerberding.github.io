@@ -293,13 +293,28 @@ Datasets for measuring performance on downstream tasks like you would assess a r
 - Wizard of Wikipedia
 - T-REX 
 
-The problem with this? Which component fucks up?? So more finegrained evaluation:
+<p align="justify">
+For the further development of the methods we need a more finegrained evaluation for identifying the components of the pipeline that are the weak points and we need to be able to analyze those weaknesses in more detail. Various frameworks were introduced in the recent past to evaluate RAG pipelines across multiple dimensions, including the relevance of the retrieved documents, the quality of the generated text and the resilience to misinformation. The following table from <a href="#references">[1]</a> shows more details about the different frameworks, their methods and metrics as well as the datasets they use. 
+</p>
 
-- Evaluate Retrieval 
+Framework | Aspects | Methods | Metrics | Datasets 
+--- | --- | --- | --- | --- 
+RAGAS <a href="#references">[13]</a> | Quality of RAG Systems | Context Relevance, Answer Relevance, Faithfulness | Extracted Sentences / Total Sentences, Average Cosine Similarity, Supported Statements / Total Statements | WikiEval
+ARES <a href="#references">[14]</a> | Improving RAGAS | Context Relevance, Answer Relevance, Answer Faithfulness | Confidence Intervals | KILT, SuperGLUE
+RECALL <a href="#$references">[15]</a> | Counterfactual Robustness | Response Quality, Robustness | Accuracy (QA), BLEU, ROGUE-L | EventKG, UJ
+RGB <a href="#references">[16]</a> | Impact of RAG on LLMs | Noise Robustness, Negative Rejection, Information Integration, Counterfactual Robustness | Accuracy, Rejection Rate, Error Detection Rate, Error Correction Rate | Synthetic Dataset including English and Chinese
 
+<p align="justify">
+Let's take a closer look at the evaluation of the two components:
+</p>
 
-- Evaluate Generation 
+<p align="justify">
+<b>Evaluate Retrieval</b>: The quality of the search results is most of the time evaluated based on standard metrics like Mean Average Precision (MAP), Precision, Reciprocal Rank, Recall and Normalized Discounted Cumulative Gain (NDCG) which primarily assess the relevance of retrieved documents regarding a given query. For some explanations on those take a look <a href="https://www.deepset.ai/blog/rag-evaluation-retrieval">here</a>. The Rejection Rate measures a systems ability to decline answering when no relevant information is found. In addition the Error Detection Rate assesses the models capability to identify and disregard incorrect or misleading information from retrieved documents. Another important metric is the Context Relevance that ensures the perinence of the retrieved documents so that the information used to generate responses is directly related to the querys context. Faithfulness measures the accuracy with which the generated content reflects the information in the retrieved documents.
+</p>
 
+<p align="justify">
+<b>Evaluate Generation</b>:
+</p>
 
 
 problems: 
@@ -340,3 +355,11 @@ Huggingface RAG Evaluation:
 [[11]](https://arxiv.org/pdf/2305.14283) Ma et al. "Query Rewriting for Retrieval-Augmented Large Language Models" (2023)
 
 [[12]](https://arxiv.org/pdf/2305.06983) Jiang et al. "Active Retrieval Augmented Generation" (2023)
+
+[[13]](https://arxiv.org/pdf/2309.15217) Shahul et al. "RAGAS: Automated Evaluation of Retrieval Augmented Generation" (2023)
+
+[[14]](https://arxiv.org/pdf/2311.09476) Saad-Falcon et al. "ARES: An Automated Evaluation Framework for Retrieval Augmented Generation Systems" (2023)
+
+[[15]](https://arxiv.org/pdf/2311.08147) Liu et al. "RECALL: A Benchmark for LLMs Robustness against External Counterfactual Knowledge" (2023)
+
+[[16]](https://arxiv.org/pdf/2309.01431) Chen et al. "Benchmarking Large Language Models in Retrieval-Augmented Generation" (2023)

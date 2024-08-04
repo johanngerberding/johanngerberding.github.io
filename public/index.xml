@@ -272,15 +272,59 @@ Now you have built you fancy RAG engine, but how do you determine if this thing 
 <li>Wizard of Wikipedia</li>
 <li>T-REX</li>
 </ul>
-<p>The problem with this? Which component fucks up?? So more finegrained evaluation:</p>
-<ul>
-<li>
-<p>Evaluate Retrieval</p>
-</li>
-<li>
-<p>Evaluate Generation</p>
-</li>
-</ul>
+<p align="justify">
+For the further development of the methods we need a more finegrained evaluation for identifying the components of the pipeline that are the weak points and we need to be able to analyze those weaknesses in more detail. Various frameworks were introduced in the recent past to evaluate RAG pipelines across multiple dimensions, including the relevance of the retrieved documents, the quality of the generated text and the resilience to misinformation. The following table from <a href="#references">[1]</a> shows more details about the different frameworks, their methods and metrics as well as the datasets they use. 
+</p>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Aspects</th>
+<th>Methods</th>
+<th>Metrics</th>
+<th>Datasets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAGAS <a href="#references">[13]</a></td>
+<td>Quality of RAG Systems</td>
+<td>Context Relevance, Answer Relevance, Faithfulness</td>
+<td>Extracted Sentences / Total Sentences, Average Cosine Similarity, Supported Statements / Total Statements</td>
+<td>WikiEval</td>
+</tr>
+<tr>
+<td>ARES <a href="#references">[14]</a></td>
+<td>Improving RAGAS</td>
+<td>Context Relevance, Answer Relevance, Answer Faithfulness</td>
+<td>Confidence Intervals</td>
+<td>KILT, SuperGLUE</td>
+</tr>
+<tr>
+<td>RECALL <a href="#$references">[15]</a></td>
+<td>Counterfactual Robustness</td>
+<td>Response Quality, Robustness</td>
+<td>Accuracy (QA), BLEU, ROGUE-L</td>
+<td>EventKG, UJ</td>
+</tr>
+<tr>
+<td>RGB <a href="#references">[16]</a></td>
+<td>Impact of RAG on LLMs</td>
+<td>Noise Robustness, Negative Rejection, Information Integration, Counterfactual Robustness</td>
+<td>Accuracy, Rejection Rate, Error Detection Rate, Error Correction Rate</td>
+<td>Synthetic Dataset including English and Chinese</td>
+</tr>
+</tbody>
+</table>
+<p align="justify">
+Let's take a closer look at the evaluation of the two components:
+</p>
+<p align="justify">
+<b>Evaluate Retrieval</b>: The quality of the search results is most of the time evaluated based on standard metrics like Mean Average Precision (MAP), Precision, Reciprocal Rank, Recall and Normalized Discounted Cumulative Gain (NDCG) which primarily assess the relevance of retrieved documents regarding a given query. For some explanations on those take a look <a href="https://www.deepset.ai/blog/rag-evaluation-retrieval">here</a>. The Rejection Rate measures a systems ability to decline answering when no relevant information is found. In addition the Error Detection Rate assesses the models capability to identify and disregard incorrect or misleading information from retrieved documents. Another important metric is the Context Relevance that ensures the perinence of the retrieved documents so that the information used to generate responses is directly related to the querys context. Faithfulness measures the accuracy with which the generated content reflects the information in the retrieved documents.
+</p>
+<p align="justify">
+<b>Evaluate Generation</b>:
+</p>
 <p>problems:
 how to evaluate pre-retrieval stuff? (create multiple different indexes and compare??)</p>
 <p>Huggingface RAG Evaluation:</p>
@@ -306,6 +350,10 @@ how to evaluate pre-retrieval stuff? (create multiple different indexes and comp
 <p><a href="https://arxiv.org/pdf/2303.07678">[10]</a> Wang et al. &ldquo;Query2doc: Query Expansion with Large Language Models&rdquo; (2023)</p>
 <p><a href="https://arxiv.org/pdf/2305.14283">[11]</a> Ma et al. &ldquo;Query Rewriting for Retrieval-Augmented Large Language Models&rdquo; (2023)</p>
 <p><a href="https://arxiv.org/pdf/2305.06983">[12]</a> Jiang et al. &ldquo;Active Retrieval Augmented Generation&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2309.15217">[13]</a> Shahul et al. &ldquo;RAGAS: Automated Evaluation of Retrieval Augmented Generation&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2311.09476">[14]</a> Saad-Falcon et al. &ldquo;ARES: An Automated Evaluation Framework for Retrieval Augmented Generation Systems&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2311.08147">[15]</a> Liu et al. &ldquo;RECALL: A Benchmark for LLMs Robustness against External Counterfactual Knowledge&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2309.01431">[16]</a> Chen et al. &ldquo;Benchmarking Large Language Models in Retrieval-Augmented Generation&rdquo; (2023)</p>
 ]]></content:encoded>
     </item>
     

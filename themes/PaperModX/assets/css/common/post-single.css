@@ -187,6 +187,10 @@ h6:hover .anchor {
     text-align: start;
 }
 
+.post-content table td {
+    font-size: 14px;
+}
+
 .post-content table:not(.highlighttable) td code:only-child {
     margin: auto 0;
 }

@@ -272,7 +272,9 @@ Now you have built you fancy RAG engine, but how do you determine if this thing 
 <li>Wizard of Wikipedia</li>
 <li>T-REX</li>
 </ul>
-<p>The problem with this? Which component fucks up?? So more finegrained evaluation:</p>
+<p align="justify">
+For the further development of the methods we need a more finegrained evaluation for identifying the components of the pipeline that are the weak points and we need to be able to analyze those weaknesses in more detail. Various frameworks were introduced in the recent past to evaluate RAG pipelines across multiple dimensions, including the relevance of the retrieved documents, the quality of the generated text and the resilience to misinformation. The following table shows more details about the different frameworks, their methods and metrics as well as the datasets they use.
+</p>
 <ul>
 <li>
 <p>Evaluate Retrieval</p>
