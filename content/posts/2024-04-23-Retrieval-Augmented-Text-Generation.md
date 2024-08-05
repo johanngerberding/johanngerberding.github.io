@@ -389,8 +389,8 @@ Let's take a closer look at the evaluation of the two components:
 
 [[32]](https://aclanthology.org/2023.ijcnlp-main.65.pdf) Huang et al. "Retrieval Augmented Generation with Rich Answer Encoding" (2023)
 
-[[33]]() Huang et al. "" ()
+[[33]](https://arxiv.org/pdf/2305.13269) Li et al. "Chain-of-Knowledge: Grounding Large Language Models via Dynamic Knowledge Adapting over Heterogeneous Sources" (2024)
 
-[[34]]() Huang et al. "" ()
+[[34]](https://arxiv.org/pdf/2310.13682) Berchansky et al. "Optimizing Retrieval-Augmented Reader Models via Token Elimination" (2023)
 
-[[35]]() Huang et al. "" ()
+[[35]](https://arxiv.org/pdf/2310.04408) Xu et al. "RECOMP: Improving Retrieval Augmented LMs with Compression and Selective Augmentation" (2023)
