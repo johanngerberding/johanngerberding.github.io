@@ -143,20 +143,23 @@ In the re-ranking step, the documents previously retrieved are reassessed, score
 </p>
 
 <ul>
-<li><b>Re2G</b> <a href="#references">[28]</a>: </li>
-<li><b>PROMPTAGATOR</b> <a href="#references">[29]</a>: </li>
-<li><b>In-Context RALM</b> <a href="#references">[30]</a>: </li>
-<li><b>ITER-RETGEN</b> <a href="#references">[31]</a>: </li>
-<li><b>DKS-RAC</b> <a href="#references">[32]</a>: </li>
+<li><b>Re2G</b> <a href="#references">[28]</a>: Sequence pair classification for re-ranking, using BERT to analyze both query and passage.</li>
+<li><b>PROMPTAGATOR</b> <a href="#references">[29]</a>: Employs a cross-attention model for re-scoring. It progressively improves content quality by a strategy called "Lift Yourself Up" that iteratively selects the best candidate from a pool for further generation rounds.</li>
+<li><b>In-Context RALM</b> <a href="#references">[30]</a>: Explores two re-ranking approaches, zero-shot re-ranking using LLMs and predictive re-ranking using trained models. The goal is to refine the selection of documents based on their expected utility for improving language model performance.</li>
+<li><b>ITER-RETGEN</b> <a href="#references">[31]</a>: Leverages knowledge distillation from the re-ranker to the dense retriever, finetuning retrieval efforts based on relevance signals from LLM outputs.</li>
+<li><b>DKS-RAC</b> <a href="#references">[32]</a>: Presents Dense Knowledge Similarity (DKS) for aligning the knowledge between answers and retrieved passages at the sequence level.</li>
 </ul>
 
 #### Filtering 
 
 <p align="justify">
-Filtering aims to remove documents that fail to meet specified quality or relevance standards. This can be done through several approaches, such as establishing a minimum relevance score threshold to exclude documents below a certain relevance level. Furthermore, the use of feedback from users or prior relevance evaluations assists in adjusting the filtering process, guaranteeing that only the most relevant documents are retained for text generation.
+Filtering aims to remove documents that fail to meet specified quality or relevance standards. This can be done through several approaches, such as establishing a minimum relevance score threshold to exclude documents below a certain relevance level. Furthermore, the use of feedback from users or prior relevance evaluations assists in adjusting the filtering process, guaranteeing that only the most relevant documents are retained for text generation. The following three methods try to improve the filtering process:
 </p>
-
-
+<ul>
+<li><b>COK</b> <a href="#references">[33]</a>: Progressive Rationale Correction technique aimed at iteratively refining rationales with retrieved knowledge. It is a continuous optimization process to enhance the relevance and quality of information used in content generation.</li>
+<li><b>FiD-TF</b> <a href="#references">[34]</a>: Focus on removal of irrelevant and redundant tokens by employing a dynamic mechanism to identify those tokens.</li>
+<li><b>RECOMP</b> <a href="#references">[35]</a>: Focus on removal of irrelevant and redundant tokens by compressing documents into concise summaries focusing only on selecting the most pertinent content for the generation process.</li>
+</ul>
 
 ### Generation 
 
@@ -181,7 +184,7 @@ The naive RAG implementation described before is rarely enough to satisfy produc
 <li><b>Context window performance limitations</b>: trying to "over-retrieve" may hit on the capacity of the context window or otherwise produce a context window that is too big to return a result in a reasonable amount of time </li>
 </ul>
 <p align="justify">
-Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case.
+Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case. 
 </p>
 
 ### Self RAG
@@ -376,12 +379,18 @@ Let's take a closer look at the evaluation of the two components:
 
 [[27]](https://aclanthology.org/2023.emnlp-main.326.pdf) Yang et al. "PRCA: Fitting Black-Box Large Language Models for Retrieval Question Answering via Pluggable Reward-Driven Contextual Adapter" (2023)
 
-[[28]]() et al. "" ()
+[[28]](https://arxiv.org/pdf/2207.06300) Glass et al. "Re2G: Retrieve, Rerank, Generate" (2022)
 
-[[29]]() et al. "" ()
+[[29]](https://arxiv.org/pdf/2209.11755) Dai et al. "PROMPTAGATOR: Few-shot Dense Retrieval from 8 Examples" (2022)
 
-[[30]]() et al. "" ()
+[[30]](https://arxiv.org/pdf/2302.00083) Ram et al. "In-Context Retrieval Augmented Language Models" (2023)
 
-[[31]]() et al. "" ()
+[[31]](https://arxiv.org/pdf/2305.15294) Shao et al. "Enhancing Retrieval-Augmented LLMs with Iterative Retrieval-Generation Synergy" (2023)
 
-[[32]]() et al. "" ()
+[[32]](https://aclanthology.org/2023.ijcnlp-main.65.pdf) Huang et al. "Retrieval Augmented Generation with Rich Answer Encoding" (2023)
+
+[[33]]() Huang et al. "" ()
+
+[[34]]() Huang et al. "" ()
+
+[[35]]() Huang et al. "" ()
