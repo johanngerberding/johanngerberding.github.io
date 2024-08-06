@@ -193,7 +193,7 @@ Many new RAG patterns have emerged to address these limitations. In the followin
 The Self-Reflective RAG paper describes fine-tuned models that incorporate mechanisms for adaptive information retrieval and self critique. These models can dynamically determine when external information is needed, and can critically evaluate its generated responses for relevance and factual accuracy. Figure X down below shows the retrieval process using these new tokens.
 </p>
 
-{{< figure align=center alt="Flowchart of the Self RAG method" src="/imgs/rag/self_rag.png" width=100% caption="Figure X. Self RAG Process [3]">}}
+{{< figure align=center alt="Flowchart of the Self RAG method" src="/imgs/rag/self_rag.png" width=100% caption="Figure 5. Self RAG Process [3]">}}
 
 <p align="justify">
 First the Language Model decides about the necessity of additional information to answer the prompt. In the second step multiple segments are generated concurrently and each of them is rated in terms of relevance to the prompt and usefulness of the retrieved information. Thereafter each segments is critiqued and the best one is chosen. Then the cycle can repeat, if the model decides to retrieve more information. The table down below shows the four new tokens that make this whole process work.
@@ -229,8 +229,6 @@ First the Language Model decides about the necessity of additional information t
 </table> 
 
 <p align="justify">
-- Why is all this a good idea? (Benchmarks) 
-- What are challenges?  
 For more detailed information regarding training, how they inserted these special tokens and data collection I'll recommend checking out the <a href="https://arxiv.org/pdf/2310.11511">paper</a>.
 </p>
 
@@ -241,7 +239,7 @@ For more detailed information regarding training, how they inserted these specia
 The Corrective Retrieval Augmented Generation method to improve the accuracy and robustness of LM by re-incorporating information from retrieved documents. This is accomplished by the introduction of three additional components. First a lightweight evaluator model that assesses the quality of retrieved documents and determines which to use, ignore or request more documents based on a score. The second new component is an incorporated web search to extend the information base and get more up-to-date information. The last new addition is a decompose-then-recompose algorithm for selectively focusing on key information and filtering out irrelevant information that also makes use of the evaluator model. The Figure X down below gives a nice overview of the CRAG method at inference.
 </p>
 
-{{< figure align=center alt="An overview of Corrective Retrieval Augmented Generation" src="/imgs/rag/crag.png" width=100% caption="Figure X. An overview of CRAG at inference [4]">}}
+{{< figure align=center alt="An overview of Corrective Retrieval Augmented Generation" src="/imgs/rag/crag.png" width=100% caption="Figure 6. An overview of CRAG at inference [4]">}}
 
 <p align="justify">
 The Knowledge Refinement process is quite straightforward and starts by segmenting each retrieved document into fine-grained knowledge strips through heuristic rules. Then the retrieval evaluator is used to calculate a relevance score of each knowledge strip. Based on these scores the strips are filtered and recomposed via concatenation in order.
@@ -249,11 +247,24 @@ The Knowledge Refinement process is quite straightforward and starts by segmenti
 
 ### RAG Fusion 
 
-- research from a guy from Infineon 
 <p align="justify">
-
+The origin of RAG-Fusion is a github project which got noticed from an Infineon employee who deployed it internally. The motivation behind it was, the need for employees to rapidly obtain product information but regular RAG didn't work that well. RAG-Fusion is a combination of traditional RAG and reciprocal rank fusion (RRF) and the workflow is as followed:
 </p>
-{{< figure align=center alt="RAG Fusion" src="/imgs/rag/rag_fusion.png" width=100% caption="Figure X. RAG Fusion [24]">}}
+<ol>
+<li>Receive query and generate a number of new search queries through a LLM</li>
+<li>Vector Search like in regular RAG pipeline</li>
+<li>Reciprocal Rank Fusion: assign scores to every document and re-rank them accordingly</li>
+<li>Send all the re-ranked queries and documents to the LLM to generate an answer</li>
+</ol>
+
+<p align="justify">
+The figure down below shows this process described above.
+</p>
+{{< figure align=center alt="RAG Fusion" src="/imgs/rag/rag_fusion.png" width=80% caption="Figure 7. RAG Fusion Workflow [24]">}}
+
+<p align="justify">
+The Infineon customers and engineers found the biggest downside of the method was the slow answer time because of the generation of multiple similar queries. Moreover the response times fluctuated over time (from 10 - 32s) because of the use of an third party API. Another main critique was the inability the empirically evaluate the answers. But in general, the RAG-Fusion answers were more accurate and comprehensive than those of the vanilla RAG system.
+</p>
 
 ### Self-Reasoning  
 
