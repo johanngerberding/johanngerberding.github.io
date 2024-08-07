@@ -7,7 +7,7 @@ summary: A short intro to Retrieval-Augmented Text Generation, what is it, why i
 include_toc: true
 showToc: true
 math: true
-draft: true
+draft: false 
 tags: ["rag", "transformer", "llm", "vector-database", "retrieval"]
 ---
 
@@ -164,13 +164,22 @@ Filtering aims to remove documents that fail to meet specified quality or releva
 ### Generation 
 
 <p align="justify">
-- task: generate text that is relevant to the query and reflective of the information found in the retrieved documents
-- how: concat the query with the found information and input that into a LLM
-- challenge: ensuring the outputs alignment and accuracy with the retrieved contents isn't straightforward 
-- the generated output should accurately convey the information from the retrieved documents and align with the query's intent, while also offering the flexibility to introduce new insights or perspectives not explicitly contained within the retrieved data 
-- another challenge: what if there is no relevant information in your knowledge base for a certain query, how to detect such instances and how to behave? 
-- retrieval is kinda naive, how would you filter irrelevant documents? based on some distance metric, but how to define that distance? 
+In the generation phase the overall goal is to generate text that is relevant to the query and reflective of the information found in the retrieved documents. The process is quite simple, we just concat the query with the found information and input that into a LLM. The main challenge is about ensuring the outputs alignment and accuracy with the retrieved contents which isn't straightforward. The generated output should accurately convey the information from the retrieved documents and align with the query's intent, while also offering the flexibility to introduce new insights or perspectives not explicitly contained within the retrieved data.
 </p>
+
+<p align="justify">
+There exist a lot of different approaches to improve the generation quality in a RAG pipline. The following list contains some recent papers which aimed at doing exactly that:
+</p>
+
+<ul>
+<li><b>REPLUG</b> <a href="#references">[36]</a>: Prepend retrieved documents to the input context before the final prediction. This introduces an ensemble strategy to encode retrieved documents in parallel, overcoming the limitations of LM context length and enhancing accurarcy through the allocation of increased computational resources.</li>
+<li><b>RECITE</b> <a href="#references">[37]</a>: Implements a self-consistency technique which involves generating multiple recitations independently and employing a majority vote system to determine the most appropriate answer.</li>
+<li><b>PKG</b> <a href="#references">[38]</a>: Customize outputs by generating background knowledge internally using a pre-trained model. This method directly integrates domain or task-specific knowledge into the generation step which enhances the LMs capacity to produce responses that are specifically tailored to the given context.</li>
+<li><b>SURGE</b> <a href="#references">[39]</a>: Customization through application of graph-text contrastive learning to ensure that the generated dialogue responses are in tight alignment with the knowledge contained in the retrieved subgraph.</li>
+</ul>
+
+
+
 
 ## Advanced RAG Pipelines
 
@@ -248,7 +257,7 @@ The Knowledge Refinement process is quite straightforward and starts by segmenti
 ### RAG Fusion 
 
 <p align="justify">
-The origin of RAG-Fusion is a github project which got noticed from an Infineon employee who deployed it internally. The motivation behind it was, the need for employees to rapidly obtain product information but regular RAG didn't work that well. RAG-Fusion is a combination of traditional RAG and reciprocal rank fusion (RRF) and the workflow is as followed:
+The origin of RAG-Fusion is a <a href="https://github.com/Raudaschl/RAG-Fusion">github project</a> which got noticed from an Infineon employee who deployed it internally. The motivation behind it was, the need for employees to rapidly obtain product information but regular RAG didn't work that well. RAG-Fusion is a combination of traditional RAG and reciprocal rank fusion (RRF) and the workflow is as followed:
 </p>
 <ol>
 <li>Receive query and generate a number of new search queries through a LLM</li>
@@ -272,7 +281,7 @@ The Infineon customers and engineers found the biggest downside of the method wa
 The method described in this paper focuses on the problem of irrelevant document retrieval which may result in unhelpful response generation or even performance deterioration. It is similar to the Self-RAG without the need of extra models and datasets. The authors propose an end-to-end self-reasoning framework to improve on these problems and especially improve reliability and traceability. 
 </p>
 
-{{< figure align=center alt="Self-Reasoning Framework to Improve RAG" src="/imgs/rag/self-reasoning.png" width=100% caption="Figure X. Self-Reasoning Framework to Improve RAG [5]">}}
+{{< figure align=center alt="Self-Reasoning Framework to Improve RAG" src="/imgs/rag/self-reasoning.png" width=100% caption="Figure 8. Self-Reasoning Framework to Improve RAG [5]">}}
 
 <p align="justify">
 As shown above the framework consists of three processes, the Relevance-Aware Process, the Evidence-Aware Selective Process and the Trajectory Analysis Process.
@@ -405,3 +414,11 @@ Let's take a closer look at the evaluation of the two components:
 [[34]](https://arxiv.org/pdf/2310.13682) Berchansky et al. "Optimizing Retrieval-Augmented Reader Models via Token Elimination" (2023)
 
 [[35]](https://arxiv.org/pdf/2310.04408) Xu et al. "RECOMP: Improving Retrieval Augmented LMs with Compression and Selective Augmentation" (2023)
+
+[[36]](https://arxiv.org/pdf/2301.12652) Shi et al. "REPLUG: Retrieval-Augmented Black-Box Language Models" (2023)
+
+[[37]](https://arxiv.org/pdf/2210.01296) Sun et al. "Recitation-Augmented Language Models" (2023)
+
+[[38]](https://arxiv.org/pdf/2305.04757) Luo et al. "Augmented Large Language Models with Parametric Knowledge Guiding" (2023)
+
+[[39]](https://arxiv.org/pdf/2305.18846) Kang et al. "Knowledge Graph-Augmented Language Models for Knowledge-Grounded Dialog Generation" (2023)
