@@ -1,20 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Rag on Johanns Blog</title>
-    <link>http://localhost:1313/tags/rag/</link>
-    <description>Recent content in Rag on Johanns Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 23 Apr 2024 10:00:00 +0200</lastBuildDate><atom:link href="http://localhost:1313/tags/rag/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Retrieval-Augmented Text Generation (RAG)</title>
-      <link>http://localhost:1313/posts/2024-04-23-retrieval-augmented-text-generation/</link>
-      <pubDate>Tue, 23 Apr 2024 10:00:00 +0200</pubDate>
-      
-      <guid>http://localhost:1313/posts/2024-04-23-retrieval-augmented-text-generation/</guid>
-      <description>A short intro to Retrieval-Augmented Text Generation, what is it, why is it useful and how does it work.</description>
-      <content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Rag on Johanns Blog</title><link>https://johanngerberding.github.io/tags/rag/</link><description>Recent content in Rag on Johanns Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 Apr 2024 10:00:00 +0200</lastBuildDate><atom:link href="https://johanngerberding.github.io/tags/rag/index.xml" rel="self" type="application/rss+xml"/><item><title>Retrieval-Augmented Text Generation (RAG)</title><link>https://johanngerberding.github.io/posts/2024-04-23-retrieval-augmented-text-generation/</link><pubDate>Tue, 23 Apr 2024 10:00:00 +0200</pubDate><guid>https://johanngerberding.github.io/posts/2024-04-23-retrieval-augmented-text-generation/</guid><description>A short intro to Retrieval-Augmented Text Generation, what is it, why is it useful and how does it work.</description><content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
 <p align="justify">
 In 2020, Lewis et al. introduced a novel approach to enhance language model outputs through the use of Retrieval-Augmented Generation (RAG). Since its inception, RAG has evolved significantly, providing a robust solution to some of the persistent challenges faced by Large Language Models (LLMs).
 </p>
@@ -60,26 +44,6 @@ You start by generating document vectors using an embedding model for every docu
 <p align="justify"> 
 After you have generated the vector store you are good to go. First your query gets embedded into a vector, like we have described above, which is then used in a similarity search over your vector store to determine the most relevant documents. These documents get retrieved and concatenated to your query before its fed into the LLM. The LLM then produces based on the query and context an answer. This describes the very basic and naive workflow. In practice there are a lot of other things involved, like prompt engineering, a limited context window, limited input tokens of the embedding model, preprocessing of the query and documents, postprocessing of the answer etc. We will touch most of these things in more detail in the next sections. 
 </p>
-<ul>
-<li>
-<p>Open Source Platforms: LangChain, LLamaIndex, DSPy</p>
-</li>
-<li>
-<p>old school algorithms like BM25 focus on term frequency and presence for document ranking and they don&rsquo;t use semantic information of the queries</p>
-</li>
-<li>
-<p>this has changed quite a bit with deep learning</p>
-</li>
-<li>
-<p>modern retrieval strategies leverage pretrained LMs like BERT (Devlin et al. 2019), which capture the semantic meaning of queries more effectively</p>
-</li>
-<li>
-<p>improved search accuracy by considering synonyms and the structure of phrases</p>
-</li>
-<li>
-<p>how: measure vector distances between entries in knowledge database (e.g. some vector database) and queries</p>
-</li>
-</ul>
 <h3 id="pre-retrieval">Pre-Retrieval</h3>
 <p>The pre-retrieval phase is all about the data or the knowledge base. The goal is to ensure efficient and correct information retrieval.</p>
 <h4 id="data-preparation--modification">Data Preparation &amp; Modification</h4>
@@ -131,34 +95,52 @@ The retrieval process is a combination of search and ranking algorithms. The ove
 <p align="justify">
 Since you have embedded all your knowledge into feature vectors it's kinda easy to just use cosine similarity and k-Nearest-Neighbors to identify the 'k' vectors that are most similar to the query. kNN is a very popular choice due to its simplicity and explainability. One shortcoming of this strategy is the computational intensity of this approach when you have a very large knowledge base. Instead of cosine similarity you can also use euclidean distance or the dot prodoct which can lead to better search results in some cases.
 </p>
-- BM25 is the most popular keyword retrieval function that is based on bag-of-words
-- extensions: BM25F which adds different weights to fields of a document and BM25+ which addresses a problem with the unfair scoring of longer documents
 <p align="justify">
+There is a lot of research going on here and the following is a list of a couple of interesting methods:
 </p>
 <ul>
-<li>what do you do when you have your search results?</li>
-<li>reciprocal rank fusion for hybrid search?</li>
+<li><b>Atlas</b> <a href="#references">[24]</a>: Attention Distillation and Perplexity Distillation to steer the retriever to more relevant documents.</li>
+<li><b>IRCOT</b> <a href="#references">[25]</a>: Improve retrieval effectiveness by integrating reasoning.</li>
+<li><b>SURGE</b> <a href="#references">[26]</a>: Subgraph retriever to extract relevant subgraphs from a knowledge graph.</li>
+<li><b>PRCA</b> <a href="#references">[27]</a>: Employ domain specific abstract summarization to extract relevant and context-rich information using a supervised learning strategy.</li>
 </ul>
-<p align="justify">
-</p>
 <h3 id="post-retrieval">Post-Retrieval</h3>
 <p align="justify">
+This phase serves to refine the initially retrieved documents to improve the quality of text generation. This phase consists of re-ranking and filtering, each aimed at optimizing the document selection for the final generation task.
 </p>
 <h4 id="re-ranking">Re-Ranking</h4>
 <p align="justify">
+In the re-ranking step, the documents previously retrieved are reassessed, scored, and reorganized. The objective is to more accurately highlight the documents most relevant to the query and diminish the importance of the less relevant ones. There are a bunch of different methods out there for re-ranking:
 </p>
+<ul>
+<li><b>Re2G</b> <a href="#references">[28]</a>: Sequence pair classification for re-ranking, using BERT to analyze both query and passage.</li>
+<li><b>PROMPTAGATOR</b> <a href="#references">[29]</a>: Employs a cross-attention model for re-scoring. It progressively improves content quality by a strategy called "Lift Yourself Up" that iteratively selects the best candidate from a pool for further generation rounds.</li>
+<li><b>In-Context RALM</b> <a href="#references">[30]</a>: Explores two re-ranking approaches, zero-shot re-ranking using LLMs and predictive re-ranking using trained models. The goal is to refine the selection of documents based on their expected utility for improving language model performance.</li>
+<li><b>ITER-RETGEN</b> <a href="#references">[31]</a>: Leverages knowledge distillation from the re-ranker to the dense retriever, finetuning retrieval efforts based on relevance signals from LLM outputs.</li>
+<li><b>DKS-RAC</b> <a href="#references">[32]</a>: Presents Dense Knowledge Similarity (DKS) for aligning the knowledge between answers and retrieved passages at the sequence level.</li>
+</ul>
 <h4 id="filtering">Filtering</h4>
 <p align="justify">
+Filtering aims to remove documents that fail to meet specified quality or relevance standards. This can be done through several approaches, such as establishing a minimum relevance score threshold to exclude documents below a certain relevance level. Furthermore, the use of feedback from users or prior relevance evaluations assists in adjusting the filtering process, guaranteeing that only the most relevant documents are retained for text generation. The following three methods try to improve the filtering process:
 </p>
+<ul>
+<li><b>COK</b> <a href="#references">[33]</a>: Progressive Rationale Correction technique aimed at iteratively refining rationales with retrieved knowledge. It is a continuous optimization process to enhance the relevance and quality of information used in content generation.</li>
+<li><b>FiD-TF</b> <a href="#references">[34]</a>: Focus on removal of irrelevant and redundant tokens by employing a dynamic mechanism to identify those tokens.</li>
+<li><b>RECOMP</b> <a href="#references">[35]</a>: Focus on removal of irrelevant and redundant tokens by compressing documents into concise summaries focusing only on selecting the most pertinent content for the generation process.</li>
+</ul>
 <h3 id="generation">Generation</h3>
 <p align="justify">
-- task: generate text that is relevant to the query and reflective of the information found in the retrieved documents
-- how: concat the query with the found information and input that into a LLM
-- challenge: ensuring the outputs alignment and accuracy with the retrieved contents isn't straightforward 
-- the generated output should accurately convey the information from the retrieved documents and align with the query's intent, while also offering the flexibility to introduce new insights or perspectives not explicitly contained within the retrieved data 
-- another challenge: what if there is no relevant information in your knowledge base for a certain query, how to detect such instances and how to behave? 
-- retrieval is kinda naive, how would you filter irrelevant documents? based on some distance metric, but how to define that distance? 
+In the generation phase the overall goal is to generate text that is relevant to the query and reflective of the information found in the retrieved documents. The process is quite simple, we just concat the query with the found information and input that into a LLM. The main challenge is about ensuring the outputs alignment and accuracy with the retrieved contents which isn't straightforward. The generated output should accurately convey the information from the retrieved documents and align with the query's intent, while also offering the flexibility to introduce new insights or perspectives not explicitly contained within the retrieved data.
 </p>
+<p align="justify">
+There exist a lot of different approaches to improve the generation quality in a RAG pipline. The following list contains some recent papers which aimed at doing exactly that:
+</p>
+<ul>
+<li><b>REPLUG</b> <a href="#references">[36]</a>: Prepend retrieved documents to the input context before the final prediction. This introduces an ensemble strategy to encode retrieved documents in parallel, overcoming the limitations of LM context length and enhancing accurarcy through the allocation of increased computational resources.</li>
+<li><b>RECITE</b> <a href="#references">[37]</a>: Implements a self-consistency technique which involves generating multiple recitations independently and employing a majority vote system to determine the most appropriate answer.</li>
+<li><b>PKG</b> <a href="#references">[38]</a>: Customize outputs by generating background knowledge internally using a pre-trained model. This method directly integrates domain or task-specific knowledge into the generation step which enhances the LMs capacity to produce responses that are specifically tailored to the given context.</li>
+<li><b>SURGE</b> <a href="#references">[39]</a>: Customization through application of graph-text contrastive learning to ensure that the generated dialogue responses are in tight alignment with the knowledge contained in the retrieved subgraph.</li>
+</ul>
 <h2 id="advanced-rag-pipelines">Advanced RAG Pipelines</h2>
 <p align="justify">
 The naive RAG implementation described before is rarely enough to satisfy production grade requirements. This has multiple reasons:
@@ -170,7 +152,7 @@ The naive RAG implementation described before is rarely enough to satisfy produc
 <li><b>Context window performance limitations</b>: trying to "over-retrieve" may hit on the capacity of the context window or otherwise produce a context window that is too big to return a result in a reasonable amount of time </li>
 </ul>
 <p align="justify">
-Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case.
+Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case. 
 </p>
 <h3 id="self-rag">Self RAG</h3>
 <p align="justify">
@@ -179,7 +161,7 @@ The Self-Reflective RAG paper describes fine-tuned models that incorporate mecha
 <figure class="align-center ">
     <img loading="lazy" src="/imgs/rag/self_rag.png#center"
          alt="Flowchart of the Self RAG method" width="100%"/> <figcaption>
-            <p>Figure X. Self RAG Process [3]</p>
+            <p>Figure 5. Self RAG Process [3]</p>
         </figcaption>
 </figure>
 
@@ -214,8 +196,6 @@ First the Language Model decides about the necessity of additional information t
     </tr>
 </table> 
 <p align="justify">
-- Why is all this a good idea? (Benchmarks) 
-- What are challenges?  
 For more detailed information regarding training, how they inserted these special tokens and data collection I'll recommend checking out the <a href="https://arxiv.org/pdf/2310.11511">paper</a>.
 </p>
 <h3 id="corrective-rag">Corrective RAG</h3>
@@ -225,7 +205,7 @@ The Corrective Retrieval Augmented Generation method to improve the accuracy and
 <figure class="align-center ">
     <img loading="lazy" src="/imgs/rag/crag.png#center"
          alt="An overview of Corrective Retrieval Augmented Generation" width="100%"/> <figcaption>
-            <p>Figure X. An overview of CRAG at inference [4]</p>
+            <p>Figure 6. An overview of CRAG at inference [4]</p>
         </figcaption>
 </figure>
 
@@ -234,6 +214,26 @@ The Knowledge Refinement process is quite straightforward and starts by segmenti
 </p>
 <h3 id="rag-fusion">RAG Fusion</h3>
 <p align="justify">
+The origin of RAG-Fusion is a <a href="https://github.com/Raudaschl/RAG-Fusion">github project</a> which got noticed from an Infineon employee who deployed it internally. The motivation behind it was, the need for employees to rapidly obtain product information but regular RAG didn't work that well. RAG-Fusion is a combination of traditional RAG and reciprocal rank fusion (RRF) and the workflow is as followed:
+</p>
+<ol>
+<li>Receive query and generate a number of new search queries through a LLM</li>
+<li>Vector Search like in regular RAG pipeline</li>
+<li>Reciprocal Rank Fusion: assign scores to every document and re-rank them accordingly</li>
+<li>Send all the re-ranked queries and documents to the LLM to generate an answer</li>
+</ol>
+<p align="justify">
+The figure down below shows this process described above.
+</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/rag/rag_fusion.png#center"
+         alt="RAG Fusion" width="80%"/> <figcaption>
+            <p>Figure 7. RAG Fusion Workflow [24]</p>
+        </figcaption>
+</figure>
+
+<p align="justify">
+The Infineon customers and engineers found the biggest downside of the method was the slow answer time because of the generation of multiple similar queries. Moreover the response times fluctuated over time (from 10 - 32s) because of the use of an third party API. Another main critique was the inability the empirically evaluate the answers. But in general, the RAG-Fusion answers were more accurate and comprehensive than those of the vanilla RAG system.
 </p>
 <h3 id="self-reasoning">Self-Reasoning</h3>
 <p align="justify">
@@ -242,7 +242,7 @@ The method described in this paper focuses on the problem of irrelevant document
 <figure class="align-center ">
     <img loading="lazy" src="/imgs/rag/self-reasoning.png#center"
          alt="Self-Reasoning Framework to Improve RAG" width="100%"/> <figcaption>
-            <p>Figure X. Self-Reasoning Framework to Improve RAG [5]</p>
+            <p>Figure 8. Self-Reasoning Framework to Improve RAG [5]</p>
         </figcaption>
 </figure>
 
@@ -265,35 +265,66 @@ Now you have built you fancy RAG engine, but how do you determine if this thing 
 </p>
 <p>Datasets for measuring performance on downstream tasks like you would assess a regular LLM using established metrics like F1 or Exact Match (EM):</p>
 <ul>
-<li>TriviaQA</li>
-<li>HotpotQA</li>
-<li>FEVER</li>
-<li>Natural Questions</li>
-<li>Wizard of Wikipedia</li>
-<li>T-REX</li>
+<li>TriviaQA <a href="#references">[17]</a></li>
+<li>HotpotQA <a href="#references">[18]</a></li>
+<li>FEVER <a href="#references">[19]</a></li>
+<li>Natural Questions <a href="#references">[20]</a></li>    
+<li>Wizard of Wikipedia <a href="#references">[21]</a></li>
+<li>T-REX <a href="#references">[22]</a></li>
 </ul>
 <p align="justify">
-For the further development of the methods we need a more finegrained evaluation for identifying the components of the pipeline that are the weak points and we need to be able to analyze those weaknesses in more detail. Various frameworks were introduced in the recent past to evaluate RAG pipelines across multiple dimensions, including the relevance of the retrieved documents, the quality of the generated text and the resilience to misinformation. The following table shows more details about the different frameworks, their methods and metrics as well as the datasets they use.
+For the further development of the methods we need a more finegrained evaluation for identifying the components of the pipeline that are the weak points and we need to be able to analyze those weaknesses in more detail. Various frameworks were introduced in the recent past to evaluate RAG pipelines across multiple dimensions, including the relevance of the retrieved documents, the quality of the generated text and the resilience to misinformation. The following table from <a href="#references">[1]</a> shows more details about the different frameworks, their methods and metrics as well as the datasets they use. 
 </p>
-<ul>
-<li>
-<p>Evaluate Retrieval</p>
-</li>
-<li>
-<p>Evaluate Generation</p>
-</li>
-</ul>
-<p>problems:
-how to evaluate pre-retrieval stuff? (create multiple different indexes and compare??)</p>
-<p>Huggingface RAG Evaluation:</p>
-<ul>
-<li>build a synthetic evaluation dataset and use a LLM as a judge to compute the accuracy of the system</li>
-</ul>
-<h2 id="future-of-rag">Future of RAG</h2>
-<ul>
-<li>obsolete because of giant context LLMs?</li>
-<li>Multimodal RAG?</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Aspects</th>
+<th>Methods</th>
+<th>Metrics</th>
+<th>Datasets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAGAS <a href="#references">[13]</a></td>
+<td>Quality of RAG Systems</td>
+<td>Context Relevance, Answer Relevance, Faithfulness</td>
+<td>Extracted Sentences / Total Sentences, Average Cosine Similarity, Supported Statements / Total Statements</td>
+<td>WikiEval</td>
+</tr>
+<tr>
+<td>ARES <a href="#references">[14]</a></td>
+<td>Improving RAGAS</td>
+<td>Context Relevance, Answer Relevance, Answer Faithfulness</td>
+<td>Confidence Intervals</td>
+<td>KILT, SuperGLUE</td>
+</tr>
+<tr>
+<td>RECALL <a href="#$references">[15]</a></td>
+<td>Counterfactual Robustness</td>
+<td>Response Quality, Robustness</td>
+<td>Accuracy (QA), BLEU, ROGUE-L</td>
+<td>EventKG, UJ</td>
+</tr>
+<tr>
+<td>RGB <a href="#references">[16]</a></td>
+<td>Impact of RAG on LLMs</td>
+<td>Noise Robustness, Negative Rejection, Information Integration, Counterfactual Robustness</td>
+<td>Accuracy, Rejection Rate, Error Detection Rate, Error Correction Rate</td>
+<td>Synthetic Dataset including English and Chinese</td>
+</tr>
+</tbody>
+</table>
+<p align="justify">
+Let's take a closer look at the evaluation of the two components:
+</p>
+<p align="justify">
+<b>Evaluate Retrieval</b>: The quality of the search results is most of the time evaluated based on standard metrics like Mean Average Precision (MAP), Precision, Reciprocal Rank, Recall and Normalized Discounted Cumulative Gain (NDCG) which primarily assess the relevance of retrieved documents regarding a given query. For some explanations on those take a look <a href="https://www.deepset.ai/blog/rag-evaluation-retrieval">here</a>. The Rejection Rate measures a systems ability to decline answering when no relevant information is found. In addition the Error Detection Rate assesses the models capability to identify and disregard incorrect or misleading information from retrieved documents. Another important metric is the Context Relevance that ensures the perinence of the retrieved documents so that the information used to generate responses is directly related to the querys context. Faithfulness measures the accuracy with which the generated content reflects the information in the retrieved documents.
+</p>
+<p align="justify">
+<b>Evaluate Generation</b>: This part is more common and there are a lot of different standard metrics based on the downstream task. Those metrics assess linguistic quality and coherence (BLEU score, ROUGE-L), accuracy and the extent to which the generated text reflects the ground truth data (EM, F1 score). Beyond the standard metrics, the evaluation can incorporate task-specific criteria and novel metrics tailored to particular applications. In dialog generation perplexity and entropy are used to evaluate response diversity and naturalness. Based on your specific use case, you can get creative here.
+</p>
 <h2 id="references">References</h2>
 <p><a name="references"></a></p>
 <p><a href="https://arxiv.org/pdf/2404.10981">[1]</a> Y. Huang &amp; J.X. Huang &ldquo;A Survey on Retrieval-Augmented Text Generation for Large Language Models&rdquo; (2024).</p>
@@ -308,8 +339,31 @@ how to evaluate pre-retrieval stuff? (create multiple different indexes and comp
 <p><a href="https://arxiv.org/pdf/2303.07678">[10]</a> Wang et al. &ldquo;Query2doc: Query Expansion with Large Language Models&rdquo; (2023)</p>
 <p><a href="https://arxiv.org/pdf/2305.14283">[11]</a> Ma et al. &ldquo;Query Rewriting for Retrieval-Augmented Large Language Models&rdquo; (2023)</p>
 <p><a href="https://arxiv.org/pdf/2305.06983">[12]</a> Jiang et al. &ldquo;Active Retrieval Augmented Generation&rdquo; (2023)</p>
-]]></content:encoded>
-    </item>
-    
-  </channel>
-</rss>
+<p><a href="https://arxiv.org/pdf/2309.15217">[13]</a> Shahul et al. &ldquo;RAGAS: Automated Evaluation of Retrieval Augmented Generation&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2311.09476">[14]</a> Saad-Falcon et al. &ldquo;ARES: An Automated Evaluation Framework for Retrieval Augmented Generation Systems&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2311.08147">[15]</a> Liu et al. &ldquo;RECALL: A Benchmark for LLMs Robustness against External Counterfactual Knowledge&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2309.01431">[16]</a> Chen et al. &ldquo;Benchmarking Large Language Models in Retrieval-Augmented Generation&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/1705.03551">[17]</a> Joshi el al. &ldquo;TriviaQA: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension&rdquo; (2017)</p>
+<p><a href="https://arxiv.org/pdf/1809.09600">[18]</a> Yang et al. &ldquo;HOTPOTQA: A Dataset for Diverse, Explainable Multi-hop Question Answering&rdquo; (2018)</p>
+<p><a href="https://arxiv.org/pdf/1803.05355">[19]</a> Thorne et al. &ldquo;FEVER: A large-scale dataset for Fact Extraction and VERification&rdquo; (2018)</p>
+<p><a href="https://aclanthology.org/Q19-1026.pdf">[20]</a> Kwiatowski el al. &ldquo;Natural Questions: A Benchmark for Question Answering Research&rdquo; (2019)</p>
+<p><a href="https://arxiv.org/pdf/1811.01241">[21]</a> Dinan et al. &ldquo;Wizard of Wikipedia: Knowledge Powered Conversational Agents&rdquo; (2019)</p>
+<p><a href="https://aclanthology.org/L18-1544.pdf">[22]</a> ElSahar et al. &ldquo;T-REx: A Large Scale Alignment of Natural Language with Knowledge Base Triples&rdquo; (2018)</p>
+<p><a href="https://arxiv.org/pdf/2402.03367">[23]</a> Z. Rackauckas &ldquo;RAG-Fusion: a New Take on Retrieval Augmented Generation&rdquo; (2024)</p>
+<p><a href="https://arxiv.org/pdf/2208.03299">[24]</a> Izacard et al. &ldquo;Atlas: Few-shot learning with retrieval augmented language models&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2212.10509">[25]</a> Trivedi et al. &ldquo;Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.18846">[26]</a> Kang et al. &ldquo;Knowledge Graph Augmented Language Models for Knowledge Grounded Dialog Generation&rdquo; (2023)</p>
+<p><a href="https://aclanthology.org/2023.emnlp-main.326.pdf">[27]</a> Yang et al. &ldquo;PRCA: Fitting Black-Box Large Language Models for Retrieval Question Answering via Pluggable Reward-Driven Contextual Adapter&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2207.06300">[28]</a> Glass et al. &ldquo;Re2G: Retrieve, Rerank, Generate&rdquo; (2022)</p>
+<p><a href="https://arxiv.org/pdf/2209.11755">[29]</a> Dai et al. &ldquo;PROMPTAGATOR: Few-shot Dense Retrieval from 8 Examples&rdquo; (2022)</p>
+<p><a href="https://arxiv.org/pdf/2302.00083">[30]</a> Ram et al. &ldquo;In-Context Retrieval Augmented Language Models&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.15294">[31]</a> Shao et al. &ldquo;Enhancing Retrieval-Augmented LLMs with Iterative Retrieval-Generation Synergy&rdquo; (2023)</p>
+<p><a href="https://aclanthology.org/2023.ijcnlp-main.65.pdf">[32]</a> Huang et al. &ldquo;Retrieval Augmented Generation with Rich Answer Encoding&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.13269">[33]</a> Li et al. &ldquo;Chain-of-Knowledge: Grounding Large Language Models via Dynamic Knowledge Adapting over Heterogeneous Sources&rdquo; (2024)</p>
+<p><a href="https://arxiv.org/pdf/2310.13682">[34]</a> Berchansky et al. &ldquo;Optimizing Retrieval-Augmented Reader Models via Token Elimination&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2310.04408">[35]</a> Xu et al. &ldquo;RECOMP: Improving Retrieval Augmented LMs with Compression and Selective Augmentation&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2301.12652">[36]</a> Shi et al. &ldquo;REPLUG: Retrieval-Augmented Black-Box Language Models&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2210.01296">[37]</a> Sun et al. &ldquo;Recitation-Augmented Language Models&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.04757">[38]</a> Luo et al. &ldquo;Augmented Large Language Models with Parametric Knowledge Guiding&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.18846">[39]</a> Kang et al. &ldquo;Knowledge Graph-Augmented Language Models for Knowledge-Grounded Dialog Generation&rdquo; (2023)</p>
+]]></content:encoded></item></channel></rss>
