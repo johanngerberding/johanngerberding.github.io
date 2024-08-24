@@ -35,8 +35,36 @@ What is a VLM?
     - ignorance of parts of the input prompt (a lot of prompt engineering is needed to produce the results you want)
     - classic: hallucinations 
 
+* families of vlms: 
+    - categorized based on the training paradigm:
+        - contrastive: leverage pairs of positive and negative examples 
+        - masking: leverages reconstruction of masekd image patches given some unmasked text  
+        - pretrained backbones: LLM + pretrained image encoder, learn mapping between those two (less computationally expensive) 
+        - generative: generate captions and images (expensive to train)
+    - paradigms are not mutually exclusive because many approaches rely on a mix of those training strategies 
 
+{{< figure align=center alt="Families of Vision Language Models" src="/imgs/vlms/families_of_vlms.png" width=100% caption="Figure 1. Families of VLMs [2]">}}
 
+* Contrastive Method 
+
+- CLIP (2021)
+- SigLIP (2023)
+- Llip (2024) 
+
+* Masking Method 
+
+- FLAVA (2022) 
+- MaskVLM (2023)
+
+* Generative-based VLMs 
+
+- CoCa (2022)
+- CM3Leon (2023)
+
+* VLMs from Pretrained Backbones 
+
+- Qwen-VL(-Chat) (2023)
+- BLIP2 (2023)
 
 
 
