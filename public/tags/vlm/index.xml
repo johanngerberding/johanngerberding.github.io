@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Vlm on Johanns Blog</title>
+    <link>http://localhost:1313/tags/vlm/</link>
+    <description>Recent content in Vlm on Johanns Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 23 Aug 2024 10:00:00 +0200</lastBuildDate><atom:link href="http://localhost:1313/tags/vlm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vision Language Models</title>
+      <link>http://localhost:1313/posts/2024-08-23-vision-language-models/</link>
+      <pubDate>Fri, 23 Aug 2024 10:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/posts/2024-08-23-vision-language-models/</guid>
+      <description>LLMs are boring but VLMs are awesome, let&amp;rsquo;s see why.</description>
+      <content:encoded><![CDATA[<h2 id="notes">Notes</h2>
+<h3 id="vision-language-models-explained">Vision Language Models Explained</h3>
+<p>[1]</p>
+<p>What is a VLM?</p>
+<ul>
+<li>multimodal models that can learn from images and text</li>
+<li>generative models
+<ul>
+<li>input = image, text</li>
+<li>output = text</li>
+</ul>
+</li>
+<li>use cases: image chatting, image recognition, visual question answering, document understanding, image captioning and further more</li>
+<li>some of them are able to perform object detection, segmentation or reasoning about relative positions of objects (which is kinda fire)</li>
+</ul>
+<h3 id="an-introduction-to-vision-language-modeling">An Introduction to Vision-Language Modeling</h3>
+<p>[2]</p>
+<ul>
+<li>
+<p>current problems of VLMs:</p>
+<ul>
+<li>understanding spatial relationships</li>
+<li>counting stuff (without complicated engineering overhead that relies on additional data annotation)</li>
+<li>lack understanding of attributes and ordering</li>
+<li>ignorance of parts of the input prompt (a lot of prompt engineering is needed to produce the results you want)</li>
+<li>classic: hallucinations</li>
+</ul>
+</li>
+<li>
+<p>families of vlms:</p>
+<ul>
+<li>categorized based on the training paradigm:
+<ul>
+<li>contrastive: leverage pairs of positive and negative examples</li>
+<li>masking: leverages reconstruction of masekd image patches given some unmasked text</li>
+<li>pretrained backbones: LLM + pretrained image encoder, learn mapping between those two (less computationally expensive)</li>
+<li>generative: generate captions and images (expensive to train)</li>
+</ul>
+</li>
+<li>paradigms are not mutually exclusive because many approaches rely on a mix of those training strategies</li>
+</ul>
+</li>
+</ul>
+<figure class="align-center ">
+    <img loading="lazy" src="/imgs/vlms/families_of_vlms.png#center"
+         alt="Families of Vision Language Models" width="100%"/> <figcaption>
+            <p>Figure 1. Families of VLMs [2]</p>
+        </figcaption>
+</figure>
+
+<ul>
+<li>Contrastive Method</li>
+</ul>
+<ul>
+<li>CLIP [3] (2021)
+<ul>
+<li>pretraining task: predict which caption goes with which image</li>
+<li>trained on 400 million image-text-pairs</li>
+</ul>
+</li>
+</ul>
+<p><figure class="align-center ">
+    <img loading="lazy" src="/imgs/vlms/clip.png#center"
+         alt="CLIP approach overview" width="100%"/> <figcaption>
+            <p>Figure 2. CLIP approach overview [3]</p>
+        </figcaption>
+</figure>
+
+- leveraging captions from the internet instead of classic machine learning labels like in classification tasks makes it easier to collect a big dataset and it learns a connection between image and text which enables a flexible zero-shot transfer</p>
+<ul>
+<li>SigLIP (2023)</li>
+<li>Llip (2024)</li>
+</ul>
+<ul>
+<li>Masking Method</li>
+</ul>
+<ul>
+<li>FLAVA (2022)</li>
+<li>MaskVLM (2023)</li>
+</ul>
+<ul>
+<li>Generative-based VLMs</li>
+</ul>
+<ul>
+<li>CoCa (2022)</li>
+<li>CM3Leon (2023)</li>
+</ul>
+<ul>
+<li>VLMs from Pretrained Backbones</li>
+</ul>
+<ul>
+<li>Qwen-VL(-Chat) (2023)</li>
+<li>BLIP2 (2023)</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>I will not talk about closed source models because they are not interesting and nobody likes the closed stuff anyway (and there is no info, so nothing to talk about)</p>
+<ul>
+<li>How do they work?</li>
+<li>Why are they cool and important?</li>
+<li>What are cool open source models?
+<ul>
+<li>InternVL(2)</li>
+<li>LlaVa</li>
+<li>Flamingo</li>
+<li>CoCa</li>
+<li>BLiP2 (Salesforce)</li>
+</ul>
+</li>
+</ul>
+<h2 id="families-of-vlms">Families of VLMs</h2>
+<h3 id="contrastive-based-methods">Contrastive-based Methods</h3>
+<h3 id="vlms-with-masking-objectives">VLMs with Masking Objectives</h3>
+<h3 id="generative-based-vlms">Generative-based VLMs</h3>
+<h3 id="vlms-from-pretrained-backbones">VLMs from Pretrained Backbones</h3>
+<h2 id="training">Training</h2>
+<h2 id="evaluation">Evaluation</h2>
+<h2 id="leaderboard">Leaderboard</h2>
+<ul>
+<li>let&rsquo;s take a look at the current Huggingface VLM Leaderboard</li>
+</ul>
+<p align="justify">
+</p>
+<h2 id="references">References</h2>
+<p><a name="references"></a></p>
+<p><a href="https://huggingface.co/blog/vlms">[1]</a> M. Noyan &amp; E. Beeching &ldquo;Vision Language Models Explained&rdquo; (2024).</p>
+<p><a href="https://arxiv.org/pdf/2405.17247">[2]</a> Bordes et al. &ldquo;An Introduction to Vision-Language Modeling&rdquo; (2024)</p>
+<p><a href="https://arxiv.org/pdf/2103.00020">[3]</a> Radford et al. &ldquo;Learning Transferable Visual Models from Natural Language Supervision&rdquo; (2021)</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

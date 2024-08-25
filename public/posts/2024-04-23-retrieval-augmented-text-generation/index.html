@@ -56,7 +56,7 @@
   "keywords": [
     "rag", "transformer", "llm", "vector-database", "retrieval"
   ],
-  "wordCount" : "3908",
+  "wordCount" : "4793",
   "inLanguage": "en",
   "datePublished": "2024-04-23T10:00:00+02:00",
   "dateModified": "2024-04-23T10:00:00+02:00",
@@ -236,16 +236,16 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <h1 class="post-title">Retrieval-Augmented Text Generation (RAG)<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup></h1>
+    <h1 class="post-title">Retrieval-Augmented Text Generation (RAG)</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>April 23, 2024</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="http://localhost:1313/tags/rag/">Rag</a><a href="http://localhost:1313/tags/transformer/">Transformer</a><a href="http://localhost:1313/tags/llm/">Llm</a><a href="http://localhost:1313/tags/vector-database/">Vector-Database</a><a href="http://localhost:1313/tags/retrieval/">Retrieval</a></span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" style="user-select: text;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" style="user-select: text;"></path><polyline points="14 2 14 8 20 8" style="user-select: text;"></polyline><line x1="16" y1="13" x2="8" y2="13" style="user-select: text;"></line><line x1="16" y1="17" x2="8" y2="17" style="user-select: text;"></line><polyline points="10 9 9 9 8 9" style="user-select: text;"></polyline></svg>
-  <span>3908 words</span></span><span class="meta-item">
+  <span>4793 words</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 15"></polyline></svg>
-  <span>19 min</span></span>
+  <span>23 min</span></span>
 
       
       
@@ -266,7 +266,7 @@ function toggleThemeListener() {
                     <a href="#pre-retrieval" aria-label="Pre-Retrieval">Pre-Retrieval</a><ul>
                         
                 <li>
-                    <a href="#data-preparation--modification" aria-label="Data Preparation &amp;amp; Modification">Data Preparation &amp; Modification</a></li>
+                    <a href="#data-preparation--modification" aria-label="Data Preparation &amp; Modification">Data Preparation &amp; Modification</a></li>
                 <li>
                     <a href="#indexing" aria-label="Indexing">Indexing</a></li>
                 <li>
@@ -404,34 +404,52 @@ The retrieval process is a combination of search and ranking algorithms. The ove
 <p align="justify">
 Since you have embedded all your knowledge into feature vectors it's kinda easy to just use cosine similarity and k-Nearest-Neighbors to identify the 'k' vectors that are most similar to the query. kNN is a very popular choice due to its simplicity and explainability. One shortcoming of this strategy is the computational intensity of this approach when you have a very large knowledge base. Instead of cosine similarity you can also use euclidean distance or the dot prodoct which can lead to better search results in some cases.
 </p>
-- BM25 is the most popular keyword retrieval function that is based on bag-of-words
-- extensions: BM25F which adds different weights to fields of a document and BM25+ which addresses a problem with the unfair scoring of longer documents
 <p align="justify">
+There is a lot of research going on here and the following is a list of a couple of interesting methods:
 </p>
 <ul>
-<li>what do you do when you have your search results?</li>
-<li>reciprocal rank fusion for hybrid search?</li>
+<li><b>Atlas</b> <a href="#references">[24]</a>: Attention Distillation and Perplexity Distillation to steer the retriever to more relevant documents.</li>
+<li><b>IRCOT</b> <a href="#references">[25]</a>: Improve retrieval effectiveness by integrating reasoning.</li>
+<li><b>SURGE</b> <a href="#references">[26]</a>: Subgraph retriever to extract relevant subgraphs from a knowledge graph.</li>
+<li><b>PRCA</b> <a href="#references">[27]</a>: Employ domain specific abstract summarization to extract relevant and context-rich information using a supervised learning strategy.</li>
 </ul>
-<p align="justify">
-</p>
 <h3 id="post-retrieval">Post-Retrieval<a hidden class="anchor" aria-hidden="true" href="#post-retrieval">¶</a></h3>
 <p align="justify">
+This phase serves to refine the initially retrieved documents to improve the quality of text generation. This phase consists of re-ranking and filtering, each aimed at optimizing the document selection for the final generation task.
 </p>
 <h4 id="re-ranking">Re-Ranking<a hidden class="anchor" aria-hidden="true" href="#re-ranking">¶</a></h4>
 <p align="justify">
+In the re-ranking step, the documents previously retrieved are reassessed, scored, and reorganized. The objective is to more accurately highlight the documents most relevant to the query and diminish the importance of the less relevant ones. There are a bunch of different methods out there for re-ranking:
 </p>
+<ul>
+<li><b>Re2G</b> <a href="#references">[28]</a>: Sequence pair classification for re-ranking, using BERT to analyze both query and passage.</li>
+<li><b>PROMPTAGATOR</b> <a href="#references">[29]</a>: Employs a cross-attention model for re-scoring. It progressively improves content quality by a strategy called "Lift Yourself Up" that iteratively selects the best candidate from a pool for further generation rounds.</li>
+<li><b>In-Context RALM</b> <a href="#references">[30]</a>: Explores two re-ranking approaches, zero-shot re-ranking using LLMs and predictive re-ranking using trained models. The goal is to refine the selection of documents based on their expected utility for improving language model performance.</li>
+<li><b>ITER-RETGEN</b> <a href="#references">[31]</a>: Leverages knowledge distillation from the re-ranker to the dense retriever, finetuning retrieval efforts based on relevance signals from LLM outputs.</li>
+<li><b>DKS-RAC</b> <a href="#references">[32]</a>: Presents Dense Knowledge Similarity (DKS) for aligning the knowledge between answers and retrieved passages at the sequence level.</li>
+</ul>
 <h4 id="filtering">Filtering<a hidden class="anchor" aria-hidden="true" href="#filtering">¶</a></h4>
 <p align="justify">
+Filtering aims to remove documents that fail to meet specified quality or relevance standards. This can be done through several approaches, such as establishing a minimum relevance score threshold to exclude documents below a certain relevance level. Furthermore, the use of feedback from users or prior relevance evaluations assists in adjusting the filtering process, guaranteeing that only the most relevant documents are retained for text generation. The following three methods try to improve the filtering process:
 </p>
+<ul>
+<li><b>COK</b> <a href="#references">[33]</a>: Progressive Rationale Correction technique aimed at iteratively refining rationales with retrieved knowledge. It is a continuous optimization process to enhance the relevance and quality of information used in content generation.</li>
+<li><b>FiD-TF</b> <a href="#references">[34]</a>: Focus on removal of irrelevant and redundant tokens by employing a dynamic mechanism to identify those tokens.</li>
+<li><b>RECOMP</b> <a href="#references">[35]</a>: Focus on removal of irrelevant and redundant tokens by compressing documents into concise summaries focusing only on selecting the most pertinent content for the generation process.</li>
+</ul>
 <h3 id="generation">Generation<a hidden class="anchor" aria-hidden="true" href="#generation">¶</a></h3>
 <p align="justify">
-- task: generate text that is relevant to the query and reflective of the information found in the retrieved documents
-- how: concat the query with the found information and input that into a LLM
-- challenge: ensuring the outputs alignment and accuracy with the retrieved contents isn't straightforward 
-- the generated output should accurately convey the information from the retrieved documents and align with the query's intent, while also offering the flexibility to introduce new insights or perspectives not explicitly contained within the retrieved data 
-- another challenge: what if there is no relevant information in your knowledge base for a certain query, how to detect such instances and how to behave? 
-- retrieval is kinda naive, how would you filter irrelevant documents? based on some distance metric, but how to define that distance? 
+In the generation phase the overall goal is to generate text that is relevant to the query and reflective of the information found in the retrieved documents. The process is quite simple, we just concat the query with the found information and input that into a LLM. The main challenge is about ensuring the outputs alignment and accuracy with the retrieved contents which isn't straightforward. The generated output should accurately convey the information from the retrieved documents and align with the query's intent, while also offering the flexibility to introduce new insights or perspectives not explicitly contained within the retrieved data.
 </p>
+<p align="justify">
+There exist a lot of different approaches to improve the generation quality in a RAG pipline. The following list contains some recent papers which aimed at doing exactly that:
+</p>
+<ul>
+<li><b>REPLUG</b> <a href="#references">[36]</a>: Prepend retrieved documents to the input context before the final prediction. This introduces an ensemble strategy to encode retrieved documents in parallel, overcoming the limitations of LM context length and enhancing accurarcy through the allocation of increased computational resources.</li>
+<li><b>RECITE</b> <a href="#references">[37]</a>: Implements a self-consistency technique which involves generating multiple recitations independently and employing a majority vote system to determine the most appropriate answer.</li>
+<li><b>PKG</b> <a href="#references">[38]</a>: Customize outputs by generating background knowledge internally using a pre-trained model. This method directly integrates domain or task-specific knowledge into the generation step which enhances the LMs capacity to produce responses that are specifically tailored to the given context.</li>
+<li><b>SURGE</b> <a href="#references">[39]</a>: Customization through application of graph-text contrastive learning to ensure that the generated dialogue responses are in tight alignment with the knowledge contained in the retrieved subgraph.</li>
+</ul>
 <h2 id="advanced-rag-pipelines">Advanced RAG Pipelines<a hidden class="anchor" aria-hidden="true" href="#advanced-rag-pipelines">¶</a></h2>
 <p align="justify">
 The naive RAG implementation described before is rarely enough to satisfy production grade requirements. This has multiple reasons:
@@ -443,7 +461,7 @@ The naive RAG implementation described before is rarely enough to satisfy produc
 <li><b>Context window performance limitations</b>: trying to "over-retrieve" may hit on the capacity of the context window or otherwise produce a context window that is too big to return a result in a reasonable amount of time </li>
 </ul>
 <p align="justify">
-Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case.
+Many new RAG patterns have emerged to address these limitations. In the following I will go over some of those techniques, but it is important to note that there is no silver bullet. Each one of these methods may still produce poor results in certain situations or isn't well fitted for your specific use case. 
 </p>
 <h3 id="self-rag">Self RAG<a hidden class="anchor" aria-hidden="true" href="#self-rag">¶</a></h3>
 <p align="justify">
@@ -452,7 +470,7 @@ The Self-Reflective RAG paper describes fine-tuned models that incorporate mecha
 <figure class="align-center ">
     <img loading="lazy" src="/imgs/rag/self_rag.png#center"
          alt="Flowchart of the Self RAG method" width="100%"/> <figcaption>
-            <p>Figure X. Self RAG Process [3]</p>
+            <p>Figure 5. Self RAG Process [3]</p>
         </figcaption>
 </figure>
 
@@ -487,8 +505,6 @@ First the Language Model decides about the necessity of additional information t
     </tr>
 </table> 
 <p align="justify">
-- Why is all this a good idea? (Benchmarks) 
-- What are challenges?  
 For more detailed information regarding training, how they inserted these special tokens and data collection I'll recommend checking out the <a href="https://arxiv.org/pdf/2310.11511">paper</a>.
 </p>
 <h3 id="corrective-rag">Corrective RAG<a hidden class="anchor" aria-hidden="true" href="#corrective-rag">¶</a></h3>
@@ -498,7 +514,7 @@ The Corrective Retrieval Augmented Generation method to improve the accuracy and
 <figure class="align-center ">
     <img loading="lazy" src="/imgs/rag/crag.png#center"
          alt="An overview of Corrective Retrieval Augmented Generation" width="100%"/> <figcaption>
-            <p>Figure X. An overview of CRAG at inference [4]</p>
+            <p>Figure 6. An overview of CRAG at inference [4]</p>
         </figcaption>
 </figure>
 
@@ -506,18 +522,28 @@ The Corrective Retrieval Augmented Generation method to improve the accuracy and
 The Knowledge Refinement process is quite straightforward and starts by segmenting each retrieved document into fine-grained knowledge strips through heuristic rules. Then the retrieval evaluator is used to calculate a relevance score of each knowledge strip. Based on these scores the strips are filtered and recomposed via concatenation in order.
 </p>
 <h3 id="rag-fusion">RAG Fusion<a hidden class="anchor" aria-hidden="true" href="#rag-fusion">¶</a></h3>
-<ul>
-<li>research from a guy from Infineon</li>
-</ul>
 <p align="justify">
+The origin of RAG-Fusion is a <a href="https://github.com/Raudaschl/RAG-Fusion">github project</a> which got noticed from an Infineon employee who deployed it internally. The motivation behind it was, the need for employees to rapidly obtain product information but regular RAG didn't work that well. RAG-Fusion is a combination of traditional RAG and reciprocal rank fusion (RRF) and the workflow is as followed:
+</p>
+<ol>
+<li>Receive query and generate a number of new search queries through a LLM</li>
+<li>Vector Search like in regular RAG pipeline</li>
+<li>Reciprocal Rank Fusion: assign scores to every document and re-rank them accordingly</li>
+<li>Send all the re-ranked queries and documents to the LLM to generate an answer</li>
+</ol>
+<p align="justify">
+The figure down below shows this process described above.
 </p>
 <figure class="align-center ">
     <img loading="lazy" src="/imgs/rag/rag_fusion.png#center"
-         alt="RAG Fusion" width="100%"/> <figcaption>
-            <p>Figure X. RAG Fusion [24]</p>
+         alt="RAG Fusion" width="80%"/> <figcaption>
+            <p>Figure 7. RAG Fusion Workflow [24]</p>
         </figcaption>
 </figure>
 
+<p align="justify">
+The Infineon customers and engineers found the biggest downside of the method was the slow answer time because of the generation of multiple similar queries. Moreover the response times fluctuated over time (from 10 - 32s) because of the use of an third party API. Another main critique was the inability the empirically evaluate the answers. But in general, the RAG-Fusion answers were more accurate and comprehensive than those of the vanilla RAG system.
+</p>
 <h3 id="self-reasoning">Self-Reasoning<a hidden class="anchor" aria-hidden="true" href="#self-reasoning">¶</a></h3>
 <p align="justify">
 The method described in this paper focuses on the problem of irrelevant document retrieval which may result in unhelpful response generation or even performance deterioration. It is similar to the Self-RAG without the need of extra models and datasets. The authors propose an end-to-end self-reasoning framework to improve on these problems and especially improve reliability and traceability. 
@@ -525,7 +551,7 @@ The method described in this paper focuses on the problem of irrelevant document
 <figure class="align-center ">
     <img loading="lazy" src="/imgs/rag/self-reasoning.png#center"
          alt="Self-Reasoning Framework to Improve RAG" width="100%"/> <figcaption>
-            <p>Figure X. Self-Reasoning Framework to Improve RAG [5]</p>
+            <p>Figure 8. Self-Reasoning Framework to Improve RAG [5]</p>
         </figcaption>
 </figure>
 
@@ -633,6 +659,22 @@ Let's take a closer look at the evaluation of the two components:
 <p><a href="https://arxiv.org/pdf/1811.01241">[21]</a> Dinan et al. &ldquo;Wizard of Wikipedia: Knowledge Powered Conversational Agents&rdquo; (2019)</p>
 <p><a href="https://aclanthology.org/L18-1544.pdf">[22]</a> ElSahar et al. &ldquo;T-REx: A Large Scale Alignment of Natural Language with Knowledge Base Triples&rdquo; (2018)</p>
 <p><a href="https://arxiv.org/pdf/2402.03367">[23]</a> Z. Rackauckas &ldquo;RAG-Fusion: a New Take on Retrieval Augmented Generation&rdquo; (2024)</p>
+<p><a href="https://arxiv.org/pdf/2208.03299">[24]</a> Izacard et al. &ldquo;Atlas: Few-shot learning with retrieval augmented language models&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2212.10509">[25]</a> Trivedi et al. &ldquo;Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.18846">[26]</a> Kang et al. &ldquo;Knowledge Graph Augmented Language Models for Knowledge Grounded Dialog Generation&rdquo; (2023)</p>
+<p><a href="https://aclanthology.org/2023.emnlp-main.326.pdf">[27]</a> Yang et al. &ldquo;PRCA: Fitting Black-Box Large Language Models for Retrieval Question Answering via Pluggable Reward-Driven Contextual Adapter&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2207.06300">[28]</a> Glass et al. &ldquo;Re2G: Retrieve, Rerank, Generate&rdquo; (2022)</p>
+<p><a href="https://arxiv.org/pdf/2209.11755">[29]</a> Dai et al. &ldquo;PROMPTAGATOR: Few-shot Dense Retrieval from 8 Examples&rdquo; (2022)</p>
+<p><a href="https://arxiv.org/pdf/2302.00083">[30]</a> Ram et al. &ldquo;In-Context Retrieval Augmented Language Models&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.15294">[31]</a> Shao et al. &ldquo;Enhancing Retrieval-Augmented LLMs with Iterative Retrieval-Generation Synergy&rdquo; (2023)</p>
+<p><a href="https://aclanthology.org/2023.ijcnlp-main.65.pdf">[32]</a> Huang et al. &ldquo;Retrieval Augmented Generation with Rich Answer Encoding&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.13269">[33]</a> Li et al. &ldquo;Chain-of-Knowledge: Grounding Large Language Models via Dynamic Knowledge Adapting over Heterogeneous Sources&rdquo; (2024)</p>
+<p><a href="https://arxiv.org/pdf/2310.13682">[34]</a> Berchansky et al. &ldquo;Optimizing Retrieval-Augmented Reader Models via Token Elimination&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2310.04408">[35]</a> Xu et al. &ldquo;RECOMP: Improving Retrieval Augmented LMs with Compression and Selective Augmentation&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2301.12652">[36]</a> Shi et al. &ldquo;REPLUG: Retrieval-Augmented Black-Box Language Models&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2210.01296">[37]</a> Sun et al. &ldquo;Recitation-Augmented Language Models&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.04757">[38]</a> Luo et al. &ldquo;Augmented Large Language Models with Parametric Knowledge Guiding&rdquo; (2023)</p>
+<p><a href="https://arxiv.org/pdf/2305.18846">[39]</a> Kang et al. &ldquo;Knowledge Graph-Augmented Language Models for Knowledge-Grounded Dialog Generation&rdquo; (2023)</p>
 
 
   </div>
