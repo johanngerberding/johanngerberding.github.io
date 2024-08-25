@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>World-Models on Johanns Blog</title>
+    <link>http://localhost:1313/tags/world-models/</link>
+    <description>Recent content in World-Models on Johanns Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 08 Aug 2024 10:00:00 +0200</lastBuildDate><atom:link href="http://localhost:1313/tags/world-models/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>World Models for Autonomy</title>
+      <link>http://localhost:1313/posts/2024-08-08-world-models/</link>
+      <pubDate>Thu, 08 Aug 2024 10:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/posts/2024-08-08-world-models/</guid>
+      <description>Let&amp;rsquo;s talk about World Wodels. What are World Models, why are they awesome and what are people doing with them.</description>
+      <content:encoded><![CDATA[<p>What are World Models?</p>
+<p>How do they work?</p>
+<p>Why are these things useful/cool?</p>
+<p>Cool papers:</p>
+<ul>
+<li>Dreamer Papers V1 v2 v3, DayDreamer</li>
+<li>Viper</li>
+</ul>
+<p>What are practical applications?</p>
+<ul>
+<li>Autonomy, Autonomous Driving</li>
+</ul>
+<p>Companies leveraging those technologies:</p>
+<ul>
+<li>wayve, comma.ai</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p align="justify">
+I think I heard the term World Model one or two years ago, when some person from <a href="">comma.ai</a> mentioned it, maybe it was in one of George's streams. I knew about the paper from comma that they published in 2016, talking about similar stuff just they used other terms.
+</p>
+<h2 id="world-models-for-autonomy">World Models for Autonomy</h2>
+<p align="justify">
+</p>
+<h2 id="references">References</h2>
+<p><a name="references"></a></p>
+<p><a href="https://arxiv.org/pdf/1803.10122">[1]</a> D. Ha &amp; J. Schmidhuber &ldquo;World Models&rdquo; (2018).</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
