@@ -95,49 +95,80 @@ I will not talk about closed source models because they are not interesting and 
 ### Contrastive-based Methods 
 
 <p align="justify">
+In this section I am presenting two contrastive-based VLMs, the very popular CLIP model from OpenAI and one of the successor models from Meta called Llip.
 </p>
 
 #### CLIP 
 
-- CLIP [3] (2021)
-    - pretraining task: predict which caption goes with which image 
-    - trained on 400 million image-text-pairs from the web, the dataset was called WIT for WebImageText 
+<p align="justify">
+CLIP (<b>C</b>ontrastive <b>L</b>anguage <b>I</b>mage <b>P</b>re-training) was one of those models created by OpenAI which were really open (you know back in the days OpenAI was really open and cool). The pre-training task here was not to predict the exact caption for each image but to predict which whole caption to pair with a certain image. This switch from a predictive objective (so the classic ML approach with labels) to a contrastive one lead to a 4x efficiency improvement. To train this model the authors leveraged captions from the internet and collected a huge dataset of 400 million image-text-pairs which they called WIT for WebImageText. Another advantage of prediction captions instead of e.g. classes was a better and more flexible zero-shot transfer capability of the model. The figure down below gives a good overview of the approach.
+</p>
 
 {{< figure align=center alt="CLIP approach overview" src="/imgs/vlms/clip.png" width=100% caption="Figure 2. CLIP approach overview [3]">}}
-    - leveraging captions from the internet instead of classic machine learning labels like in classification tasks makes it easier to collect a big dataset and it learns a connection between image and text which enables a flexible zero-shot transfer 
-    - training proxy task: predict which text as a whole is paired with which image 
-    - switiching from a predictive objective to a contrastive objective create a 4x efficiency improvement
-    - training procedure: given a batch of N image-text-pairs, CLIP is trained to predict which of the NxN possible image-text-pairings across a batch actually occured. to accomplish this, clip learns a multimodal embedding space by jointly training an image encoder and text encoder to maximize the cosine similarity of the image and the text embeddings of the N real pairs in the batch while minimizing the cosine similarity of the incorrect pairings
-    - a symmetric cross entropy loss over the similarity scores is used for optimization
-    - the following pseudocode describes this procedure: 
+
+<p align="justify">
+The CLIP model is trained using a batch of NN image-text pairs. The training objective is to predict which of the N×NN×N possible image-text pairings within the batch actually occurred. To achieve this, CLIP learns a multimodal embedding space by jointly training an image encoder and a text encoder. The goal is to maximize the cosine similarity between the image and text embeddings of the NN correct (real) pairs in the batch while minimizing the cosine similarity for the incorrect pairings. For optimization, a symmetric cross-entropy loss, also known as InfoNCE loss, is applied to the similarity scores. The following pseudocode outlines this procedure.
+</p>
 
 {{< figure align=center alt="CLIP training pseudocode" src="/imgs/vlms/clip_code.png" width=60% caption="Figure 3. CLIP training pseudocode [3]">}}
 
-- as the image encoder, the authors trained 5 ResNet and 3 ViT versions and found the ViT-L/14@336px version to perform the best 
-- the text encoder is a 63M parameter Transformer (12 layers) with a vocab size of ~49K 
-- remember those days when OpenAI was open and cool and giving us all this information, they used to be cool, believe me 
+<p align="justify">
+As the image encoder, the authors trained 5 ResNet and 3 ViT versions and found the ViT-L/14@336px version to perform the best. The text encoder is a 63M parameter Transformer (12 layers) with a vocab size of ~49K. The model showed strong zero-shot performance on ImageNet classification task (same as the original ResNet50). Some of the limitations of CLIP were e.g. that the zero-shot performance on more finegrained vision tasks was quite bad (like differenciating between different car models), on some tasks it was random (like counting objects) and it was not as good as you would expect on simple out of distribution tasks like MNIST (just 88% accuracy).  
+</p>
+
+#### Llip 
 
 
+<p align="justify">
+One of the problems with CLIP was, that there are a thousand ways to caption an image, based on the fact that the caption could describe only specific regions of an image or specific objects. To better model the visual richness of an image, a training objective of a vision language model should aim to capture all the possible text descriptions. This is what the authors of Llip, <b>L</b>atent <b>L</b>anguage <b>I</b>mage <b>P</b>retraining, try to do. To enable the prediction of different representations from a fixed image, they implemented the image-to-text representation function as a one-to-many mapping. This is achieved by augmenting the visual encoder with a latent variable that captures context information. The contextual latent is inferred from the caption and used to modulate the representation. The visual encoder is implemented as a Vision Transformer that outputs K learnable mixture tokens in addition to the visual tokens. These mixture tokens should capture different visual aspects of an image. Figure 4 down below shows this simple modification of CLIP.
+</p>
+
+{{< figure align=center alt="CLIP vs. Llip" src="/imgs/vlms/clip_vs_llip.png" width=80% caption="Figure 4. CLIP vs. Llip [4]">}}
+
+<p align="justify">
+The authors added a cross-attention mechanism to infer the mixture token weights as a function of the text caption. The weighted mixture defines the contextual representation that is contrasted with text representations. This leads to significant improvement of the visual representation quality as well as a more rich visual representation.
+</p>
+
+{{< figure align=center alt="Llip Cross Attention mechanism" src="/imgs/vlms/llip_cross_attention.png" width=90% caption="Figure 5. Llip cross-attention mechanism [4]">}}
+
+<p align="justify">
+On zero-shot transfer classification, Llip consistently outperforms CLIP pretraining for architecture of similar size on a large set of benchmarks. Especially on zero-shot image-text and text-image retrieval, Llip consistently outperforms CLIP pretraining on COCO by 6.0% image-to-text retrieval.
+</p>
 
 ### VLMs with Masking Objectives 
 
+<p align="justify">
+</p>
 
 ### Generative-based VLMs
 
+<p align="justify">
+</p>
 
 ### VLMs from Pretrained Backbones 
 
-* InternVL1.5 & 2
-* Idefics 1 & 2 & 3
+<p align="justify">
+</p>
 
+#### Idefics 
+
+<p align="justify">
+</p>
+
+#### InternVL
+
+<p align="justify">
+</p>
 
 ## Training 
 
-
+<p align="justify">
+</p>
 
 ## Evaluation 
 
-
+<p align="justify">
+</p>
 
 ## Leaderboard 
 
@@ -157,3 +188,5 @@ I will not talk about closed source models because they are not interesting and 
 [[2]](https://arxiv.org/pdf/2405.17247) Bordes et al. "An Introduction to Vision-Language Modeling" (2024) 
 
 [[3]](https://arxiv.org/pdf/2103.00020) Radford et al. "Learning Transferable Visual Models from Natural Language Supervision" (2021)
+
+[[4]](https://arxiv.org/pdf/2405.00740) Lavoie et al. "Modeling Caption Diversity in Contrastive Vision-Language Pretraining" (2024)
