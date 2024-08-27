@@ -117,21 +117,21 @@ Masking is a commonly used technique in deep learning research. It can be viewed
 #### FLAVA 
 
 <p align="justify">
-- motivation: contrastive methods like CLIP aren't easy usable on multimodal problems that require dealing with both modalities at the same time. models that rely on early fusion and shared self-attetion across modalities often perform very bad on vision-only or language-only tasks  
-- goal: create a single "foundation" model that is good at vision tasks, language tasks and cross- and multi-modal tasks 
-- FLAVA consists of three models, an image encoder, a text encoder and a multimodal encoder that takes as input the encoded image and text and integrates their represenations for multimodal reasoning
-- image encoder: ViT-B/16 with a fixed image size, outputs is a list of hidden state vectors $\{h_{I}\}$, each corresponding to an image patch + classification token $h_{CLS,I}$    
-- text encoder: tokenize + embed + transformer -> hidden state vector $\{h_{T}\}$ + text classification token $h_{CLS,T}$
-- training process: joint pretraining on both unimodal and multimodal data while encompassing cross-modal alignment objectives and multimodal fusion objectives
-- training data is openly available
+Contrastive methods like CLIP aren't easy usable on multimodal problems that require dealing with both modalities at the same time. Many of the more recent models that rely on early fusion and shared self-attention across modalities often perform very bad on vision-only or language-only tasks. The goal of the authors was to create a single "foundation" model that is good at vision tasks, language tasks and cross- and multi-modal tasks. FLAVA consists of three models, an image encoder, a text encoder and a multimodal encoder that takes as input the encoded image and text and integrates their represenations for multimodal reasoning.
 
+- image encoder: ViT-B/16 with a fixed image size, outputs is a list of hidden state vectors $\{h_{I}\}$, each corresponding to an image patch + classification token $h_{CLS,I}$    
+- text encoder: tokenize + embed + transformer -> hidden state vector $\{h_{T}\}$ + text classification token $h_{CLS,T}$, same architecture as vision part ViT-B/16
+- multimodal encoder: transformer to fuse image and text hidden states; with learned linear projections over each hidden state vector     
 </p>
 
 {{< figure align=center alt="Overview of the FLAVA model architecture" src="/imgs/vlms/flava_overview.png" width=100% caption="Figure 6. Overview of the FLAVA model architecture [5]">}}
 
 <p align="justify">
-- validation of FLAVA on 35 tasks across vision, NLP and multimodal domains
 
+- training process: joint pretraining on both unimodal and multimodal data while encompassing cross-modal alignment objectives and multimodal fusion objectives
+- training data is openly available
+
+- validation of FLAVA on 35 tasks across vision, NLP and multimodal domains
 </p>
 
 #### MaskVLM
