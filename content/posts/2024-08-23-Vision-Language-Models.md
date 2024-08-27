@@ -12,10 +12,7 @@ tags: ["vlm", "llm"]
 ---
 
 
-## Notes 
-
-### Vision Language Models Explained 
-[1]
+## Introduction  
 
 What is a VLM? 
 * multimodal models that can learn from images and text 
@@ -25,34 +22,6 @@ What is a VLM?
 * use cases: image chatting, image recognition, visual question answering, document understanding, image captioning and further more
 * some of them are able to perform object detection, segmentation or reasoning about relative positions of objects (which is kinda fire)
 
-### An Introduction to Vision-Language Modeling 
-[2]
-
-* Contrastive Method 
-
-
-
-- SigLIP (2023)
-- Llip (2024) 
-
-* Masking Method 
-
-- FLAVA (2022) 
-- MaskVLM (2023)
-
-* Generative-based VLMs 
-
-- CoCa (2022)
-- CM3Leon (2023)
-
-* VLMs from Pretrained Backbones 
-
-- Qwen-VL(-Chat) (2023)
-- BLIP2 (2023)
-
-
-
-## Introduction  
 
 I will not talk about closed source models because they are not interesting and nobody likes the closed stuff anyway (and there is no info, so nothing to talk about)
 
@@ -80,16 +49,20 @@ I will not talk about closed source models because they are not interesting and 
 
 ## Families of VLMs 
 
-- categorized based on the training paradigm:
-    - contrastive: leverage pairs of positive and negative examples 
-    - masking: leverages reconstruction of masekd image patches given some unmasked text  
-    - pretrained backbones: LLM + pretrained image encoder, learn mapping between those two (less computationally expensive) 
-    - generative: generate captions and images (expensive to train)
-- paradigms are not mutually exclusive because many approaches rely on a mix of those training strategies 
+<p align="justify">
+One way to categorize VLMs is based on the training paradigm like in [2]:
+</p>
+<ul>
+<li><b>contrastive</b>: Leverage pairs of positive and negative examples.</li>
+<li><b>masking</b>: Leverage reconstruction of masked image patches given some unmasked text.</li>
+<li><b>pretrained backbones</b>: Combine a pretrained LLM with a pretrained image encoder and then learn a mapping between those two.</li>
+<li><b>generative</b>: Generate captions and images.</li>
+</ul>
 
 {{< figure align=center alt="Families of Vision Language Models" src="/imgs/vlms/families_of_vlms.png" width=100% caption="Figure 1. Families of VLMs [2]">}}
 
 <p align="justify">
+The paradigms are not mutually exclusive and many approaches we explore in this post rely on a mix of those training strategies. In the following we will describe some approaches for each paradigm.
 </p>
 
 ### Contrastive-based Methods 
@@ -107,7 +80,7 @@ CLIP (<b>C</b>ontrastive <b>L</b>anguage <b>I</b>mage <b>P</b>re-training) was o
 {{< figure align=center alt="CLIP approach overview" src="/imgs/vlms/clip.png" width=100% caption="Figure 2. CLIP approach overview [3]">}}
 
 <p align="justify">
-The CLIP model is trained using a batch of NN image-text pairs. The training objective is to predict which of the N×NN×N possible image-text pairings within the batch actually occurred. To achieve this, CLIP learns a multimodal embedding space by jointly training an image encoder and a text encoder. The goal is to maximize the cosine similarity between the image and text embeddings of the NN correct (real) pairs in the batch while minimizing the cosine similarity for the incorrect pairings. For optimization, a symmetric cross-entropy loss, also known as InfoNCE loss, is applied to the similarity scores. The following pseudocode outlines this procedure.
+The CLIP model is trained using a batch of $N$ image-text pairs. The training objective is to predict which of the $N×N$ possible image-text pairings within the batch actually occurred. To achieve this, CLIP learns a multimodal embedding space by jointly training an image encoder and a text encoder. The goal is to maximize the cosine similarity between the image and text embeddings of the $N$ correct (real) pairs in the batch while minimizing the cosine similarity for the incorrect pairings. For optimization, a symmetric cross-entropy loss, also known as InfoNCE loss, is applied to the similarity scores. The following pseudocode outlines this procedure.
 </p>
 
 {{< figure align=center alt="CLIP training pseudocode" src="/imgs/vlms/clip_code.png" width=60% caption="Figure 3. CLIP training pseudocode [3]">}}
@@ -120,7 +93,7 @@ As the image encoder, the authors trained 5 ResNet and 3 ViT versions and found 
 
 
 <p align="justify">
-One of the problems with CLIP was, that there are a thousand ways to caption an image, based on the fact that the caption could describe only specific regions of an image or specific objects. To better model the visual richness of an image, a training objective of a vision language model should aim to capture all the possible text descriptions. This is what the authors of Llip, <b>L</b>atent <b>L</b>anguage <b>I</b>mage <b>P</b>retraining, try to do. To enable the prediction of different representations from a fixed image, they implemented the image-to-text representation function as a one-to-many mapping. This is achieved by augmenting the visual encoder with a latent variable that captures context information. The contextual latent is inferred from the caption and used to modulate the representation. The visual encoder is implemented as a Vision Transformer that outputs K learnable mixture tokens in addition to the visual tokens. These mixture tokens should capture different visual aspects of an image. Figure 4 down below shows this simple modification of CLIP.
+One of the problems with CLIP was, that there are a thousand ways to caption an image, based on the fact that the caption could describe only specific regions of an image or specific objects. To better model the visual richness of an image, a training objective of a vision language model should aim to capture all the possible text descriptions. This is what the authors of Llip, <b>L</b>atent <b>L</b>anguage <b>I</b>mage <b>P</b>retraining, try to do. To enable the prediction of different representations from a fixed image, they implemented the image-to-text representation function as a one-to-many mapping. This is achieved by augmenting the visual encoder with a latent variable that captures context information. The contextual latent is inferred from the caption and used to modulate the representation. The visual encoder is implemented as a Vision Transformer that outputs $K$ learnable mixture tokens in addition to the visual tokens. These mixture tokens should capture different visual aspects of an image. Figure 4 down below shows this simple modification of CLIP.
 </p>
 
 {{< figure align=center alt="CLIP vs. Llip" src="/imgs/vlms/clip_vs_llip.png" width=80% caption="Figure 4. CLIP vs. Llip [4]">}}
@@ -136,6 +109,32 @@ On zero-shot transfer classification, Llip consistently outperforms CLIP pretrai
 </p>
 
 ### VLMs with Masking Objectives 
+
+<p align="justify">
+Masking is a commonly used technique in deep learning research. It can be viewed as a specific form of denoising autoencoder in which the noise has a spatial structure. In 2019 the authors of the BERT paper used Masked-Language-Modeling (MLM) to predict missing text tokens in a sentence. More recently the same concept (Masked-Image-Modeling) was used in the vision space to learn strong visual representations like in I-JEPA. In the following we are going through two approaches that combined those techniques to train a VLM, FLAVA [5] and MaskVLM [6].
+</p>
+
+#### FLAVA 
+
+<p align="justify">
+- motivation: contrastive methods like CLIP aren't easy usable on multimodal problems that require dealing with both modalities at the same time. models that rely on early fusion and shared self-attetion across modalities often perform very bad on vision-only or language-only tasks  
+- goal: create a single "foundation" model that is good at vision tasks, language tasks and cross- and multi-modal tasks 
+- FLAVA consists of three models, an image encoder, a text encoder and a multimodal encoder that takes as input the encoded image and text and integrates their represenations for multimodal reasoning
+- image encoder: ViT-B/16 with a fixed image size, outputs is a list of hidden state vectors $\{h_{I}\}$, each corresponding to an image patch + classification token $h_{CLS,I}$    
+- text encoder: tokenize + embed + transformer -> hidden state vector $\{h_{T}\}$ + text classification token $h_{CLS,T}$
+- training process: joint pretraining on both unimodal and multimodal data while encompassing cross-modal alignment objectives and multimodal fusion objectives
+- training data is openly available
+
+</p>
+
+{{< figure align=center alt="Overview of the FLAVA model architecture" src="/imgs/vlms/flava_overview.png" width=100% caption="Figure 6. Overview of the FLAVA model architecture [5]">}}
+
+<p align="justify">
+- validation of FLAVA on 35 tasks across vision, NLP and multimodal domains
+
+</p>
+
+#### MaskVLM
 
 <p align="justify">
 </p>
@@ -190,3 +189,7 @@ On zero-shot transfer classification, Llip consistently outperforms CLIP pretrai
 [[3]](https://arxiv.org/pdf/2103.00020) Radford et al. "Learning Transferable Visual Models from Natural Language Supervision" (2021)
 
 [[4]](https://arxiv.org/pdf/2405.00740) Lavoie et al. "Modeling Caption Diversity in Contrastive Vision-Language Pretraining" (2024)
+
+[[5]](https://arxiv.org/pdf/2112.04482) Singh et al. "FLAVA: A Foundational Language And Vision Alignment Model" (2021)
+
+[[6]](https://arxiv.org/pdf/2208.02131) Kwon et al. "Masked Vision and Language Modeling for Multi-Modal Represenation Learning" (2023)
