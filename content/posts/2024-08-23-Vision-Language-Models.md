@@ -128,8 +128,14 @@ Contrastive methods like CLIP aren't easy usable on multimodal problems that req
 
 <p align="justify">
 
-- training process: joint pretraining on both unimodal and multimodal data while encompassing cross-modal alignment objectives and multimodal fusion objectives
-- training data is openly available
+- training process: joint pretraining on both unimodal and multimodal data 
+- multimodal pretraining loss components:
+    - global contrastive (GC) loss like CLIP 
+    - masked multimodal modeling (MMM) loss, masking of both the image patches and the text tokens 
+    - image text matching (ITM) loss, apply a classifier on top of the multimodal encoder to decide if input image and text match to each other 
+- unimodal pretraining loss components: 
+    - for images: masked image modeling (MIM): block-wise masking like in BEiT, tokenize image patches with dVAE tokenizer, use a classifier on top of the image encoder outputs to predict the missing tokens   
+    - for text: masekd language modeling (MLM): mask 15% of text tokens, use a classifier on top of the unimodal text hidden states output to fill out the gaps 
 
 - validation of FLAVA on 35 tasks across vision, NLP and multimodal domains
 </p>
