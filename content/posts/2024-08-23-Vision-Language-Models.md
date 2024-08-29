@@ -14,37 +14,24 @@ tags: ["vlm", "llm"]
 
 ## Introduction  
 
-What is a VLM? 
-* multimodal models that can learn from images and text 
-* generative models
-    - input = image, text 
-    - output = text
-* use cases: image chatting, image recognition, visual question answering, document understanding, image captioning and further more
-* some of them are able to perform object detection, segmentation or reasoning about relative positions of objects (which is kinda fire)
+<p align="justify">
+Vision Language Models (VLM) are multimodal models that can learn from text and images and generate text as an output (some are able to generate images too). Typical use cases for this range from image chatting, image recognition, visual question answering to image captioning, document understanding and more. In addition to that some models are also able to perform object detection, segmentation or reasoning about relative positions of objects (which is kinda fire).
+</p>
 
-
-I will not talk about closed source models because they are not interesting and nobody likes the closed stuff anyway (and there is no info, so nothing to talk about)
-
-
-* How do they work? 
-* Why are they cool and important?
-* What are cool open source models? 
-    - InternVL(2)
-    - LlaVa
-    - Flamingo
-    - CoCa
-    - BLiP2 (Salesforce)
-
-* current problems of VLMs: 
-    - understanding spatial relationships
-    - counting stuff (without complicated engineering overhead that relies on additional data annotation)
-    - lack understanding of attributes and ordering
-    - ignorance of parts of the input prompt (a lot of prompt engineering is needed to produce the results you want)
-    - classic: hallucinations 
-
-* try to categorize them like in [2] which makes sense 
-* go over some prominent examples (just a couple of examples, there are to many models out there to cover them all)
-
+<p align="justify">
+The focus of this post lies on open source models just because we have information about their architecture, datasets and training processes. VLMs currently are far from being perfect, there exist a lot of open questions, challenges when building them and problems that have to be addressed e.g.:
+</p>
+<ul>
+<li>bad understanding of spatial relationships</li>
+<li>bad at counting (without complicated engineering overhead that relies on additional data annotation or other hacks)</li>
+<li>lack understanding of attributes and ordering</li>
+<li>ignorance of parts of the input prompt (need for a lot of prompt engineering to produce the results you want)</li>
+<li>hallucinations (like in LLMs)</li>
+</ul> 
+    
+<p align="justify">
+In the following I will categorize them by their training paradigm like in [2] and will go over some prominent examples. There exist way to many models to cover them all so if this overview here isn't enough and you want more information check out <a href="https://huggingface.co/models?pipeline_tag=image-text-to-text&sort=trending">huggingface models</a>, this cool <a href="https://huggingface.co/collections/merve/vision-language-models-papers-66264531f7152ac0ec80ceca">paper collection</a> or <a href="https://paperswithcode.com/">paperswithcode</a>. 
+</p>
 
 
 ## Families of VLMs 
@@ -59,7 +46,7 @@ One way to categorize VLMs is based on the training paradigm like in [2]:
 <li><b>generative</b>: Generate captions and images.</li>
 </ul>
 
-{{< figure align=center alt="Families of Vision Language Models" src="/imgs/vlms/families_of_vlms.png" width=100% caption="Figure 1. Families of VLMs [2]">}}
+{{< figure align=center alt="Families of Vision Language Models" src="/imgs/vlms/families_of_vlms.png" width=90% caption="Figure 1. Families of VLMs [2]">}}
 
 <p align="justify">
 The paradigms are not mutually exclusive and many approaches we explore in this post rely on a mix of those training strategies. In the following we will describe some approaches for each paradigm.
@@ -146,6 +133,25 @@ One of the cool things of this paper is, that the authors only used public unimo
 </p>
 
 ### Generative-based VLMs
+
+<p align="justify">
+Trained to generate text and images 
+Advantages of generative classifiers: 
+</p>
+
+<ul>
+<li>more effective robustness which means better out-of-distribution performance</li>
+<li>better on compositional reasoning tasks than discriminative methods like CLIP</li> 
+<li>more shape bias and better alignment with human judgement</li>
+<li>can be jointly adapted with discriminative models at test time using only unlabeled test samples which improves classification, segmentation and depth prediction performance</li>
+</ul>
+
+#### CoCa 
+
+<p align="justify">
+</p>
+
+#### Chameleon 
 
 <p align="justify">
 </p>
