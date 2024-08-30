@@ -137,8 +137,14 @@ Instead of developing masked language modeling (MLM) and masked image modeling (
 
 <p align="justify">
 - two types of pre-training objectives:
-    - masked vision and language modeling 
-    - multimodal alignment
+    - masked vision and language modeling:
+        - image and text encoders are transformer based models that extract features 
+        - image and text features are further processed by image and text cross-modality encoders which consist of 3 cross-attention blocks 
+        - the cross-modality encoders generate attentions for the text and image features to enhance the representations of one modality by interacting with the other
+    - multimodal alignment: 
+        - image text contrastive learning (ITC)
+        - image text matching (ITM)  
+        - for more detailed info on those, take a look at the paper
 </p>
 
 {{< figure align=center alt="MaskVLM model architecture" src="/imgs/vlms/maskvlm_architecture.png" width=90% caption="Figure 8. Overview of the MaskVLM model architecture [6]">}}
@@ -181,6 +187,11 @@ In contrast to the paradigms above, that mostly operate on latent representation
 </p>
 
 #### InternVL
+
+<p align="justify">
+</p>
+
+#### Qwen2-VL
 
 <p align="justify">
 </p>
