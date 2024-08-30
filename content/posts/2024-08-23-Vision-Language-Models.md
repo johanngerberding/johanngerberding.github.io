@@ -130,13 +130,27 @@ One of the cool things of this paper is, that the authors only used public unimo
 #### MaskVLM
 
 <p align="justify">
+Instead of developing masked language modeling (MLM) and masked image modeling (MIM) independently, the authors propose to build joint masked vision and language modeling, where the masked signal of one modality is reconstructed with the help from another modality. The masked signal reconstruction of one modality conditioned on another modality can also implicitly learn cross-modal alignment between language tokens and image patches. This works especially well in scenarios with limited data. Figure 7 illustrates the difference between this new paradigm and the classic MIM and MLM based approaches.
+</p>
+
+{{< figure align=center alt="Left MIM and MLM and right the MaskVLM idea" src="/imgs/vlms/maskvlm_idea.png" width=85% caption="Figure 7. Left: MIM & MLM; Right: Masked Vision Language Modeling [6]">}}
+
+<p align="justify">
+- two types of pre-training objectives:
+    - masked vision and language modeling 
+    - multimodal alignment
+</p>
+
+{{< figure align=center alt="MaskVLM model architecture" src="/imgs/vlms/maskvlm_architecture.png" width=90% caption="Figure 8. Overview of the MaskVLM model architecture [6]">}}
+
+<p align="justify">
+- this paradigm is very data efficient, in limited data scenarios only ∼40% of data used by the state-of-the-art models is sufficient to match their performance.
 </p>
 
 ### Generative-based VLMs
 
 <p align="justify">
-Trained to generate text and images 
-Advantages of generative classifiers: 
+In contrast to the paradigms above, that mostly operate on latent representations we will now look at generative VLM that are trained to generate text and images. We are looking at two methods in more detail, <b>CoCa</b> which learns to generate text and <b>Chameleon</b> which is a multimodal generative model that can generate text and images. Before we delve deeper I will list some of the advantages of generative classifiers and why this training paradigm can be a good idea: 
 </p>
 
 <ul>
