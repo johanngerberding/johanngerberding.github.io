@@ -183,6 +183,25 @@ In contrast to the paradigms above, that mostly operate on latent representation
 
 #### Idefics 
 
+Idefics1: 
+* introduction of the OBELICS dataset which consists of interleaved image-text documents comprising 141 million web pages extracted from Common Crawl, 353 million associated images and 115 billion text tokens
+* one of the advantages of OBELICS is the amount and detail of text per image, which is much bigger than in other image-text datasets
+* Figure X down below shows the whole dataset creation process  
+
+{{< figure align=center alt="Generation process of the OBELICS dataset" src="/imgs/vlms/obelics.png" width=90% caption="Figure 9. Overview of the OBELICS generation process [7]">}}
+
+* with that dataset the authors created two vision language models called "Idefics", a 9 and a 80 billion parameter model  
+* it is based on the Flamingo architecture, comprised of two frozen unimodal backbones, Llama for the language encoder and OpenCLIP for the vision part
+* learnable cross-attention Transformer blocks and Perceiver blocks are added to connect both unimodal encoders
+* best results on a combination of the LAION and the OBELICS datasets
+
+
+Idefics2: 
+* investigate which choices matter when building VLMs 
+* Idefics2 is a 8B parameter VLM that achieves state-of-the-art performance within its size category  
+
+Idefics3: 
+* test
 <p align="justify">
 </p>
 
@@ -230,3 +249,9 @@ In contrast to the paradigms above, that mostly operate on latent representation
 [[5]](https://arxiv.org/pdf/2112.04482) Singh et al. "FLAVA: A Foundational Language And Vision Alignment Model" (2021)
 
 [[6]](https://arxiv.org/pdf/2208.02131) Kwon et al. "Masked Vision and Language Modeling for Multi-Modal Represenation Learning" (2023)
+
+[[7]](https://arxiv.org/pdf/2306.16527) Laurencon et al. "OBELICS: An Open Web-Scaled Filtered Dataset of Interleaved Image-Text Documents" (2023) 
+
+[[8]](https://arxiv.org/pdf/2405.02246) Laurencon et al. "What matters when building vision-language models?" (2024)
+
+[[9]](https://arxiv.org/pdf/2408.12637) Laurencon et al. "Building and better understanding vision-language models: insights and future directions" (2024)
