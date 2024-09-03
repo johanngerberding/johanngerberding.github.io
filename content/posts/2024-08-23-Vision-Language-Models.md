@@ -136,21 +136,13 @@ Instead of developing masked language modeling (MLM) and masked image modeling (
 {{< figure align=center alt="Left MIM and MLM and right the MaskVLM idea" src="/imgs/vlms/maskvlm_idea.png" width=85% caption="Figure 7. Left: MIM & MLM; Right: Masked Vision Language Modeling [6]">}}
 
 <p align="justify">
-- two types of pre-training objectives:
-    - masked vision and language modeling:
-        - image and text encoders are transformer based models that extract features 
-        - image and text features are further processed by image and text cross-modality encoders which consist of 3 cross-attention blocks 
-        - the cross-modality encoders generate attentions for the text and image features to enhance the representations of one modality by interacting with the other
-    - multimodal alignment: 
-        - image text contrastive learning (ITC)
-        - image text matching (ITM)  
-        - for more detailed info on those, take a look at the paper
+There are two main types of pre-training objectives in this model. The first is masked vision and language modeling. Here, transformer-based models are used as image and text encoders to extract features from both modalities. These features are then processed by image and text cross-modality encoders, which consist of three cross-attention blocks. These blocks allow the text and image features to interact, enhancing the representation of each by leveraging information from the other. The second objective is multimodal alignment, which includes image-text contrastive learning (ITC) and image-text matching (ITM). These methods align the representations of images and text to ensure they correspond accurately. For more detailed information, you can refer to the original paper.
 </p>
 
 {{< figure align=center alt="MaskVLM model architecture" src="/imgs/vlms/maskvlm_architecture.png" width=90% caption="Figure 8. Overview of the MaskVLM model architecture [6]">}}
 
 <p align="justify">
-- this paradigm is very data efficient, in limited data scenarios only ∼40% of data used by the state-of-the-art models is sufficient to match their performance.
+MaskVLM is very data efficient, it especially shines in limited data scenarios where only ∼40% of data used by the state-of-the-art models is sufficient to match their performance.
 </p>
 
 ### Generative-based VLMs
@@ -168,7 +160,19 @@ In contrast to the paradigms above, that mostly operate on latent representation
 
 #### CoCa 
 
+- <b>Co</b>ntrastive <b>Ca</b>ptioner (CoCa) is an image-text encoder-decoder foundation model pretrained jointly with a contrastive and a captioning loss, which makes it a combination of contrastive approaches like CLIP and generative methods. 
+- decoder is decoupled into two parts, a unimodal decoder and a multimodal decoder
+- omit cross-attention in unimodal decoder layers to encode text-only representations, and cascade multimodal decoder layers cross-attending to image encoder outputs to learn multimodal image-text representation
+
+
 <p align="justify">
+</p>
+
+{{< figure align=center alt="CoCa model architecture, training objectives and pseudocode" src="/imgs/vlms/coca_architecture.png" width=100% caption="Figure 9. Overview of the CoCa model architecture and training objectives [10]">}}
+
+
+<p align="justify">
+- quick transfer to downstream tasks with zero-shot transfer or minimal task adaptation
 </p>
 
 #### Chameleon 
@@ -255,3 +259,7 @@ Idefics3:
 [[8]](https://arxiv.org/pdf/2405.02246) Laurencon et al. "What matters when building vision-language models?" (2024)
 
 [[9]](https://arxiv.org/pdf/2408.12637) Laurencon et al. "Building and better understanding vision-language models: insights and future directions" (2024)
+
+[[10]](https://arxiv.org/pdf/2205.01917) Yu et al. "CoCa: Contrastive Captioners are Image-Text Foundation Models" (2022)
+
+[[11]](https://arxiv.org/pdf/2304.09842) Lu et al. "Chameleon: Plug-and-Play Compositional Reasoning with Large Language Models" (2023)
