@@ -276,45 +276,45 @@ Now you have built you fancy RAG engine, but how do you determine if this thing 
 For the further development of the methods we need a more finegrained evaluation for identifying the components of the pipeline that are the weak points and we need to be able to analyze those weaknesses in more detail. Various frameworks were introduced in the recent past to evaluate RAG pipelines across multiple dimensions, including the relevance of the retrieved documents, the quality of the generated text and the resilience to misinformation. The following table from <a href="#references">[1]</a> shows more details about the different frameworks, their methods and metrics as well as the datasets they use. 
 </p>
 <table>
-<thead>
-<tr>
-<th>Framework</th>
-<th>Aspects</th>
-<th>Methods</th>
-<th>Metrics</th>
-<th>Datasets</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>RAGAS <a href="#references">[13]</a></td>
-<td>Quality of RAG Systems</td>
-<td>Context Relevance, Answer Relevance, Faithfulness</td>
-<td>Extracted Sentences / Total Sentences, Average Cosine Similarity, Supported Statements / Total Statements</td>
-<td>WikiEval</td>
-</tr>
-<tr>
-<td>ARES <a href="#references">[14]</a></td>
-<td>Improving RAGAS</td>
-<td>Context Relevance, Answer Relevance, Answer Faithfulness</td>
-<td>Confidence Intervals</td>
-<td>KILT, SuperGLUE</td>
-</tr>
-<tr>
-<td>RECALL <a href="#$references">[15]</a></td>
-<td>Counterfactual Robustness</td>
-<td>Response Quality, Robustness</td>
-<td>Accuracy (QA), BLEU, ROGUE-L</td>
-<td>EventKG, UJ</td>
-</tr>
-<tr>
-<td>RGB <a href="#references">[16]</a></td>
-<td>Impact of RAG on LLMs</td>
-<td>Noise Robustness, Negative Rejection, Information Integration, Counterfactual Robustness</td>
-<td>Accuracy, Rejection Rate, Error Detection Rate, Error Correction Rate</td>
-<td>Synthetic Dataset including English and Chinese</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Framework</th>
+          <th style="text-align: left">Aspects</th>
+          <th style="text-align: left">Methods</th>
+          <th style="text-align: left">Metrics</th>
+          <th style="text-align: left">Datasets</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">RAGAS <a href="#references">[13]</a></td>
+          <td style="text-align: left">Quality of RAG Systems</td>
+          <td style="text-align: left">Context Relevance, Answer Relevance, Faithfulness</td>
+          <td style="text-align: left">Extracted Sentences / Total Sentences, Average Cosine Similarity, Supported Statements / Total Statements</td>
+          <td style="text-align: left">WikiEval</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">ARES <a href="#references">[14]</a></td>
+          <td style="text-align: left">Improving RAGAS</td>
+          <td style="text-align: left">Context Relevance, Answer Relevance, Answer Faithfulness</td>
+          <td style="text-align: left">Confidence Intervals</td>
+          <td style="text-align: left">KILT, SuperGLUE</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">RECALL <a href="#$references">[15]</a></td>
+          <td style="text-align: left">Counterfactual Robustness</td>
+          <td style="text-align: left">Response Quality, Robustness</td>
+          <td style="text-align: left">Accuracy (QA), BLEU, ROGUE-L</td>
+          <td style="text-align: left">EventKG, UJ</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">RGB <a href="#references">[16]</a></td>
+          <td style="text-align: left">Impact of RAG on LLMs</td>
+          <td style="text-align: left">Noise Robustness, Negative Rejection, Information Integration, Counterfactual Robustness</td>
+          <td style="text-align: left">Accuracy, Rejection Rate, Error Detection Rate, Error Correction Rate</td>
+          <td style="text-align: left">Synthetic Dataset including English and Chinese</td>
+      </tr>
+  </tbody>
 </table>
 <p align="justify">
 Let's take a closer look at the evaluation of the two components:
