@@ -201,8 +201,22 @@ Idefics1:
 
 
 Idefics2: 
-* investigate which choices matter when building VLMs 
-* Idefics2 is a 8B parameter VLM that achieves state-of-the-art performance within its size category  
+* investigate which choices matter when building VLMs
+* focus on two design choices 
+    * model architecture, especially strategy of how to fuse image and text information 
+    * training procedure
+* main findings:
+    - progress in vision-language models is largely driven by the progress of pretrained unimodal backbones (LLM is more important than Vision Encoder, but there are no really good vision encoders out there and I think InternVL will show that this finding is not true) 
+    - fully autoregressive architecture outperforms cross-attention, but it requires modifications to the optimization procedure to ensure a stable training 
+    - reducing the number of visual tokens with learned pooling significantly improves compute efficiency while also improving performance on downstream tasks (efficiency yes but performance is another thing which is hard to prove without a very good vision encoder)
+    - splitting images into subimages allow trading compute efficiency for more performance during inference, especially noticeable for tasks that require text reading capabilities
+
+* based on the findings described above the authors created Idefics2, a 8B parameter VLM that achieves state-of-the-art performance within its size category 
+
+{{< figure align=center alt="Idefics2 model architecture" src="/imgs/vlms/idefics2.png" width=90% caption="Figure 10. Idefics2 model architecture [8]">}}
+
+* vision encoder = SigLIP-SO400M, LLM = Mistral-7B-v0.1
+* datasets for training: OBELICS, LAION COCO, PMD, OCR-IDL, PDFA 
 
 Idefics3: 
 * test
