@@ -175,7 +175,16 @@ In contrast to the paradigms above, that mostly operate on latent representation
 - quick transfer to downstream tasks with zero-shot transfer or minimal task adaptation
 </p>
 
-#### Chameleon 
+#### CM3leon 
+
+<p align="justify">
+- retrieval augmented, token based, decoder-only multimodal model capable of generating text and images
+- uses the CM3 model architecture as basis and benefits a lot from scaling and instruction tuning
+- CM3 uses a VQGAN to turn images into 1024 tokens 
+- trained with a recipe adapted from text-only language models, including a large scale retrieval-augmented pretraining stage and a second multi-task supervised finetuning stage
+</p>
+
+{{< figure align=center alt="RA-CM3 model architecture" src="/imgs/vlms/ra-cm3_architecture.png" width=100% caption="Figure 10. Overview of the RA-CM3 model architecture and training pipeline [12]">}}
 
 <p align="justify">
 </p>
@@ -183,6 +192,10 @@ In contrast to the paradigms above, that mostly operate on latent representation
 ### VLMs from Pretrained Backbones 
 
 <p align="justify">
+- costly to train from scratch because you need hundreds or thousands of GPUs while having to use millions of image-text pairs 
+- to avoid these high costs there is a lot of research in the area of leveraging existing unimodal models 
+- just learn to map between the text and image modalities which requires a low amount of compute resources
+- in this section we are looking at some of the best open source vision language models out there: the Idefics series, InternVL1.5 and 2, Qwen2-VL
 </p>
 
 #### Idefics 
@@ -238,16 +251,23 @@ Idefics3:
 <p align="justify">
 </p>
 
+{{< figure align=center alt="Important training decisions to make" src="/imgs/vlms/training.png" width=100% caption="Figure X. Important decisions to make when training VLMs [2]">}}
+
+
 ## Evaluation 
 
 <p align="justify">
 </p>
 
-## Leaderboard 
+### Benchmarks
+
+<p align="justify">
+</p>
+
+
+### HuggingFace VLM Leaderboard 
 
 * let's take a look at the current Huggingface VLM Leaderboard
-
-
 
 <p align="justify">
 </p>
@@ -276,4 +296,8 @@ Idefics3:
 
 [[10]](https://arxiv.org/pdf/2205.01917) Yu et al. "CoCa: Contrastive Captioners are Image-Text Foundation Models" (2022)
 
-[[11]](https://arxiv.org/pdf/2304.09842) Lu et al. "Chameleon: Plug-and-Play Compositional Reasoning with Large Language Models" (2023)
+[[11]](https://arxiv.org/pdf/2309.02591) Yu et al. "Scaling Autoregressive Multi-Modal Models: Pre-Training and Instruction Tuning" (2023)
+
+[[12]](https://arxiv.org/pdf/2211.12561) Yasunaga et al. "Retrieval-Augmented Multimodal Language Modeling" (2023)
+
+[[13]](https://arxiv.org/pdf/2201.07520) Aghajanyan et al. "CM3: A Causal Masked Multimodal Model of The Internet" (2022)
