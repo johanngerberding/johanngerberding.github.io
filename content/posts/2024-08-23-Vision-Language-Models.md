@@ -249,10 +249,37 @@ Idefics3:
 ## Training 
 
 <p align="justify">
+- scale is very important to model performance but a lot of companies and academic labs don't have the resources to aquire the amount of compute needed to train such models
+- recently researchers found that a data curation pipeline makes it possible to beat the scaling law
 </p>
 
 {{< figure align=center alt="Important training decisions to make" src="/imgs/vlms/training.png" width=100% caption="Figure X. Important decisions to make when training VLMs [2]">}}
 
+<p align="justify">
+- in the following we will explore the importance of data and recipes that are used to create high quality datasets for VLM training
+- in addition we will go into grounding, alignment with human preferences and some recipes about choosing the right model for your use case
+</p>
+
+### Data
+
+<p align="justify">
+- data pruning is very important when training VLMs
+- three categories of pruning techniques:
+    - heuristics that eliminate low-quality pairs 
+    - bootstrapping methods that leverage pre-trained VLMs to rank pairs based on their multimodal alignment 
+    - methods that aim to create diverse and balanced datasets in general
+</p>
+
+### Grounding 
+
+<p align="justify">
+- grounding describes the ability to correctly map text with visual clues 
+</p>
+
+### Alignment
+
+<p align="justify">
+</p>
 
 ## Evaluation 
 
