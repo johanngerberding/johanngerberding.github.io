@@ -246,6 +246,28 @@ Idefics3:
 <p align="justify">
 </p>
 
+#### MiniCPM-V 
+
+2.5 & 2.6
+<p align="justify">
+- remaining challenges prevent VLMs from being used in real world applications, the most significant one is the high cost of running those big models 
+- most VLMs have to be deployed on high-performance cloud servers, which greatly limits their application scope (mobile, offline, privacy-protective)
+- MiniCPM is a model family that tries to change that
+- model have strong performance on general benchmarks and especially OCR capabilities, has multilingual support for more than 30 languages and you can run these models on mobile phones
+</p>
+
+{{< figure align=center alt="MiniCPM-V-2.5 model architecture" src="/imgs/vlms/minicpm.png" width=100% caption="Figure 11. MiniCPM-V-2.5 model architecture []">}}
+
+<p align="justify">
+- three key modules: visual encoder, compression layer, LLM 
+- input image is encoded by a SigLIP SoViT-400m/14, utilizing the adaptive visual encoding approach proposed by LLaVA-UHD
+- the compression layer has a perceiver resampler structure with one layer cross-attention
+- the compressed visual tokens along with the text input are fed into the LLM for conditional text generation
+- image partitioning -> slice encoding -> token compression 
+- 3 phase training process: pretraining, supervised fine-tuning, RLAIF-V
+</p>
+
+
 ## Training 
 
 <p align="justify">
