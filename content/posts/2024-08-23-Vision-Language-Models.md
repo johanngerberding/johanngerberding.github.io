@@ -263,8 +263,9 @@ Idefics3:
 - input image is encoded by a SigLIP SoViT-400m/14, utilizing the adaptive visual encoding approach proposed by LLaVA-UHD
 - the compression layer has a perceiver resampler structure with one layer cross-attention
 - the compressed visual tokens along with the text input are fed into the LLM for conditional text generation
-- image partitioning -> slice encoding -> token compression 
+- image partitioning -> slice encoding (and resizing so that the slice size matches the ViT input size) -> token compression (1024 tokens per image slice, compressed with cross attention layer to 64/96 tokens)
 - 3 phase training process: pretraining, supervised fine-tuning, RLAIF-V
+- RLAIF-V is a framework for improving trustworthiness and reduce hallucinations 
 </p>
 
 
@@ -290,6 +291,16 @@ Idefics3:
     - heuristics that eliminate low-quality pairs 
     - bootstrapping methods that leverage pre-trained VLMs to rank pairs based on their multimodal alignment 
     - methods that aim to create diverse and balanced datasets in general
+
+- heuristics: 
+    - unimodal filtering: 
+        - remove captions with low text complexity (based on number of objects, actions, attributes) 
+        - remove non english text 
+        - remove images based on size and/or aspect ratio 
+    - multimodal filtering: 
+        - employ image classifiers to filter out image-text pairs of which none of the objects detected in the image map to any of the text tokens 
+        - text spotting and filtering out examples with most of the caption also in the image (this would hurt OCR I think)
+
 </p>
 
 ### Grounding 
