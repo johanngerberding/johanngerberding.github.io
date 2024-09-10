@@ -21,10 +21,13 @@ params:
   title: "Johann's Blog"
   description: ""
   author: "Johann Gerberding"
-  defaultTheme: dark
+  defaultTheme: light 
   ShowWordCount: true 
   ShowReadingTime: true 
   ShowShareButtons: true  
+  EnableImageZoom: true
+  ShowCodeCopyButtons: true
+  ShowPostNavLinks: true 
   homeInfoParams: 
     Title: Hi there!
     Content: My name is Johann and this is my blog where I sometimes post about stuff that interests me or things that I've learned.
@@ -38,14 +41,14 @@ params:
   mainSections: ["posts"]
   ShowReadingTime: true
 
-  commentSystems:
-    disqus:
-      shortname: johannsblog 
-    remark42:
-      url: https://remark42.johannsblog.com
-      site: johanngerberding.github.io
-  defaultCommentSystems:
-    remark42: true
+  # commentSystems:
+  #   disqus:
+  #     shortname: johannsblog 
+  #   remark42:
+  #     url: https://remark42.johannsblog.com
+  #     site: johanngerberding.github.io
+  # defaultCommentSystems:
+  #   remark42: true
 
 menu:
   main:

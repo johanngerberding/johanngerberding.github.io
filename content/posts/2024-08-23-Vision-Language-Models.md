@@ -286,21 +286,22 @@ Idefics3:
 ### Data
 
 <p align="justify">
-- data pruning is very important when training VLMs
-- three categories of pruning techniques:
-    - heuristics that eliminate low-quality pairs 
-    - bootstrapping methods that leverage pre-trained VLMs to rank pairs based on their multimodal alignment 
-    - methods that aim to create diverse and balanced datasets in general
+The quality and organization of data play a critical role in the successful training of Vision-Language Models (VLMs). Due to the complex nature of these models, which need to understand both visual and textual inputs, effective data management through pruning, augmentation, and quality control is essential to achieving optimal performance. Data pruning is a crucial step in refining the datasets used to train VLMs. Pruning techniques fall into three main categories:
+</p>
+<ul>
+<li><b>Heuristic-based pruning</b> involves the use of rules to eliminate low-quality image-text pairs. This can be done through unimodal filtering, where low-quality captions (e.g., lacking complexity or containing non-English text) or inappropriate images (based on size or aspect ratio) are removed. Multimodal filtering further refines data by using image classifiers to detect when objects in the image do not align with the associated text, or by filtering out examples where the majority of text in the caption appears directly within the image itself.</li>
+<li><b>Bootstrapping methods</b> leverage pre-trained VLMs to rank image-text pairs based on their multimodal alignment, using metrics such as CLIPScore. This approach helps prioritize data that better represents meaningful relationships between the visual and textual components, further refining the dataset for training.</li>
+<li><b>Diversity and balance techniques</b> aim to create datasets that not only contain high-quality pairs but also represent a wide variety of content. Ensuring diversity in objects, actions, and attributes across different modalities can prevent bias and improve the model’s generalization capability.</li>
+</ul>
 
-- heuristics: 
-    - unimodal filtering: 
-        - remove captions with low text complexity (based on number of objects, actions, attributes) 
-        - remove non english text 
-        - remove images based on size and/or aspect ratio 
-    - multimodal filtering: 
-        - employ image classifiers to filter out image-text pairs of which none of the objects detected in the image map to any of the text tokens 
-        - text spotting and filtering out examples with most of the caption also in the image (this would hurt OCR I think)
-
+<p align="justify">
+In addition to pruning, the generation of synthetic data has become an effective strategy for enhancing VLM performance. For example, LLMs can generate captions, which can then be used by text-to-image models to create corresponding images. This helps to supplement the training data, especially in areas where real-world examples may be limited or lacking. Data augmentation techniques, such as adding variations to existing image-text pairs (e.g., rotating or cropping images, rewording captions), further contribute to improving model robustness by exposing the VLM to a wider range of inputs.
+</p>
+<p align="justify">
+Data quality is paramount when training VLMs or any other AI model, but assessing the quality of multimodal and interleaved data remains a challenge. The lack of a standardized method for evaluating such data complicates the task, as quality often depends on the subjective judgment of what constitutes a "good" image-text pair. This is an active area of research, as models continue to evolve and demand increasingly refined datasets for training. Despite the challenges, curated datasets such as OBELICS, which contain interleaved data from multiple modalities, have shown promising results. These datasets are carefully constructed to ensure a rich variety of content, making them valuable resources for VLM training.
+</p>
+<p align="justify">
+In summary, data plays a foundational role in training vision-language models, and techniques such as data pruning, augmentation, and synthetic data generation are essential for improving VLM performance. However, assessing data quality remains an open challenge that continues to evolve alongside advancements in multimodal learning.
 </p>
 
 ### Grounding 
