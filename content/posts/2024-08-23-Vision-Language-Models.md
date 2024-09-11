@@ -304,10 +304,23 @@ Data quality is paramount when training VLMs or any other AI model, but assessin
 In summary, data plays a foundational role in training vision-language models, and techniques such as data pruning, augmentation, and synthetic data generation are essential for improving VLM performance. However, assessing data quality remains an open challenge that continues to evolve alongside advancements in multimodal learning.
 </p>
 
+### Model Choice 
+
+- I don't think this section makes that much sense, there is not really information out there
+<p align="justify">
+As we have learned before, there are a number of different methods to train VLMs, but how do you choose the right one for your specific use case? Is it necessary to train a model from scratch or is it better or sufficient to just learn the mapping between images and text?
+</p>
+
 ### Grounding 
 
 <p align="justify">
-- grounding describes the ability to correctly map text with visual clues 
+
+- challenge: aims to solve the problem of models not understanding the text prompt which could either lead to ignoring some part of the prompt or hallucinating something that is not even part of the prompt
+- more concrete challenges are e.g. understanding relations such as an object being on the left or right, negations, counting or understanding attributes like colors or textures 
+- for now there is no single method to solve this problem and it is an active area of research but there exist some tricks that are sometimes used to improve grounding performance
+
+- <b>Bounding box annotations</b>: incorporate box regression and IoU loss to locate and align visual concepts with their corresponding textual descriptions; you can use existing datasets like COCO for this or you can leverage existing detection models to assign them to e.g. caption nouns
+- <b>Negative captioning</b>: Negative samples within the realm of contrastive objectives have been extensively used to mitigate collapse, enhance generalization and discriminative feature learning. Similar techniques are also useful to mitigate problems of VLMs and the results on the <a href="https://github.com/mertyg/vision-language-models-are-bows">ARO benchmark</a> show this
 </p>
 
 ### Alignment
