@@ -50,50 +50,50 @@ $$</p>
 L = L_{cls} + L_{loc}
 $$</p>
 <table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$\mathbb{1}_{i}^{obj}$</td>
-<td>indicator of whether the cell $i$ contains an object</td>
-</tr>
-<tr>
-<td>$\mathbb{1}_{ij}^{obj}$</td>
-<td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
-</tr>
-<tr>
-<td>$C_{i}$</td>
-<td>confidence score of cell $i$, $Pr(contains object) * IoU (pred, truth)$</td>
-</tr>
-<tr>
-<td>$\hat{C}_{i}$</td>
-<td>predicted confidence score (box with higher IoU of the two predicted boxes)</td>
-</tr>
-<tr>
-<td>$\mathcal{C}$</td>
-<td>set of all classes (Pascal VOC: 20)</td>
-</tr>
-<tr>
-<td>$p_{i}$</td>
-<td>conditional probability of whether cell $i$ contains an object of class $c \in \mathcal{C}$</td>
-</tr>
-<tr>
-<td>$\hat{p}_{i}$</td>
-<td>predicted conditional class probabilities</td>
-</tr>
-<tr>
-<td>$S^{2}$</td>
-<td>grid size, here $S=7$</td>
-</tr>
-<tr>
-<td>$B$</td>
-<td>number of predicted bounding boxes per grid cell</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Symbol</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">$\mathbb{1}_{i}^{obj}$</td>
+          <td style="text-align: left">indicator of whether the cell $i$ contains an object</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$\mathbb{1}_{ij}^{obj}$</td>
+          <td style="text-align: left">ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$C_{i}$</td>
+          <td style="text-align: left">confidence score of cell $i$, $Pr(contains object) * IoU (pred, truth)$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$\hat{C}_{i}$</td>
+          <td style="text-align: left">predicted confidence score (box with higher IoU of the two predicted boxes)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$\mathcal{C}$</td>
+          <td style="text-align: left">set of all classes (Pascal VOC: 20)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$p_{i}$</td>
+          <td style="text-align: left">conditional probability of whether cell $i$ contains an object of class $c \in \mathcal{C}$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$\hat{p}_{i}$</td>
+          <td style="text-align: left">predicted conditional class probabilities</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$S^{2}$</td>
+          <td style="text-align: left">grid size, here $S=7$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$B$</td>
+          <td style="text-align: left">number of predicted bounding boxes per grid cell</td>
+      </tr>
+  </tbody>
 </table>
 <p align="justify">
 Because of model instability due to the inbalance between cells containing or not containing objects the authors use two scale parameters to increase the loss from bounding box predictions ($\lambda_{coord} = 0.5$) and decrease the loss from confidence predictions for boxes that don't contain objects ($\lambda_{noobj} = 0.5$). The loss function only penalizes classification error if an object is present in that grid cell and it only penalizes bbox error if the cell is "responsible" for the ground truth box.
@@ -356,34 +356,34 @@ The training procedure of this framework is somewhat similar to the one of R-CNN
 L(p,u,t^{u},v) = L_{cls}(p,u) + \lambda [u \geq 1] L_{loc}(t^{u}, v)
 $$</p>
 <table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$p$</td>
-<td>discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
-</tr>
-<tr>
-<td>$u$</td>
-<td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
-</tr>
-<tr>
-<td>$t^{u}$</td>
-<td>predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
-</tr>
-<tr>
-<td>$v$</td>
-<td>true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
-</tr>
-<tr>
-<td>$\lambda$</td>
-<td>hyperparameter to control the balance between the two losses</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Symbol</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">$p$</td>
+          <td style="text-align: left">discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$u$</td>
+          <td style="text-align: left">ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$t^{u}$</td>
+          <td style="text-align: left">predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$v$</td>
+          <td style="text-align: left">true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$\lambda$</td>
+          <td style="text-align: left">hyperparameter to control the balance between the two losses</td>
+      </tr>
+  </tbody>
 </table>
 <p>The indicator function $[u \geq 1]$ is defined as</p>
 <p>$$
@@ -436,42 +436,42 @@ The loss function used to train the RPN is also a multi-task loss which is simil
 L({p_{i}},{t_{i}}) = \frac{1}{N_{cls}} \sum L_{cls} (p_{i}, p_{i}^{\ast}) + \lambda \frac{1}{N_{reg}} \sum p_{i}^{\ast} L_{reg} (t_{i}, t_{i}^{\ast})
 $$</p>
 <table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$p_{i}$</td>
-<td>predicted probability that anchor $i$ is an object</td>
-</tr>
-<tr>
-<td>$p_{i}^{\ast}$</td>
-<td>ground-truth label (1 or 0)</td>
-</tr>
-<tr>
-<td>$t_{i}$</td>
-<td>predicted parameterized coordinates $(x,y,w,h)$</td>
-</tr>
-<tr>
-<td>$t_{i}^{\ast}$</td>
-<td>ground-truth parameterized coordinates $(x,y,w,h)$</td>
-</tr>
-<tr>
-<td>$\lambda$</td>
-<td>balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
-</tr>
-<tr>
-<td>$N_{cls}$</td>
-<td>normalization term, set to be the same as the mini batch size (256)</td>
-</tr>
-<tr>
-<td>$N_{reg}$</td>
-<td>normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Symbol</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">$p_{i}$</td>
+          <td style="text-align: left">predicted probability that anchor $i$ is an object</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$p_{i}^{\ast}$</td>
+          <td style="text-align: left">ground-truth label (1 or 0)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$t_{i}$</td>
+          <td style="text-align: left">predicted parameterized coordinates $(x,y,w,h)$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$t_{i}^{\ast}$</td>
+          <td style="text-align: left">ground-truth parameterized coordinates $(x,y,w,h)$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$\lambda$</td>
+          <td style="text-align: left">balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$N_{cls}$</td>
+          <td style="text-align: left">normalization term, set to be the same as the mini batch size (256)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$N_{reg}$</td>
+          <td style="text-align: left">normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
+      </tr>
+  </tbody>
 </table>
 <p>The regression loss is also smooth $L_{1}$ like in Fast R-CNN. The classification loss can be calculated as followed:</p>
 <p>$$

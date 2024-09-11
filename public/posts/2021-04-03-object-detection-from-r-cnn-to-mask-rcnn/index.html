@@ -112,7 +112,7 @@
 
 </head>
 
-<body class=" dark type-posts kind-page layout-" id="top"><script data-no-instant>
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
 function switchTheme(theme) {
   switch (theme) {
     case 'light':
@@ -173,7 +173,7 @@ function toggleThemeListener() {
 <script>
   
   (function() {
-    const defaultTheme = 'dark';
+    const defaultTheme = 'light';
     const prefTheme = getPrefTheme();
     const theme = prefTheme ? prefTheme : defaultTheme;
 
@@ -374,34 +374,34 @@ The training procedure of this framework is somewhat similar to the one of R-CNN
 L(p,u,t^{u},v) = L_{cls}(p,u) + \lambda [u \geq 1] L_{loc}(t^{u}, v)
 $$</p>
 <table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$p$</td>
-<td>discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
-</tr>
-<tr>
-<td>$u$</td>
-<td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
-</tr>
-<tr>
-<td>$t^{u}$</td>
-<td>predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
-</tr>
-<tr>
-<td>$v$</td>
-<td>true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
-</tr>
-<tr>
-<td>$\lambda$</td>
-<td>hyperparameter to control the balance between the two losses</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Symbol</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">$p$</td>
+          <td style="text-align: left">discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$u$</td>
+          <td style="text-align: left">ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$t^{u}$</td>
+          <td style="text-align: left">predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$v$</td>
+          <td style="text-align: left">true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$\lambda$</td>
+          <td style="text-align: left">hyperparameter to control the balance between the two losses</td>
+      </tr>
+  </tbody>
 </table>
 <p>The indicator function $[u \geq 1]$ is defined as</p>
 <p>$$
@@ -454,42 +454,42 @@ The loss function used to train the RPN is also a multi-task loss which is simil
 L({p_{i}},{t_{i}}) = \frac{1}{N_{cls}} \sum L_{cls} (p_{i}, p_{i}^{\ast}) + \lambda \frac{1}{N_{reg}} \sum p_{i}^{\ast} L_{reg} (t_{i}, t_{i}^{\ast})
 $$</p>
 <table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$p_{i}$</td>
-<td>predicted probability that anchor $i$ is an object</td>
-</tr>
-<tr>
-<td>$p_{i}^{\ast}$</td>
-<td>ground-truth label (1 or 0)</td>
-</tr>
-<tr>
-<td>$t_{i}$</td>
-<td>predicted parameterized coordinates $(x,y,w,h)$</td>
-</tr>
-<tr>
-<td>$t_{i}^{\ast}$</td>
-<td>ground-truth parameterized coordinates $(x,y,w,h)$</td>
-</tr>
-<tr>
-<td>$\lambda$</td>
-<td>balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
-</tr>
-<tr>
-<td>$N_{cls}$</td>
-<td>normalization term, set to be the same as the mini batch size (256)</td>
-</tr>
-<tr>
-<td>$N_{reg}$</td>
-<td>normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Symbol</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">$p_{i}$</td>
+          <td style="text-align: left">predicted probability that anchor $i$ is an object</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$p_{i}^{\ast}$</td>
+          <td style="text-align: left">ground-truth label (1 or 0)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$t_{i}$</td>
+          <td style="text-align: left">predicted parameterized coordinates $(x,y,w,h)$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$t_{i}^{\ast}$</td>
+          <td style="text-align: left">ground-truth parameterized coordinates $(x,y,w,h)$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$\lambda$</td>
+          <td style="text-align: left">balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$N_{cls}$</td>
+          <td style="text-align: left">normalization term, set to be the same as the mini batch size (256)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">$N_{reg}$</td>
+          <td style="text-align: left">normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
+      </tr>
+  </tbody>
 </table>
 <p>The regression loss is also smooth $L_{1}$ like in Fast R-CNN. The classification loss can be calculated as followed:</p>
 <p>$$
@@ -545,66 +545,23 @@ For a general overview of the field of Deep Learning based Object Detection I hi
   </div>
 
   <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/2021-05-02-object-detection-faster-models/">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>Object Detection - Faster Models</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/2020-12-18-overview-of-human-pose-estimation/">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>Overview - Human Pose Estimation</span>
+  </a>
+</nav>
+
   </footer>
-    <div class="comments-separator"></div><div class="comments">
-  <div class="title">
-    <span>Comments</span>
-    <span class="counter"><span class="remark42__counter" data-url="http://localhost:1313/posts/2021-04-03-object-detection-from-r-cnn-to-mask-rcnn/"></span></span>
-  </div>
-  <div id="remark42">
-  </div>
-</div>
-
-<script>
-  var remark_config = {
-    host: 'https:\/\/remark42.johannsblog.com',
-    site_id: 'johanngerberding.github.io',
-    components: ['embed', 'counter'],
-    max_shown_comments: 20,
-    theme: 'light',
-    simple_view: true,
-    admonition: JSON.stringify(['Please subscribe by email to receive reply notifications.']),
-  };
-  if (isDarkTheme()) {
-    remark_config.theme = 'dark'
-  }
-
-  (function() {
-    
-    const key = 'remark42'
-    if (!toggleThemeCallbacks.hasOwnProperty(key)) {
-      toggleThemeCallbacks[key] = (isDark) => {
-        const remark42 = window.REMARK42
-        if (!remark42 || !document.querySelector('#remark42')) {
-          return;
-        }
-        if (isDark) {
-          remark42.changeTheme('light');
-        } else {
-          remark42.changeTheme('dark');
-        }
-      }
-    }
-
-    
-    const remark42 = window.REMARK42
-    if (remark42) {
-      remark42.destroy()
-      remark42.createInstance(remark_config)
-    } else {
-      for (const component of remark_config.components) {
-        var d = document, s = d.createElement('script');
-        s.src = `${remark_config.host}/web/${component}.mjs`;
-        s.type = 'module';
-        s.defer = true;
-        
-        s.setAttribute('data-no-instant', '')
-        d.head.appendChild(s);
-      }
-    }
-  })();
-</script>
-
+    <div class="comments-separator"></div>
 </article>
     </main>
     
@@ -699,6 +656,53 @@ For a general overview of the field of Deep Learning based Object Detection I hi
 
 <script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
 
 
 
@@ -772,6 +776,10 @@ For a general overview of the field of Deep Learning based Object Detection I hi
     }
   })();
   </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
 
 </body>
 
