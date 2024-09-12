@@ -272,8 +272,8 @@ Idefics3:
 ## Training 
 
 <p align="justify">
-- scale is very important to model performance but a lot of companies and academic labs don't have the resources to aquire the amount of compute needed to train such models
-- recently researchers found that a data curation pipeline makes it possible to beat the scaling law
+Scaling is often key to improving the performance of Visual Language Models (VLMs). However, the vast amount of computational resources required to train large-scale models is out of reach for many companies and academic labs. The cost and infrastructure needed to access this level of compute create barriers to participation in this rapidly advancing field.
+Recently, though, researchers have discovered a way to overcome these challenges: a well-designed data curation pipeline. By carefully selecting and curating the training data, it is possible to surpass the typical scaling laws that have dominated model development. In this section, we’ll explore how crucial high-quality data is in training VLMs and the recipes used to create datasets that drive superior performance.
 </p>
 
 {{< figure align=center alt="Important training decisions to make" src="/imgs/vlms/training.png" width=100% caption="Figure X. Important decisions to make when training VLMs [2]">}}
@@ -304,23 +304,18 @@ Data quality is paramount when training VLMs or any other AI model, but assessin
 In summary, data plays a foundational role in training vision-language models, and techniques such as data pruning, augmentation, and synthetic data generation are essential for improving VLM performance. However, assessing data quality remains an open challenge that continues to evolve alongside advancements in multimodal learning.
 </p>
 
-### Model Choice 
-
-- I don't think this section makes that much sense, there is not really information out there
-<p align="justify">
-As we have learned before, there are a number of different methods to train VLMs, but how do you choose the right one for your specific use case? Is it necessary to train a model from scratch or is it better or sufficient to just learn the mapping between images and text?
-</p>
-
 ### Grounding 
 
 <p align="justify">
-
-- challenge: aims to solve the problem of models not understanding the text prompt which could either lead to ignoring some part of the prompt or hallucinating something that is not even part of the prompt
-- more concrete challenges are e.g. understanding relations such as an object being on the left or right, negations, counting or understanding attributes like colors or textures 
-- for now there is no single method to solve this problem and it is an active area of research but there exist some tricks that are sometimes used to improve grounding performance
-
-- <b>Bounding box annotations</b>: incorporate box regression and IoU loss to locate and align visual concepts with their corresponding textual descriptions; you can use existing datasets like COCO for this or you can leverage existing detection models to assign them to e.g. caption nouns
-- <b>Negative captioning</b>: Negative samples within the realm of contrastive objectives have been extensively used to mitigate collapse, enhance generalization and discriminative feature learning. Similar techniques are also useful to mitigate problems of VLMs and the results on the <a href="https://github.com/mertyg/vision-language-models-are-bows">ARO benchmark</a> show this
+Visual Language Models (VLMs) are powerful tools, but they still face significant challenges when it comes to accurately understanding and grounding text prompts. These models sometimes misunderstand or misrepresent the instructions given to them, leading to either ignoring important aspects of the prompt or hallucinating elements that aren’t even part of it.
+One of the main issues is their difficulty in comprehending relationships and specific attributes. For example, understanding spatial relations like whether an object is on the left or right, interpreting negations, counting objects, or recognizing attributes such as color and texture are areas where models can stumble. These problems underscore the need for more robust techniques that ensure VLMs are grounded and capable of faithfully interpreting prompts.
+Currently, no single solution can resolve these challenges, and this remains an active area of research. However, some methods and tricks have been developed to enhance grounding performance in certain scenarios.
+</p>
+<p align="justify">
+<b>Bounding box annotations</b> offer one such solution, helping VLMs connect visual elements to their corresponding textual descriptions. This method incorporates box regression and Intersection over Union (IoU) loss, which aids in locating and aligning visual concepts with their textual counterparts. Existing datasets like COCO can be employed for this purpose, or detection models can be leveraged to assign bounding boxes to caption nouns. This step significantly improves the model's ability to understand where specific objects are in the image, ensuring a tighter correspondence between what is described and what is visualized.
+</p>
+<p align="justify">
+<b>Negative captioning</b>, often used in contrastive learning objectives, is another technique that helps address the problem of grounding. Negative samples are extensively utilized to prevent model collapse, enhance generalization, and improve the learning of discriminative features. Applying similar techniques to VLMs can mitigate issues like misunderstanding the prompt or hallucination. Results from benchmarks such as <a href="https://github.com/mertyg/vision-language-models-are-bows">ARO</a> have demonstrated the effectiveness of this method, showing its potential to correct misinterpretations and improve overall model performance.
 </p>
 
 ### Alignment
