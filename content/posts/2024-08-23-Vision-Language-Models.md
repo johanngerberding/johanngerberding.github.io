@@ -279,8 +279,7 @@ Recently, though, researchers have discovered a way to overcome these challenges
 {{< figure align=center alt="Important training decisions to make" src="/imgs/vlms/training.png" width=100% caption="Figure X. Important decisions to make when training VLMs [2]">}}
 
 <p align="justify">
-- in the following we will explore the importance of data and recipes that are used to create high quality datasets for VLM training
-- in addition we will go into grounding, alignment with human preferences and some recipes about choosing the right model for your use case
+We’ll explore the crucial role of data in Visual Language Model (VLM) training, focusing on the recipes used to create high-quality datasets (Figure X). Additionally, we’ll discuss grounding, ensuring the model accurately links visual content to text, along with alignment to human preferences, and provide tips for selecting the right model architecture for your specific use case. 
 </p>
 
 ### Data
@@ -321,12 +320,39 @@ Currently, no single solution can resolve these challenges, and this remains an 
 ### Alignment
 
 <p align="justify">
+- instruction fine-tuning, Reinforcement Learning from Human Feedback (RLHF) and in-context learning in vision language models to improve multimodal chat capabilities and align outputs with desired responses 
+- instruction-tuning involves finetuning a VLM on supervised data containing instructions, text and image inputs and the desired response 
+- in general those datasets are much smaller than pretraining datasets (100 - 100.000)
+- RLHF aims to align model outputs with human preferences
+- train a reward model to match human preferences in terms of model responses  
+- analogous to text-only in-context-learning, the same is possible in the language domain, just include some instruction-image-answer examples in the context and the model can successfully follow instructions
+- MIMIC-IT dataset contains 2.8 million in-context instruction-image-answer tuples as well as a test example 
+- the in-context tuples are relevant to the test example in one of three ways: in-context instructions are similar but the images are different, the images are the same but the instructions are different, the images are in a sequential fashion but the instructions are different
 </p>
+
+### Improving text-rich Image Understanding
+
+<p align="justify">
+</p>
+
+### Parameter-Efficient Fine-Tuning 
+
+- LoRa methods 
+- prompt-based methods 
+- adapter-based methods 
+- mapping-based methods
+
+<p align="justify">
+</p>
+
+
 
 ## Evaluation 
 
 <p align="justify">
 </p>
+
+{{< figure align=center alt="Overview of evaluation methods for vision language models" src="/imgs/vlms/evaluation.png" width=90% caption="Figure X. Overview of evaluation methods for VLMs [2]">}}
 
 ### Benchmarks
 
