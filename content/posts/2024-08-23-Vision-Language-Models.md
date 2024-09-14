@@ -160,19 +160,15 @@ In contrast to the paradigms above, that mostly operate on latent representation
 
 #### CoCa 
 
-- <b>Co</b>ntrastive <b>Ca</b>ptioner (CoCa) is an image-text encoder-decoder foundation model pretrained jointly with a contrastive and a captioning loss, which makes it a combination of contrastive approaches like CLIP and generative methods. 
-- decoder is decoupled into two parts, a unimodal decoder and a multimodal decoder
-- omit cross-attention in unimodal decoder layers to encode text-only representations, and cascade multimodal decoder layers cross-attending to image encoder outputs to learn multimodal image-text representation
-
-
 <p align="justify">
+The <b>Contrastive Captioner (CoCa)</b> is an advanced image-text encoder-decoder foundation model that integrates both contrastive and captioning techniques. Pretrained with a combination of contrastive loss and captioning loss, CoCa combines contrastive methods like CLIP with generative approaches. In CoCa, the decoder is split into two components: a <b>unimodal decoder</b> and a <b>multimodal decoder</b>. The unimodal decoder is responsible for encoding text-only representations and omits cross-attention, while the multimodal decoder employs cross-attention to interact with image encoder outputs, learning multimodal image-text representations. The model is trained with a contrastive loss between unimodal image and text embeddings, alongside a captioning loss applied to the multimodal decoder's outputs, which autoregressively predict text tokens. By sharing the computational graph, CoCa efficiently computes both training objectives with minimal overhead.
 </p>
 
 {{< figure align=center alt="CoCa model architecture, training objectives and pseudocode" src="/imgs/vlms/coca_architecture.png" width=100% caption="Figure 9. Overview of the CoCa model architecture and training objectives [10]">}}
 
 
 <p align="justify">
-- quick transfer to downstream tasks with zero-shot transfer or minimal task adaptation
+CoCa is pretrained from scratch by treating annotated image labels as text. This pretraining process utilizes two major datasets: ALIGN, which contains approximately 1.8 billion images paired with alt-text, and JFT-3B, an internal dataset with over 29.5k classes. In the case of JFT-3B, the labels are treated as alt-text for training purposes. This pretraining setup enables CoCa to transfer quickly to downstream tasks, either through zero-shot transfer or with minimal task-specific adaptation, making it highly versatile for a range of applications.
 </p>
 
 #### CM3leon 
@@ -320,15 +316,22 @@ Currently, no single solution can resolve these challenges, and this remains an 
 ### Alignment
 
 <p align="justify">
-- instruction fine-tuning, Reinforcement Learning from Human Feedback (RLHF) and in-context learning in vision language models to improve multimodal chat capabilities and align outputs with desired responses 
-- instruction-tuning involves finetuning a VLM on supervised data containing instructions, text and image inputs and the desired response 
-- in general those datasets are much smaller than pretraining datasets (100 - 100.000)
-- RLHF aims to align model outputs with human preferences
-- train a reward model to match human preferences in terms of model responses  
-- analogous to text-only in-context-learning, the same is possible in the language domain, just include some instruction-image-answer examples in the context and the model can successfully follow instructions
-- MIMIC-IT dataset contains 2.8 million in-context instruction-image-answer tuples as well as a test example 
-- the in-context tuples are relevant to the test example in one of three ways: in-context instructions are similar but the images are different, the images are the same but the instructions are different, the images are in a sequential fashion but the instructions are different
+To improve multimodal chat capabilities in Vision-Language Models (VLMs), several techniques such as instruction fine-tuning, Reinforcement Learning from Human Feedback (RLHF), and in-context learning are applied. These approaches are designed to align model outputs with the desired responses and enhance the models' performance.
 </p>
+
+<p align="justify">
+<b>Instruction-tuning</b> is the process of fine-tuning a VLM on supervised datasets that contain instructions, text, image inputs, and the expected responses. While these datasets are typically much smaller than the vast pretraining datasets—ranging from 100 to 100,000 samples—they are crucial for helping the model learn how to interpret and respond to multimodal inputs effectively.
+</p>
+<p align="justify">
+<b>Reinforcement Learning from Human Feedback</b> (RLHF) is another technique aimed at aligning model outputs with human preferences. In this approach, a reward model is trained to assess and prioritize responses based on how well they match human feedback. This helps in guiding the model toward generating outputs that are more in line with user expectations.
+</p>
+<p align="justify">
+Similar to in-context learning in text-based models, in-context learning can also be applied to VLMs. By providing a set of instruction-image-answer examples in the model’s context, the model can learn to generalize and follow instructions more effectively in multimodal scenarios. For instance, if examples include similar instructions with different images or images that follow a sequence but differ in the accompanying instructions, the model can still successfully produce appropriate responses.
+</p>
+<p align="justify">
+A key dataset used for such training is the MIMIC-IT dataset, which contains 2.8 million in-context instruction-image-answer tuples. These tuples are relevant to the test example in one of three ways: either the instructions are similar but the images are different, the images are the same but the instructions vary, or the images follow a sequential order while the instructions differ. This setup helps the model learn to interpret both the instructions and images in context, improving its ability to respond appropriately to multimodal inputs.
+</p>
+
 
 ### Improving text-rich Image Understanding
 
@@ -337,27 +340,36 @@ Currently, no single solution can resolve these challenges, and this remains an 
 
 ### Parameter-Efficient Fine-Tuning 
 
-- LoRa methods 
-- prompt-based methods 
-- adapter-based methods 
-- mapping-based methods
+<p align="justify">
+As vision-language models (VLMs) continue to grow in size, fine-tuning all their parameters for each specific downstream task has become increasingly impractical due to computational constraints. To overcome these challenges, researchers have developed Parameter-Efficient Finetuning (PEFT) methods. Instead of adjusting the entire set of parameters in a model, PEFT methods focus on fine-tuning only a subset of parameters, making the process more efficient while still allowing the model to adapt to new tasks.
+These PEFT methods can be categorized into four main groups: Low-Rank Adapters (LoRA)-based methods, Prompt-based methods, Adapter-based methods, Mapping-based methods.
+</p>
 
 <p align="justify">
+<b>LoRA-based methods</b>: very popular method which can be applied to both pure language and vision-language models. Instead of fine-tuning all parameters, LoRA focuses on adjusting only a smaller part of them, by inserting a small matrix inside the model, which is then trained to learn new information while keeping the main model mostly the same. This is not only much cheaper but also faster than a full fine-tuning. In addition you can train different LoRA adapters for different tasks and switch them in and out without changing the base model. Several variants of LoRA have been developed to enhance its functionality and efficiency, like QLoRA, VeRA or DoRA.
+</p>
+<p align="justify">
+<b>Prompt-based methods</b>: Context Optimization (CoOp), which is a technique designed to adapt pre-trained VLMs for downstream image recognition tasks, eliminating the need for manual prompt engineering. It does that by optimizing the context of the prompt using learnable vectors during the training process. Experiments from 11 datasets indicate that CoOp outperforms handcrafted prompts and linear probe models in few shot learning. Another interesting method is called Visual Prompt Tuning (VPT) that adapts Transformers models in vision by introducing a small amount of trainable parameters in the input space (task-specific learnable prompts). 
+</p>
+
+{{< figure align=center alt="Overview of prompt-based methods to improve vision language models" src="/imgs/vlms/coop_vpt.png" width=100% caption="Figure X. Overview of prompt-based methods for finetuning VLMs [14] & [15]">}}
+
+<p align="justify">
+<b>Adapter-based methods</b>: Adapters are new modules added between layers of a pre-trained network. Examples of this: CLIP-Adapter, VL-adapter and Llama-Adapter V2. CLIP-Adapter: appends a small number of additional learnable bottleneck linear layers to CLIP’s language and image branches while keep the original CLIP backbone frozen during few-shot fine-tuning. deal with over-fitting and improve the robustness of CLIP-Adapter, we further adopt residual connections to dynamically blend the fine-tuned knowledge with the original knowledge from CLIP’s backbone
+</p>
+<p align="justify">
+<b>Mapping-based methods</b>:
 </p>
 
 
 
-## Evaluation 
+
+## Evaluation & Benchmarks 
 
 <p align="justify">
 </p>
 
 {{< figure align=center alt="Overview of evaluation methods for vision language models" src="/imgs/vlms/evaluation.png" width=90% caption="Figure X. Overview of evaluation methods for VLMs [2]">}}
-
-### Benchmarks
-
-<p align="justify">
-</p>
 
 
 ### HuggingFace VLM Leaderboard 
@@ -396,3 +408,8 @@ Currently, no single solution can resolve these challenges, and this remains an 
 [[12]](https://arxiv.org/pdf/2211.12561) Yasunaga et al. "Retrieval-Augmented Multimodal Language Modeling" (2023)
 
 [[13]](https://arxiv.org/pdf/2201.07520) Aghajanyan et al. "CM3: A Causal Masked Multimodal Model of The Internet" (2022)
+
+[[14]](https://arxiv.org/pdf/2109.01134) Zhou et al. "Learning to Prompt for Vision-Language Models" (2022)
+
+[[15]](https://arxiv.org/pdf/2203.12119) Jia el al. "Visual Prompt Tuning" (2022)
+
