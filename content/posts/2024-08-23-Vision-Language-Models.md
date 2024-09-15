@@ -174,24 +174,19 @@ CoCa is pretrained from scratch by treating annotated image labels as text. This
 #### CM3leon 
 
 <p align="justify">
-- retrieval augmented, token based, decoder-only multimodal model capable of generating text and images
-- uses the CM3 model architecture as basis and benefits a lot from scaling and instruction tuning
-- CM3 uses a VQGAN to turn images into 1024 tokens 
-- trained with a recipe adapted from text-only language models, including a large scale retrieval-augmented pretraining stage and a second multi-task supervised finetuning stage
+CM3leon is a retrieval-augmented, token-based, decoder-only multimodal system designed for generating both text and images. It is built upon the CM3 model architecture, which has shown significant benefits from scaling and instruction tuning. In CM3, images are transformed into 1024 tokens using a VQGAN (Vector Quantized Generative Adversarial Network). The training process follows a recipe adapted from text-only language models. This includes a large-scale retrieval-augmented pretraining phase, followed by a second stage of multi-task supervised finetuning to enhance the model’s performance across different tasks.
 </p>
 
 {{< figure align=center alt="RA-CM3 model architecture" src="/imgs/vlms/ra-cm3_architecture.png" width=100% caption="Figure 10. Overview of the RA-CM3 model architecture and training pipeline [12]">}}
 
 <p align="justify">
+The training objective for the model is based on an infill approach, where specific spans are masked and relocated to the end of the sequence, followed by the use of standard next-token prediction loss. Despite using only a fraction of the training data and compute, the model achieves zero-shot results that are on par with state-of-the-art models, such as on the MS-COCO benchmark. The authors further fine-tuned the model for instructable image generation and conditional text generation, yielding similar results as in the zero-shot settings. Notably, the model can compete with state-of-the-art systems like Flamingo and OpenFlamingo, even though those models were exposed to significantly more tokens (3B vs. 100B or 40B).
 </p>
 
 ### VLMs from Pretrained Backbones 
 
 <p align="justify">
-- costly to train from scratch because you need hundreds or thousands of GPUs while having to use millions of image-text pairs 
-- to avoid these high costs there is a lot of research in the area of leveraging existing unimodal models 
-- just learn to map between the text and image modalities which requires a low amount of compute resources
-- in this section we are looking at some of the best open source vision language models out there: the Idefics series, InternVL1.5 and 2, Qwen2-VL
+Training models from scratch is prohibitively expensive, requiring hundreds or even thousands of GPUs and millions of image-text pairs. To mitigate these high costs, a growing area of research focuses on leveraging existing unimodal models rather than building new systems from the ground up. This approach involves learning to map between the text and image modalities, which significantly reduces the amount of compute resources required. In this section, we will explore some of the best open-source vision-language models available, including the Idefics series, InternVL1.5 and 2, Qwen2-VL and MiniCPM-2.6.
 </p>
 
 #### Idefics 
@@ -228,7 +223,18 @@ Idefics2:
 * datasets for training: OBELICS, LAION COCO, PMD, OCR-IDL, PDFA 
 
 Idefics3: 
-* test
+* significantly outperforms Idefics2 especially in document understanding tasks
+* exclusively trained on open datasets  
+* Docmatix dataset comprised of 2.4 million images and 9.5 million QA pairs derived from 1.3 million PDF documents
+* based on Llama 3.1 Instruct and SigLIP-SO400M 
+* replace perceiver resampler from Idefics2 with a simple pixel shuffle strategy 
+* it acts as a pooling technique that reduces the number of image hidden states by a factor of 4, encoding each image up to 364x364 pixels into 169 visual tokens
+* during training and inference the image-splitting strategy, where the original image is divided info a matrix of tiles of 364x364 pixels and the downscaled image is appended at the end 
+* the training process involves three pre-training stages followed by supervised fine-tuning
+
+{{< figure align=center alt="Idefics3 training stages overview" src="/imgs/vlms/idefics3_training.png" width=90% caption="Figure 11. Overview of Idefics3 training stages []">}}
+
+
 <p align="justify">
 </p>
 
@@ -336,6 +342,7 @@ A key dataset used for such training is the MIMIC-IT dataset, which contains 2.8
 ### Improving text-rich Image Understanding
 
 <p align="justify">
+- lets improve OCR 
 </p>
 
 ### Parameter-Efficient Fine-Tuning 
@@ -372,12 +379,6 @@ These PEFT methods can be categorized into four main groups: Low-Rank Adapters (
 {{< figure align=center alt="Overview of evaluation methods for vision language models" src="/imgs/vlms/evaluation.png" width=90% caption="Figure X. Overview of evaluation methods for VLMs [2]">}}
 
 
-### HuggingFace VLM Leaderboard 
-
-* let's take a look at the current Huggingface VLM Leaderboard
-
-<p align="justify">
-</p>
 
 ## References 
 
