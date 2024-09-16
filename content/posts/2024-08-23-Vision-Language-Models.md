@@ -191,51 +191,66 @@ Training models from scratch is prohibitively expensive, requiring hundreds or e
 
 #### Idefics 
 
-Idefics1: 
-* introduction of the OBELICS dataset which consists of interleaved image-text documents comprising 141 million web pages extracted from Common Crawl, 353 million associated images and 115 billion text tokens
-* one of the advantages of OBELICS is the amount and detail of text per image, which is much bigger than in other image-text datasets
-* Figure X down below shows the whole dataset creation process  
+<p align="justify">
+The Idefics model family currently includes three versions that build on one another, each advancing the capabilities of the previous model.
+</p>
+
+<p align="justify">
+<b>Idefics1</b> introduces the OBELICS dataset, a significant milestone in this model family. The dataset is composed of interleaved image-text documents, derived from 141 million web pages extracted from Common Crawl. It contains a total of 353 million associated images and 115 billion text tokens. One of the standout features of the OBELICS dataset is the extensive detail and quantity of text per image, which surpasses other image-text datasets in size and richness. Figure X below illustrates the complete dataset creation process.
+</p>
 
 {{< figure align=center alt="Generation process of the OBELICS dataset" src="/imgs/vlms/obelics.png" width=90% caption="Figure 9. Overview of the OBELICS generation process [7]">}}
 
-* with that dataset the authors created two vision language models called "Idefics", a 9 and a 80 billion parameter model  
-* it is based on the Flamingo architecture, comprised of two frozen unimodal backbones, Llama for the language encoder and OpenCLIP for the vision part
-* learnable cross-attention Transformer blocks and Perceiver blocks are added to connect both unimodal encoders
-* best results on a combination of the LAION and the OBELICS datasets
+<p align="justify">
+Using the OBELICS dataset, the authors developed two vision-language models under the name "Idefics," featuring versions with 9 billion and 80 billion parameters. These models are based on the Flamingo architecture, which integrates two frozen unimodal backbones: Llama, serving as the language encoder, and OpenCLIP, handling the vision component. To bridge these two encoders, the model incorporates learnable cross-attention Transformer blocks and Perceiver blocks, enabling effective communication between the unimodal systems. The Idefics models demonstrate top performance when evaluated on a combination of the LAION and OBELICS datasets.
+</p>
 
+<p align="justify">
+<b>Idefics2</b> focuses on exploring key factors that influence the development of VLMs, specifically investigating two critical design choices: the model architecture — particularly how image and text information are fused — and the training procedure. The main findings from this research are as follows:
+</p>
 
-Idefics2: 
-* investigate which choices matter when building VLMs
-* focus on two design choices 
-    * model architecture, especially strategy of how to fuse image and text information 
-    * training procedure
-* main findings:
-    - progress in vision-language models is largely driven by the progress of pretrained unimodal backbones (LLM is more important than Vision Encoder, but there are no really good vision encoders out there and I think InternVL will show that this finding is not true) 
-    - fully autoregressive architecture outperforms cross-attention, but it requires modifications to the optimization procedure to ensure a stable training 
-    - reducing the number of visual tokens with learned pooling significantly improves compute efficiency while also improving performance on downstream tasks (efficiency yes but performance is another thing which is hard to prove without a very good vision encoder)
-    - splitting images into subimages allow trading compute efficiency for more performance during inference, especially noticeable for tasks that require text reading capabilities
+<ul>
+<li>Progress in vision-language models is largely driven by advances in pretrained unimodal backbones. Notably, the language model (LLM) plays a more crucial role than the vision encoder, although there is currently a lack of high-quality vision encoders. The authors suggest that models like InternVL could challenge this conclusion.</li>
+<li>Fully autoregressive architectures outperform cross-attention models, but they require adjustments to the optimization process to maintain training stability.</li>
+<li>Reducing the number of visual tokens through learned pooling significantly enhances computational efficiency and improves performance on downstream tasks. However, while efficiency gains are clear, performance improvements are difficult to validate without a superior vision encoder.</li>
+<li>Splitting images into subimages allows for a trade-off between computational efficiency and performance during inference, particularly for tasks that involve text reading.</li>
+</ul>
 
-* based on the findings described above the authors created Idefics2, a 8B parameter VLM that achieves state-of-the-art performance within its size category 
+<p align="justify">
+Based on these insights, the authors developed Idefics2, an 8-billion parameter vision-language model that achieves state-of-the-art performance within its size category.
+</p>
 
 {{< figure align=center alt="Idefics2 model architecture" src="/imgs/vlms/idefics2.png" width=90% caption="Figure 10. Idefics2 model architecture [8]">}}
 
-* vision encoder = SigLIP-SO400M, LLM = Mistral-7B-v0.1
-* datasets for training: OBELICS, LAION COCO, PMD, OCR-IDL, PDFA 
-
-Idefics3: 
-* significantly outperforms Idefics2 especially in document understanding tasks
-* exclusively trained on open datasets  
-* Docmatix dataset comprised of 2.4 million images and 9.5 million QA pairs derived from 1.3 million PDF documents
-* based on Llama 3.1 Instruct and SigLIP-SO400M 
-* replace perceiver resampler from Idefics2 with a simple pixel shuffle strategy 
-* it acts as a pooling technique that reduces the number of image hidden states by a factor of 4, encoding each image up to 364x364 pixels into 169 visual tokens
-* during training and inference the image-splitting strategy, where the original image is divided info a matrix of tiles of 364x364 pixels and the downscaled image is appended at the end 
-* the training process involves three pre-training stages followed by supervised fine-tuning
-
-{{< figure align=center alt="Idefics3 training stages overview" src="/imgs/vlms/idefics3_training.png" width=90% caption="Figure 11. Overview of Idefics3 training stages []">}}
-
+<p align="justify">
+The vision encoder used in Idefics2 is SigLIP-SO400M, while the LLM is Mistral-7B-v0.1. The model was trained using a variety of datasets, including OBELICS, LAION COCO, PMD, OCR-IDL, and PDFA.
+</p>
 
 <p align="justify">
+<b>Idefics3</b> marks a significant improvement over its predecessor, Idefics2, particularly in tasks related to document understanding. This model was exclusively trained on open datasets, showcasing its accessibility and transparency. One of the key advancements in Idefics3 is the introduction of the Docmatix dataset, which includes 2.4 million images and 9.5 million question-answer pairs derived from 1.3 million PDF documents. For more details on how this dataset was created, the authors recommend consulting the original paper.
+</p>
+
+<p align="justify">
+Idefics3 is built on Llama 3.1 Instruct for the language model and retains SigLIP-SO400M as the vision encoder. A notable architectural change from Idefics2 is the replacement of the perceiver resampler with a simpler pixel shuffle strategy. This technique acts as a pooling method that reduces the number of image hidden states by a factor of four, encoding images of up to 364x364 pixels into 169 visual tokens.
+</p>
+
+<p align="justify">
+During both training and inference, the model utilizes an image-splitting strategy, where the original image is divided into a matrix of tiles, each measuring 364x364 pixels, and the downscaled image is appended at the end. The training process consists of three pre-training stages, followed by supervised fine-tuning.
+</p>
+
+{{< figure align=center alt="Idefics3 training stages overview" src="/imgs/vlms/idefics3_training.png" width=90% caption="Figure 11. Overview of Idefics3 training stages [9]">}}
+
+<p align="justify">
+In the first pretraining stage of Idefics3, the model’s backbones remain frozen to maintain their performance while the newly initialized parameters are learned. During this phase, the maximum image resolution is gradually increased from 364x364 to 1820x1820 pixels. Starting from the second stage, the backbones are trained using DoRA (a variant of LoRA, explained in the Training section) and with larger images. The final pretraining stage focuses on using large synthetic datasets for further training.
+During the supervised fine-tuning stage, NEFTune noise is applied to the inputs, and the loss is calculated only on the answer tokens to refine performance.
+</p>
+
+<p align="justify">
+The authors evaluated Idefics3 on several common benchmarks, such as MMMU, MathVista, MMStar, DocVQA, and TextVQA. The most notable improvements over Idefics2 were seen in document understanding tasks, where Idefics3 achieved a significant performance boost of 13.7 points on DocVQA.
+</p>
+
+<p align="justify">
+While Idefics3 shows significant improvement over Idefics2, a comparison with other vision-language models of a similar size, such as InternVL2-8B (which scores 91.6 on DocVQA versus Idefics3’s 87.7), would have been valuable, especially on tasks like OCRBench.
 </p>
 
 #### InternVL
