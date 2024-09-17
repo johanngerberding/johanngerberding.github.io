@@ -301,6 +301,8 @@ InternVL1.5:
 
 </p>
 
+{{< figure align=center alt="InternVL1.5 architecture and image slicing" src="/imgs/vlms/internvl1_5.png" width=100% caption="Figure 14. Overview of InternVL1.5 architecture and image slicing [17]">}}
+
 <p align="justify">
 InternVL2:
 </p>
