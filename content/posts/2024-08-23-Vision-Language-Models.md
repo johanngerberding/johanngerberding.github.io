@@ -267,7 +267,7 @@ InternVL1:
 - this architecture enables the model to smoothly integrate with other existing LLMs 
 </p>
 
-{{< figure align=center alt="InternVL1 architecture overview" src="/imgs/vlms/internvl1_architecture.png" width=80% caption="Figure 12. Overview of InternVL1 model components [16]">}}
+{{< figure align=center alt="InternVL1 architecture overview" src="/imgs/vlms/internvl1_architecture.png" width=70% caption="Figure 12. Overview of InternVL1 model components [16]">}}
 
 <p align="justify">
 - figure 12 shows the overall design of the InternVL architecture 
@@ -277,7 +277,7 @@ InternVL1:
 - by flexibly combining the vision encoder and the language middleware InternVL can support various vision or vision-language tasks like image classification, image-text retrieval, generative tasks or multimodal dialogs
 </p>
 
-{{< figure align=center alt="InternVL1 training stages overview" src="/imgs/vlms/internvl1_training.png" width=90% caption="Figure 13. Overview of InternVL1 training stages [16]">}}
+{{< figure align=center alt="InternVL1 training stages overview" src="/imgs/vlms/internvl1_training.png" width=100% caption="Figure 13. Overview of InternVL1 training stages [16]">}}
 
 <p align="justify">
 - as shown in figure 13 the training process consists of three progressive stages, including vision-language contrastive training, vision-language generative training and supervised fine-tuning 
@@ -286,11 +286,19 @@ InternVL1:
 - use of the objective function of CLIP 
 - the generative training connects InternViT-6B with QLLaMA and keeps them frozen, just the added learnable queries and cross-attention layers are trained on roughly 1 billion high quality samples 
 - use of the BLIP-2 loss function with three components: image-text contrastive (ITC) loss, image-text matching (ITM) loss and image-grounded text generation (ITG) loss
-
+- supervised finetuning to demonstrate the benefits of InternVL in creating multi-modal dialogue systems
+- connect InternVL with an LLM like Vicuna-13B through an MLP layer
+- training data: 4 million instruction data samples
+- robust performance even when freezing the LLM decoder  
 </p>
 
 <p align="justify">
 InternVL1.5:
+- three simple improvements of InternVL1: 
+    1. strong vision encoder: continuous learning strategy to boost InternViT-6B visual understanding capabilities
+    2. dynamic high resolution: divide images into tiles of size 448x448 according to aspect ratio and resolution
+    3. high-quality bilingual dataset: collected a high-quality bilingual dataset that covers common scenes, document images which significantly enhances OCR-related capabilites 
+
 </p>
 
 <p align="justify">
