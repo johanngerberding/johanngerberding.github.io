@@ -256,7 +256,47 @@ While Idefics3 shows significant improvement over Idefics2, a comparison with ot
 #### InternVL
 
 <p align="justify">
+InternVL1: 
+- design a large-scale vision-language foundation model called InternVL which scales up the vision foundation model to 6 billion parameters and progressively aligns it with the LLM
+- shortcomings of commonly employed "glue" layers to align features of vision and language models: disparity in parameter scales (LLMs are much bigger than vision backbones), inconsistent representation and inefficient connection to capture the rich corss-modal interactions and dependencies 
+- to address these issues, InternVL was created
+- it is based on three key design decisions: 
+1. parameter-balanced vision and language components: the vision encoder is scaled up to 6 billion parameters and an LLM middleware with 8 billion parameters, where the middleware functions as a connection layer to reorganize visual features based on user commands 
+2. consistent representations: use a pretrained multilingual LLaMA to initialize the middleware and align the vision encoder with it 
+3. progressive image-text alignment: initiates contrastive learning on large-scale noisy image-text data and subsequently transitions to generative learning on fine-grained data to ensure a consistent enhancement of model performance and task scope 
+- this architecture enables the model to smoothly integrate with other existing LLMs 
 </p>
+
+{{< figure align=center alt="InternVL1 architecture overview" src="/imgs/vlms/internvl1_architecture.png" width=80% caption="Figure 12. Overview of InternVL1 model components [16]">}}
+
+<p align="justify">
+- figure 12 shows the overall design of the InternVL architecture 
+- the large scale vision encoder is called InternViT-6B which is based on a vanilla vision transformer 
+- best configuration of the vision encoder was determined by a hyperparameter search over different depths, head dimensions and MLP ratios 
+- the language middleware is called QLLaMA and based on a multilingual LLaMA model with 96 added learnable queries and cross attention layers (+1B) which allows for a smooth integration of visual elements into the language model 
+- by flexibly combining the vision encoder and the language middleware InternVL can support various vision or vision-language tasks like image classification, image-text retrieval, generative tasks or multimodal dialogs
+</p>
+
+{{< figure align=center alt="InternVL1 training stages overview" src="/imgs/vlms/internvl1_training.png" width=90% caption="Figure 13. Overview of InternVL1 training stages [16]">}}
+
+<p align="justify">
+- as shown in figure 13 the training process consists of three progressive stages, including vision-language contrastive training, vision-language generative training and supervised fine-tuning 
+- all stages are trained using public data from diverse sources, ranging from noisy image-text pairs to high-quality caption, VQA and multi-modal dialog datasets (for more details on the data used, the paper has a table with a nice overview)
+- for the contrastive training they used roughly 5 billion image-text pairs from multiple publicly available datasets like LAION-en, LAION-multi, Wukong etc.
+- use of the objective function of CLIP 
+- the generative training connects InternViT-6B with QLLaMA and keeps them frozen, just the added learnable queries and cross-attention layers are trained on roughly 1 billion high quality samples 
+- use of the BLIP-2 loss function with three components: image-text contrastive (ITC) loss, image-text matching (ITM) loss and image-grounded text generation (ITG) loss
+
+</p>
+
+<p align="justify">
+InternVL1.5:
+</p>
+
+<p align="justify">
+InternVL2:
+</p>
+
 
 #### Qwen2-VL
 
@@ -429,3 +469,8 @@ These PEFT methods can be categorized into four main groups: Low-Rank Adapters (
 
 [[15]](https://arxiv.org/pdf/2203.12119) Jia el al. "Visual Prompt Tuning" (2022)
 
+[[16]](https://arxiv.org/pdf/2312.14238) Chen el al. "InternVL: Scaling up Vision Foundation Models and Aligning for Generic Visual-Linguistic Tasks" (2024)
+
+[[17]](https://arxiv.org/pdf/2404.16821) Chen el al. "How Far Are We to GPT-4V? Closing the Gap to Commercial Multimodal Models with Open Source Suites" (2024)
+
+[[18]](https://internvl.github.io/blog/2024-07-02-InternVL-2.0/) Chen el al. "InternVL2: Better than the Best - Expanding Performance Boundaries of Open Source Multimodal Models with the Progressive Scaling Strategy" (2024)
