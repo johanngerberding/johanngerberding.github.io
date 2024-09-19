@@ -256,62 +256,79 @@ While Idefics3 shows significant improvement over Idefics2, a comparison with ot
 #### InternVL
 
 <p align="justify">
-InternVL1: 
-- design a large-scale vision-language foundation model called InternVL which scales up the vision foundation model to 6 billion parameters and progressively aligns it with the LLM
-- shortcomings of commonly employed "glue" layers to align features of vision and language models: disparity in parameter scales (LLMs are much bigger than vision backbones), inconsistent representation and inefficient connection to capture the rich corss-modal interactions and dependencies 
-- to address these issues, InternVL was created
-- it is based on three key design decisions: 
-1. parameter-balanced vision and language components: the vision encoder is scaled up to 6 billion parameters and an LLM middleware with 8 billion parameters, where the middleware functions as a connection layer to reorganize visual features based on user commands 
-2. consistent representations: use a pretrained multilingual LLaMA to initialize the middleware and align the vision encoder with it 
-3. progressive image-text alignment: initiates contrastive learning on large-scale noisy image-text data and subsequently transitions to generative learning on fine-grained data to ensure a consistent enhancement of model performance and task scope 
-- this architecture enables the model to smoothly integrate with other existing LLMs 
+InternVL is a large-scale vision-language foundation model designed to address the limitations of traditional methods in aligning vision and language models. By scaling up the vision model to 6 billion parameters and progressively aligning it with a LLM, InternVL aims to create a more effective integration of these two domains. One major challenge in this integration is the disparity in parameter scales between vision models and LLMs, as well as the inconsistent representations and inefficient connections that fail to fully capture the rich cross-modal interactions. To address these shortcomings, InternVL introduces a novel architecture based on three key design principles:
+</p>
+<ol>
+<li><b>Parameter-balanced Vision and Language Components</b>: The vision encoder in InternVL is scaled up to 6 billion parameters, complemented by an LLM middleware with 8 billion parameters. The middleware serves as a crucial connection layer, reorganizing visual features based on user commands, thus facilitating a more balanced interaction between the vision and language components.</li>
+<li><b>Consistent Representations</b>: To ensure a more cohesive connection between the vision and language models, InternVL utilizes a pretrained multilingual LLaMA model to initialize the middleware. This ensures that the vision encoder is effectively aligned with the LLM, leading to consistent cross-modal representations.</li>
+<li><b>Progressive Image-Text Alignment</b>: InternVL employs a two-step learning process for image-text alignment. It begins with contrastive learning on large-scale noisy image-text data and gradually transitions to generative learning on fine-grained data. This progressive alignment ensures a consistent improvement in the model’s performance and adaptability across various tasks.</li>
+</ol>
+
+<p align="justify">
+Thanks to these innovations, InternVL can seamlessly integrate with other large language models, enhancing its versatility and capacity to handle complex vision-language tasks.
 </p>
 
 {{< figure align=center alt="InternVL1 architecture overview" src="/imgs/vlms/internvl1_architecture.png" width=70% caption="Figure 12. Overview of InternVL1 model components [16]">}}
 
 <p align="justify">
-- figure 12 shows the overall design of the InternVL architecture 
-- the large scale vision encoder is called InternViT-6B which is based on a vanilla vision transformer 
-- best configuration of the vision encoder was determined by a hyperparameter search over different depths, head dimensions and MLP ratios 
-- the language middleware is called QLLaMA and based on a multilingual LLaMA model with 96 added learnable queries and cross attention layers (+1B) which allows for a smooth integration of visual elements into the language model 
-- by flexibly combining the vision encoder and the language middleware InternVL can support various vision or vision-language tasks like image classification, image-text retrieval, generative tasks or multimodal dialogs
+Figure 12 illustrates the overall architecture of InternVL, highlighting its key components and design. The model's large-scale vision encoder, named InternViT-6B, is based on a vanilla vision transformer. The optimal configuration of InternViT-6B was determined through an extensive hyperparameter search, evaluating different depths, head dimensions, and MLP ratios to maximize its performance. The language middleware, called QLLaMA, is based on a multilingual LLaMA model. This middleware is enhanced with 96 additional learnable queries and cross-attention layers, adding over 1 billion parameters. These enhancements allow QLLaMA to effectively integrate visual elements into the language model, creating a smooth interaction between the vision and language components. By flexibly combining InternViT-6B and QLLaMA, InternVL is capable of supporting a wide range of tasks, including vision-specific tasks like image classification, vision-language tasks like image-text retrieval, as well as generative tasks and multimodal dialogs. This versatility makes InternVL highly adaptable for various vision and vision-language applications.
 </p>
 
 {{< figure align=center alt="InternVL1 training stages overview" src="/imgs/vlms/internvl1_training.png" width=100% caption="Figure 13. Overview of InternVL1 training stages [16]">}}
 
 <p align="justify">
-- as shown in figure 13 the training process consists of three progressive stages, including vision-language contrastive training, vision-language generative training and supervised fine-tuning 
-- all stages are trained using public data from diverse sources, ranging from noisy image-text pairs to high-quality caption, VQA and multi-modal dialog datasets (for more details on the data used, the paper has a table with a nice overview)
-- for the contrastive training they used roughly 5 billion image-text pairs from multiple publicly available datasets like LAION-en, LAION-multi, Wukong etc.
-- use of the objective function of CLIP 
-- the generative training connects InternViT-6B with QLLaMA and keeps them frozen, just the added learnable queries and cross-attention layers are trained on roughly 1 billion high quality samples 
-- use of the BLIP-2 loss function with three components: image-text contrastive (ITC) loss, image-text matching (ITM) loss and image-grounded text generation (ITG) loss
-- supervised finetuning to demonstrate the benefits of InternVL in creating multi-modal dialogue systems
-- connect InternVL with an LLM like Vicuna-13B through an MLP layer
-- training data: 4 million instruction data samples
-- robust performance even when freezing the LLM decoder  
+As illustrated in Figure 13, the training process of InternVL follows a progressive three-stage approach, consisting of vision-language contrastive training, vision-language generative training, and supervised fine-tuning. Each stage utilizes public data from diverse sources, ranging from noisy image-text pairs to high-quality datasets for captions, visual question answering (VQA), and multi-modal dialogues. A comprehensive overview of the data used is provided in the paper, offering detailed insights into the datasets employed.
+</p>
+
+<ol>
+<li><b>Vision-Language Contrastive Training</b>: This stage leverages approximately 5 billion image-text pairs sourced from publicly available datasets such as LAION-en, LAION-multi, and Wukong. The objective function used here is the same as that of CLIP, enabling the model to learn strong image-text alignments from large-scale noisy data.</li>
+<li><b>Vision-Language Generative Training</b>: In this phase, InternViT-6B (the vision encoder) is connected to QLLaMA (the language middleware), but both components remain frozen. Only the added learnable queries and cross-attention layers are trained using around 1 billion high-quality samples. The training employs the BLIP-2 loss function, which consists of three key components: image-text contrastive (ITC) loss, image-text matching (ITM) loss, and image-grounded text generation (ITG) loss, ensuring a robust generative capability for the model.</li>
+<li><b>Supervised Fine-tuning</b>: This final stage demonstrates InternVL's effectiveness in creating multi-modal dialogue systems. It involves connecting InternVL to a larger LLM, such as Vicuna-13B, via an MLP layer. The fine-tuning process uses 4 million instruction data samples to train the model, yielding strong performance even when the LLM decoder remains frozen.</li>
+</ol>
+
+<p align="justify">
+Through this progressive training strategy, InternVL achieves robust performance across various vision-language tasks, from contrastive learning to multi-modal dialogues.
 </p>
 
 <p align="justify">
-InternVL1.5:
-- three simple improvements of InternVL1: 
-    1. strong vision encoder: continuous learning strategy to boost InternViT-6B visual understanding capabilities
-    2. dynamic high resolution: divide images into tiles of size 448x448 according to aspect ratio and resolution
-    3. high-quality bilingual dataset: collected a high-quality bilingual dataset that covers common scenes, document images which significantly enhances OCR-related capabilites 
-
+<b>InternVL1.5</b> introduces three key improvements over its predecessor, InternVL1:
+</p>
+<ol>
+<li><b>Enhanced Vision Encoder</b>: A continuous learning strategy is employed to improve the visual understanding capabilities of the InternViT-6B model. This enables stronger and more accurate visual representation.</li>
+<li><b>Dynamic High-Resolution Image Processing</b>: The model now divides images into tiles sized 448x448 based on their aspect ratio and resolution, allowing for better handling of high-resolution images while maintaining efficiency.</li>
+<li><b>High-Quality Bilingual Dataset</b>: A comprehensive, high-quality bilingual dataset was collected, featuring common scenes and document images. This significantly improves the model's OCR-related capabilities, making it more adept at understanding text in visual data.</li>
+</ol>
+<p align="justify">
+Additionally, the architecture has evolved. Instead of the middleware used in InternVL1, the authors implemented a ViT-MLP-LLM structure. This is combined with Pixel Shuffle to reduce the number of visual tokens and uses an MLP Projector as a connection mechanism, optimizing performance and efficiency.
 </p>
 
 {{< figure align=center alt="InternVL1.5 architecture and image slicing" src="/imgs/vlms/internvl1_5.png" width=100% caption="Figure 14. Overview of InternVL1.5 architecture and image slicing [17]">}}
 
 <p align="justify">
+To enhance scalability for high-resolution images, InternVL1.5 employs a pixel shuffle operation that reduces the number of visual tokens to one-quarter of the original. As a result, a 448x448 image is represented by just 256 visual tokens, significantly improving processing efficiency. The multilingual dataset used for training was constructed from openly available datasets tailored for various tasks, which were carefully filtered to ensure quality. For more detailed information on the specific datasets used for both pretraining and fine-tuning, refer to the tables provided in the paper. InternVL1.5 particularly excels in OCR-related tasks and TextVQA benchmarks, outperforming even proprietary models such as GPT-4V and Claude-3 Opus. This demonstrates the model's superior capabilities in understanding and interpreting visual-textual information.
+</p>
+
+<p align="justify">
 InternVL2:
+- unfortunately no paper available 
 </p>
 
 
 #### Qwen2-VL
 
 <p align="justify">
+- introduces the Naive Dynamic Resolution mechanism, which enables the model to dynamically process images of varying resolutions into different numbers of visual tokens
+- goal is to produce more efficient and accurate visual representations
+- also integrates Multimodal Rotary Position Embedding (M-RoPE) to facilitate the fusion of positional information across text, images and videos
+- Qwen2-VL series consists of 3 model sizes, 2B, 7B and 72B 
+- they all employ a 675M parameter ViT across various-sized LLMs 
 </p>
+
+{{< figure align=center alt="Qwen2-VL architecture overview" src="/imgs/vlms/qwen2_vl.png" width=100% caption="Figure 15. Overview of Qwen2-VL architecture [19]">}}
+
+<p align="justify">
+</p>
+
 
 #### MiniCPM-V 
 
@@ -484,3 +501,5 @@ These PEFT methods can be categorized into four main groups: Low-Rank Adapters (
 [[17]](https://arxiv.org/pdf/2404.16821) Chen el al. "How Far Are We to GPT-4V? Closing the Gap to Commercial Multimodal Models with Open Source Suites" (2024)
 
 [[18]](https://internvl.github.io/blog/2024-07-02-InternVL-2.0/) Chen el al. "InternVL2: Better than the Best - Expanding Performance Boundaries of Open Source Multimodal Models with the Progressive Scaling Strategy" (2024)
+
+[[19]](https://arxiv.org/pdf/2409.12191) Wang el al. "Qwen2-VL: Enhancing Vision-Language Models Perception of the World at Any Resolution" (2024)
