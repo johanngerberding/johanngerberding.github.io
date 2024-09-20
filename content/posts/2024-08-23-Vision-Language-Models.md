@@ -309,25 +309,38 @@ To enhance scalability for high-resolution images, InternVL1.5 employs a pixel s
 </p>
 
 <p align="justify">
-InternVL2:
-- unfortunately no paper available 
+<b>InternVL2</b> is the most current iteration of the model family that ranges in size from 1 billion to 108 billion parameters. While there is no official paper available yet, it is described as being on par with current commercial closed-source models in terms of capabilities. The model is built on several key design principles:
 </p>
+<ol>
+<li><b>Progressive Alignment with LLMs</b>: InternVL2 employs a progressive alignment training strategy, making it the first vision foundation model to be natively aligned with large language models (LLMs). This training strategy scales the model from small to large sizes, while the data used for training evolves from coarse to fine detail. This approach results in more cost-effective training while delivering excellent performance.</li>
+<li><b>Multitask Output</b>: The model supports a variety of output formats, including images, bounding boxes, and masks. By linking the model with task-specific decoders, it can generalize across hundreds of vision-language tasks, making it highly versatile.</li>
+</ol>
 
+<p align="justify">
+The pretraining process extends the stage 1 datasets used for InternVL1.5 with data from diverse sources such as Testbank, OmniCorpus, Kaptest, and more. The stage 2 training uses the same data as InternVL1.5. For more detailed information on the architectural differences, the codebase is available for review (I was to lazy to explore it myself).
+</p>
 
 #### Qwen2-VL
 
 <p align="justify">
-- introduces the Naive Dynamic Resolution mechanism, which enables the model to dynamically process images of varying resolutions into different numbers of visual tokens
-- goal is to produce more efficient and accurate visual representations
-- also integrates Multimodal Rotary Position Embedding (M-RoPE) to facilitate the fusion of positional information across text, images and videos
-- Qwen2-VL series consists of 3 model sizes, 2B, 7B and 72B 
-- they all employ a 675M parameter ViT across various-sized LLMs 
+Qwen2-VL introduces the Naive Dynamic Resolution mechanism, which allows the model to dynamically process images of varying resolutions by converting them into different numbers of visual tokens. The goal of this innovation is to achieve more efficient and accurate visual representations. In addition, the model incorporates Multimodal Rotary Position Embedding (M-RoPE), designed to facilitate the integration of positional information across multiple modalities such as text, images, and videos. The Qwen2-VL series is available in three model sizes: 2 billion, 7 billion, and 72 billion parameters. All these models utilize a 675 million parameter Vision Transformer (ViT) across the various-sized Qwen2 LLMs.
 </p>
 
-{{< figure align=center alt="Qwen2-VL architecture overview" src="/imgs/vlms/qwen2_vl.png" width=100% caption="Figure 15. Overview of Qwen2-VL architecture [19]">}}
+{{< figure align=center alt="Qwen2-VL architecture overview" src="/imgs/vlms/qwen2vl.png" width=100% caption="Figure 15. Overview of Qwen2-VL architecture [19]">}}
 
 <p align="justify">
+The Qwen2-VL model introduces two key architectural enhancements: Naive Dynamic Resolution and Multimodal Rotary Position Embedding (M-RoPE).
 </p>
+
+<p align="justify">
+The <b>Naive Dynamic Resolution</b> mechanism enables the model to process images of varying sizes by dynamically converting them into a variable number of visual tokens. It removes the original absolute position embeddings of the Vision Transformer (ViT) and instead introduces 2D-RoPE, which is capable of capturing two-dimensional positional information from images. To further streamline image processing, an MLP layer is employed to compress groups of 2x2 tokens into a single token. For example, an image with a resolution of 224x224 is compressed into 66 tokens, making the process more efficient.
+</p>
+
+<p align="justify">
+The second enhancement, <b>Multimodal Rotary Position Embedding</b> (M-RoPE), is designed to effectively model the positional information of multimodal inputs by decomposing the original rotary embeddings into three distinct components: temporal, height, and width. For text inputs, these components share identical position IDs, making the mechanism functionally equivalent to the standard 1D-RoPE. When processing images, the temporal IDs of visual tokens remain constant, while the height and width components are assigned distinct IDs based on their positions in the image. For videos, the temporal ID increases with each frame, while the width and height components follow the same assignment pattern as in the case of images. This innovative approach not only improves the modeling of positional information but also reduces the reliance on position IDs, allowing the model to generalize to longer sequences during inference. Together, these enhancements make the Qwen2-VL model more efficient and effective in handling multimodal data, with improved extrapolation capabilities for images and videos.
+</p>
+
+{{< figure align=center alt="Multimodal Rotaty Position Embeddings" src="/imgs/vlms/mrope.png" width=100% caption="Figure 16. Overview of Multimodal Rotary Position Embeddings [19]">}}
 
 
 #### MiniCPM-V 
