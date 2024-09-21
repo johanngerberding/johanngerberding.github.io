@@ -345,24 +345,35 @@ The second enhancement, <b>Multimodal Rotary Position Embedding</b> (M-RoPE), is
 
 #### MiniCPM-V 
 
-2.5 & 2.6
 <p align="justify">
-- remaining challenges prevent VLMs from being used in real world applications, the most significant one is the high cost of running those big models 
-- most VLMs have to be deployed on high-performance cloud servers, which greatly limits their application scope (mobile, offline, privacy-protective)
-- MiniCPM is a model family that tries to change that
-- model have strong performance on general benchmarks and especially OCR capabilities, has multilingual support for more than 30 languages and you can run these models on mobile phones
+Despite the advancements in Vision-Language Models (VLMs), several challenges still prevent their widespread use in real-world applications. One of the most significant obstacles is the high cost associated with running these large models. Typically, VLMs need to be deployed on high-performance cloud servers, which significantly limits their application in mobile, offline, or privacy-sensitive environments. Addressing these challenges, the MiniCPM model family offers a promising solution. These models demonstrate strong performance on general benchmarks, particularly excelling in Optical Character Recognition (OCR) tasks. Furthermore, they provide multilingual support for over 30 languages and, importantly, can be run on mobile devices, expanding their usability to a broader range of applications.
 </p>
 
-{{< figure align=center alt="MiniCPM-V-2.5 model architecture" src="/imgs/vlms/minicpm.png" width=100% caption="Figure 11. MiniCPM-V-2.5 model architecture []">}}
+{{< figure align=center alt="MiniCPM-V-2.5 model architecture" src="/imgs/vlms/minicpm.png" width=100% caption="Figure 11. MiniCPM-V-2.5 model architecture [20]">}}
 
 <p align="justify">
-- three key modules: visual encoder, compression layer, LLM 
-- input image is encoded by a SigLIP SoViT-400m/14, utilizing the adaptive visual encoding approach proposed by LLaVA-UHD
-- the compression layer has a perceiver resampler structure with one layer cross-attention
-- the compressed visual tokens along with the text input are fed into the LLM for conditional text generation
-- image partitioning -> slice encoding (and resizing so that the slice size matches the ViT input size) -> token compression (1024 tokens per image slice, compressed with cross attention layer to 64/96 tokens)
-- 3 phase training process: pretraining, supervised fine-tuning, RLAIF-V
-- RLAIF-V is a framework for improving trustworthiness and reduce hallucinations 
+The model architecture consists of three key modules: a visual encoder, a compression layer, and a large language model (LLM). The input image is encoded by a SigLIP SoViT-400m/14, using the adaptive visual encoding approach proposed by LLaVA-UHD. The compression layer has a perceiver resampler structure with a single-layer cross-attention mechanism. Once compressed, the visual tokens, together with the text input, are fed into the LLM for conditional text generation.
+</p>
+<p align="justify">
+The process follows a series of steps: image partitioning, slice encoding (with resizing to match the ViT input size), and token compression. Specifically, each image slice is represented by 1024 tokens, which are then compressed using the cross-attention layer to 64 or 96 tokens. Training this model involves three phases:
+</p>
+<ol>
+<li><b>Pretraining</b>
+    <ul>
+        <li><b>Stage 1</b>: Train only the compression layer that connects the visual encoder to the LLM, keeping all other parameters frozen.</li>
+        <li><b>Stage 2</b>: Extend the input resolution of the visual encoder from 224x224 to 448x448.</li>
+        <li><b>Stage 3</b>: Train the visual encoder using the adaptive visual encoding strategy.</li>
+    </ul>
+</li>
+<li><b>Supervised Fine-Tuning</b>: In this phase, the model undergoes fine-tuning on high-quality visual question-answering datasets, labeled by humans or strong models like GPT-4. During this stage, all parameters are unlocked and trained together.</li>
+<li><b>Trustworthiness and Hallucination Reduction</b>: This phase utilizes the RLAIF-V framework, which is designed to enhance the model’s trustworthiness and minimize hallucinations. The key here is gathering scalable, high-quality feedback from open-source models to conduct Direct Preference Optimization (DPO). Figure 12 outlines the three steps involved in this method: Response Generation, Feedback Collection, and DPO.</li>
+</ol>
+
+{{< figure align=center alt="RLAIF-V framework for hallucination reduction" src="/imgs/vlms/rlaif.png" width=100% caption="Figure 12. RLAIF-V framework for hallucination reduction [20]">}}
+
+<p align="justify">
+For more information on the datasets used, the methods for improving the quality of training data, or the advancements in on-device deployments, please refer to the detailed discussions in the paper.
+The latest model in the MiniCPM-V series, MiniCPM-V 2.6, offers significant improvements over its predecessor, MiniCPM-V 2.5. However, as of now, there is no paper available that outlines the architecture, datasets, or training procedure for this latest version. Despite this, the model has achieved an impressive score of 65.2 on OpenCompass, a remarkable performance for a model of its size. It even outperforms well-known models like GPT-4o, showcasing its advanced capabilities.
 </p>
 
 
@@ -516,3 +527,5 @@ These PEFT methods can be categorized into four main groups: Low-Rank Adapters (
 [[18]](https://internvl.github.io/blog/2024-07-02-InternVL-2.0/) Chen el al. "InternVL2: Better than the Best - Expanding Performance Boundaries of Open Source Multimodal Models with the Progressive Scaling Strategy" (2024)
 
 [[19]](https://arxiv.org/pdf/2409.12191) Wang el al. "Qwen2-VL: Enhancing Vision-Language Models Perception of the World at Any Resolution" (2024)
+
+[[20]](https://arxiv.org/pdf/2408.01800) Yao el al. "MiniCPM-V: A GPT-4V Level MLLM on Your Phone" (2024)
