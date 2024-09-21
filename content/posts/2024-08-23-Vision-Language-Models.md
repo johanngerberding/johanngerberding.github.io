@@ -7,7 +7,7 @@ summary: LLMs are boring but VLMs are awesome, let's see why.
 include_toc: true
 showToc: true
 math: true
-draft: true 
+draft: false 
 tags: ["vlm", "llm"]
 ---
 
@@ -196,7 +196,7 @@ The Idefics model family currently includes three versions that build on one ano
 </p>
 
 <p align="justify">
-<b>Idefics1</b> introduces the OBELICS dataset, a significant milestone in this model family. The dataset is composed of interleaved image-text documents, derived from 141 million web pages extracted from Common Crawl. It contains a total of 353 million associated images and 115 billion text tokens. One of the standout features of the OBELICS dataset is the extensive detail and quantity of text per image, which surpasses other image-text datasets in size and richness. Figure X below illustrates the complete dataset creation process.
+<b>Idefics1</b> introduces the OBELICS dataset, a significant milestone in this model family. The dataset is composed of interleaved image-text documents, derived from 141 million web pages extracted from Common Crawl. It contains a total of 353 million associated images and 115 billion text tokens. One of the standout features of the OBELICS dataset is the extensive detail and quantity of text per image, which surpasses other image-text datasets in size and richness. Figure 9 below illustrates the complete dataset creation process.
 </p>
 
 {{< figure align=center alt="Generation process of the OBELICS dataset" src="/imgs/vlms/obelics.png" width=90% caption="Figure 9. Overview of the OBELICS generation process [7]">}}
@@ -349,7 +349,7 @@ The second enhancement, <b>Multimodal Rotary Position Embedding</b> (M-RoPE), is
 Despite the advancements in Vision-Language Models (VLMs), several challenges still prevent their widespread use in real-world applications. One of the most significant obstacles is the high cost associated with running these large models. Typically, VLMs need to be deployed on high-performance cloud servers, which significantly limits their application in mobile, offline, or privacy-sensitive environments. Addressing these challenges, the MiniCPM model family offers a promising solution. These models demonstrate strong performance on general benchmarks, particularly excelling in Optical Character Recognition (OCR) tasks. Furthermore, they provide multilingual support for over 30 languages and, importantly, can be run on mobile devices, expanding their usability to a broader range of applications.
 </p>
 
-{{< figure align=center alt="MiniCPM-V-2.5 model architecture" src="/imgs/vlms/minicpm.png" width=100% caption="Figure 11. MiniCPM-V-2.5 model architecture [20]">}}
+{{< figure align=center alt="MiniCPM-V-2.5 model architecture" src="/imgs/vlms/minicpm.png" width=100% caption="Figure 17. MiniCPM-V-2.5 model architecture [20]">}}
 
 <p align="justify">
 The model architecture consists of three key modules: a visual encoder, a compression layer, and a large language model (LLM). The input image is encoded by a SigLIP SoViT-400m/14, using the adaptive visual encoding approach proposed by LLaVA-UHD. The compression layer has a perceiver resampler structure with a single-layer cross-attention mechanism. Once compressed, the visual tokens, together with the text input, are fed into the LLM for conditional text generation.
@@ -369,7 +369,7 @@ The process follows a series of steps: image partitioning, slice encoding (with 
 <li><b>Trustworthiness and Hallucination Reduction</b>: This phase utilizes the RLAIF-V framework, which is designed to enhance the model’s trustworthiness and minimize hallucinations. The key here is gathering scalable, high-quality feedback from open-source models to conduct Direct Preference Optimization (DPO). Figure 12 outlines the three steps involved in this method: Response Generation, Feedback Collection, and DPO.</li>
 </ol>
 
-{{< figure align=center alt="RLAIF-V framework for hallucination reduction" src="/imgs/vlms/rlaif.png" width=100% caption="Figure 12. RLAIF-V framework for hallucination reduction [20]">}}
+{{< figure align=center alt="RLAIF-V framework for hallucination reduction" src="/imgs/vlms/rlaif.png" width=100% caption="Figure 18. RLAIF-V framework for hallucination reduction [20]">}}
 
 <p align="justify">
 For more information on the datasets used, the methods for improving the quality of training data, or the advancements in on-device deployments, please refer to the detailed discussions in the paper.
@@ -384,10 +384,10 @@ Scaling is often key to improving the performance of Visual Language Models (VLM
 Recently, though, researchers have discovered a way to overcome these challenges: a well-designed data curation pipeline. By carefully selecting and curating the training data, it is possible to surpass the typical scaling laws that have dominated model development. In this section, we’ll explore how crucial high-quality data is in training VLMs and the recipes used to create datasets that drive superior performance.
 </p>
 
-{{< figure align=center alt="Important training decisions to make" src="/imgs/vlms/training.png" width=100% caption="Figure X. Important decisions to make when training VLMs [2]">}}
+{{< figure align=center alt="Important training decisions to make" src="/imgs/vlms/training.png" width=100% caption="Figure 19. Important decisions to make when training VLMs [2]">}}
 
 <p align="justify">
-We’ll explore the crucial role of data in Visual Language Model (VLM) training, focusing on the recipes used to create high-quality datasets (Figure X). Additionally, we’ll discuss grounding, ensuring the model accurately links visual content to text, along with alignment to human preferences, and provide tips for selecting the right model architecture for your specific use case. 
+We’ll explore the crucial role of data in Visual Language Model (VLM) training, focusing on the recipes used to create high-quality datasets (Figure 19). Additionally, we’ll discuss grounding, ensuring the model accurately links visual content to text, along with alignment to human preferences, and provide tips for selecting the right model architecture for your specific use case. 
 </p>
 
 ### Data
@@ -444,13 +444,6 @@ Similar to in-context learning in text-based models, in-context learning can als
 A key dataset used for such training is the MIMIC-IT dataset, which contains 2.8 million in-context instruction-image-answer tuples. These tuples are relevant to the test example in one of three ways: either the instructions are similar but the images are different, the images are the same but the instructions vary, or the images follow a sequential order while the instructions differ. This setup helps the model learn to interpret both the instructions and images in context, improving its ability to respond appropriately to multimodal inputs.
 </p>
 
-
-### Improving text-rich Image Understanding
-
-<p align="justify">
-- lets improve OCR 
-</p>
-
 ### Parameter-Efficient Fine-Tuning 
 
 <p align="justify">
@@ -465,26 +458,62 @@ These PEFT methods can be categorized into four main groups: Low-Rank Adapters (
 <b>Prompt-based methods</b>: Context Optimization (CoOp), which is a technique designed to adapt pre-trained VLMs for downstream image recognition tasks, eliminating the need for manual prompt engineering. It does that by optimizing the context of the prompt using learnable vectors during the training process. Experiments from 11 datasets indicate that CoOp outperforms handcrafted prompts and linear probe models in few shot learning. Another interesting method is called Visual Prompt Tuning (VPT) that adapts Transformers models in vision by introducing a small amount of trainable parameters in the input space (task-specific learnable prompts). 
 </p>
 
-{{< figure align=center alt="Overview of prompt-based methods to improve vision language models" src="/imgs/vlms/coop_vpt.png" width=100% caption="Figure X. Overview of prompt-based methods for finetuning VLMs [14] & [15]">}}
+{{< figure align=center alt="Overview of prompt-based methods to improve vision language models" src="/imgs/vlms/coop_vpt.png" width=100% caption="Figure 20. Overview of prompt-based methods for finetuning VLMs [14] & [15]">}}
 
 <p align="justify">
-<b>Adapter-based methods</b>: Adapters are new modules added between layers of a pre-trained network. Examples of this: CLIP-Adapter, VL-adapter and Llama-Adapter V2. CLIP-Adapter: appends a small number of additional learnable bottleneck linear layers to CLIP’s language and image branches while keep the original CLIP backbone frozen during few-shot fine-tuning. deal with over-fitting and improve the robustness of CLIP-Adapter, we further adopt residual connections to dynamically blend the fine-tuned knowledge with the original knowledge from CLIP’s backbone
+<b>Adapter-based methods</b>: Adapters are new modules that are inserted between the layers of a pre-trained network to enhance its capabilities. Examples include CLIP-Adapter, VL-Adapter, and Llama-Adapter V2. The CLIP-Adapter method involves appending a small number of additional learnable bottleneck linear layers to the language and image branches of CLIP. During few-shot fine-tuning, the original CLIP backbone remains frozen. To address overfitting and improve the robustness of the CLIP-Adapter, residual connections are introduced. These connections dynamically blend the fine-tuned knowledge with the original knowledge from CLIP’s backbone, enhancing performance without compromising the integrity of the pre-trained model.
 </p>
 <p align="justify">
-<b>Mapping-based methods</b>:
+<b>Mapping-based methods</b>: A simpler approach than LoRA is available, one that does not require detailed knowledge of the network's architecture. This method involves training a mapping between pre-trained unimodal modules while keeping these modules completely frozen, with no adapter layers added. This approach is more efficient, as it requires fewer trainable parameters and results in increased data efficiency. Notable examples include LiMBeR, which uses a linear layer for projection, and MAPL, which designs a more complex mapping network to achieve similar goals.
 </p>
-
-
 
 
 ## Evaluation & Benchmarks 
 
 <p align="justify">
+It is essential to measure visio-linguistic abilities to ensure that words accurately correspond to visual cues. In this section, we review various evaluation methods for VLMs, including Visual Question Answering (VQA), zero-shot predictions on tasks such as ImageNet classification, and visio-linguistic compositional reasoning, such as the Winoground benchmark.
 </p>
 
-{{< figure align=center alt="Overview of evaluation methods for vision language models" src="/imgs/vlms/evaluation.png" width=90% caption="Figure X. Overview of evaluation methods for VLMs [2]">}}
+{{< figure align=center alt="Overview of evaluation methods for vision language models" src="/imgs/vlms/evaluation.png" width=90% caption="Figure 21. Overview of evaluation methods for VLMs [2]">}}
 
+<p align="justify">
+In the following, we will delve into visio-linguistic benchmarking methods, as they are key to assessing how effectively a VLM has learned the mapping between visual and linguistic information.
+</p>
 
+<p align="justify">
+<b>Image Captioning</b>: The COCO captioning dataset and challenge are widely used to evaluate the quality of captions generated by VLMs. These evaluations are based on metrics such as BLEU and ROUGE, which are heuristic measures designed to approximate the similarity between the generated captions and reference captions. Another method, CLIPScore, leverages CLIP to predict how closely a caption matches an image. However, while CLIPScore provides an alternative perspective on caption quality, it is not without its limitations, as CLIP itself has certain shortcomings.
+</p>
+
+<p align="justify">
+<b>Text-to-Image Consistency</b>: 
+Refers to the evaluation of a model's ability to generate an image that accurately reflects a given caption. Several approaches are used to assess this consistency, including formatting the text prompt as a question and using a Visual Question Answering (VQA) model to determine the probability of answering "yes".
+For instance, <b>TIFA</b> and <b>Davidsonian Scene Graph</b> (DSG) utilize a language model (LM) to generate natural language binary and multiple-choice questions, which are then evaluated by a VQA model. Another method, <b>QAScore</b>, also relies on VQA but differs in its approach. Instead of generating questions via an LM, it passes the original text prompt directly to a VQA model to assess the consistency between the text and the generated image.
+</p>
+
+<p align="justify">
+<b>Visual Question Answering</b>: Is the task of answering natural questions about images, making it a core evaluation method for Vision-Language Models (VLMs). In fact, many VLM tasks can be reformulated as VQA tasks. For example, image captioning can be expressed as "What is in the image?", while grounding can be reframed as "Where is it?" There are several popular VQA benchmarks, including VQAv2, TextVQA, GQA, VizWiz-QA, and MMMU, among others. The primary metric used for evaluation is VQA accuracy, which relies on exact string matching between the model's candidate answer and a set of reference answers provided by human annotators. However, in newer generative settings, this exact matching metric can be too strict, often underestimating the true performance of modern VLM systems. To address this, some methods involve artificially constraining or rephrasing the model's output to match the format of the ground truth answers. Another approach is to use a large language model (LLM) to evaluate the quality of the answers instead of relying solely on strict string matching.
+In addition to evaluating the correctness of answers, another important dimension for VQA is selective prediction. This measures how effectively a VLM can abstain from answering questions it is likely to get wrong, while maintaining high accuracy on the questions it chooses to answer. This capability is crucial for building more robust and reliable models. An extended form of VQA evaluation is provided by the <b>VisDial</b> dataset and benchmark. VisDial presents a series of questions about a single image, aiming to assess the model's ability to engage in a coherent and meaningful discussion about that image. This goes beyond simple question-answer pairs, measuring how well the model can maintain context and continuity throughout an interactive dialogue.
+</p>
+
+<p align="justify">
+<b>Zero-shot Image Classification</b>:
+- evaluating a model on a classification task for which the model wasn't explicitly trained 
+- since prompt engineering, e.g. using concept names within human-engineered prompt templates can substantially enhance zero-shot performance 
+- recent methods employ LLMs to automatically generate prompts, often with rich visual descriptions 
+- performance here depends mostly on the fact that the training data contains examples of the respective classes  
+</p>
+
+<p align="justify">
+<b>Visio-linguistic Compositional Reasoning</b>: Introduces benchmarks that challenge models with artificially created captions designed to create ambiguity, such as reordering the words. These benchmarks evaluate the model's ability to discriminate between the correct caption and a perturbed one. One prominent task in this domain is Winoground, which assesses visio-linguistic abilities using a dataset where each example includes two images and two captions. One caption matches one image, and the task for the model is to score the correct image-caption pairs higher than the incorrect ones. The only difference between the captions is often the word order, making it a test of the model's ability to understand nuanced language composition. Another benchmark, Attribution, Relation, and Order (ARO), evaluates a model's understanding of relationships, attributes, and word order. Built using the GQA, COCO, and Flickr30k datasets, ARO generates negative captions by swapping either the relations, attributes, or order of words from the original captions. This benchmark provides a structured way to test a model's compositional understanding across these key dimensions.
+</p>
+
+<p align="justify">
+<b>Dense Captioning and Crop-Caption Matching</b>: Address the limitations of VLMs when generating text descriptions, as many models are constrained by the size of their text tokenizers. For instance, the CLIP Tokenizer can only generate a maximum of 77 tokens, which is insufficient to provide a rich and detailed description of complex images. To overcome this limitation, the Densely Captioned Images (DCI) dataset was introduced. This dataset contains 7,805 images, each accompanied by captions that exceed 1,000 words, offering complete and detailed descriptions of the visual content. This allows models to learn from more comprehensive image descriptions, enabling better performance in generating and understanding detailed captions.
+</p>
+
+<p align="justify">
+<b>Synthetic Data based visio-linguistic evaluations</b>: Address some of the challenges inherent in using real-world data for evaluating VLMs. Real data often comes with limitations: captions are typically simple, can contain ambiguities or biases, and may not always be suitable for evaluating VLMs effectively. Additionally, it can be difficult to find real images that naturally align with negative or incorrect captions, limiting the ability to fully assess model performance. Synthetic datasets provide a solution by allowing precise control over each scene and producing granular ground truth labels. An example is the Photorealistic Unreal Graphics (PUG) dataset, which constructs complex scenes by adding one element at a time. This granular construction allows for the assessment of whether a VLM can associate the correct caption with a given background. For instance, the authors first tested whether a VLM could match a caption to a background. Then, they added an animal to the scene to see if the model could correctly detect the animal against different backgrounds. If the animal was correctly identified, it was moved to the left or right to further test whether the VLM could still identify the proper caption indicating the animal's new position. The results showed that many current VLMs performed no better than random chance in detecting such positional changes, highlighting the limitations of existing models in spatial reasoning tasks.
+</p>
 
 ## References 
 
