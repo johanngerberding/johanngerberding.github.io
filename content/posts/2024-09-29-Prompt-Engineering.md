@@ -23,6 +23,17 @@ tags: ["vlm", "llm", "prompt engineering"]
 
 ## In-Context Prompting 
 
+- zero-shot learning (prompting) => just ask the model 
+```yaml
+Prompt:: I think this blog is absolutely awesome.
+Sentiment::  
+```
+- few-shot learning (prompting) => present a set of high-quality examples of input and desired output, which often leads to better performance than zero-shot 
+- but you need more tokens so watch out for your context length   
+- observations of studies that looked into few-shot prompting to maximize performance: choice of prompt format, training examples and the order of examples can lead to dramatically different performance from near random to state-of-the-art (which is not good) 
+- how to select examples: 
+    - choose examples that are semantically similar to the test example using k-NN clustering in the embedding space 
+    - Su et al. (2022): how to minimize annotation cost for in-context examples -> propose a general framework constisting of two steps, selective annotation and prompt retrieval (embed examples using Sentence-BERT and then calculate cosine similarity); selective annotation method called Vote-k: 
 <p align="justify">
 </p>
 
