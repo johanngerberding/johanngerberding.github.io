@@ -1,6 +1,6 @@
 ---
 title: Parameter-Efficient LLM Finetuning  
-date: 2023-09-08 10:00:00 +0200
+date: 2024-11-06 10:00:00 +0200
 permalink: /:title
 author: Johann Gerberding
 summary: Finetuning of Large Language Models in a parameter efficient way.
@@ -8,7 +8,7 @@ include_toc: true
 showToc: true
 math: true
 draft: true
-tags: ["llm", "finetuning", "transformer"]
+tags: ["llm", "finetuning", "transformer", "lora"]
 ---
 
 ## Introduction
@@ -22,7 +22,7 @@ LLMs are based on the <a href="http://jalammar.github.io/illustrated-transformer
 </p>
 
 <p align="justify">
-However, based on the current model sizes a full fine-tuning becomes infeasible to train on consumer hardware (which makes me a bit sad). In addition when you want to store and deploy multiple fine-tuning model instances for different tasks, this becomes very expensive because they are the same size as the base LLM. Because of these two main problems, people came up with more efficient methods for doing this which are referred to as Parameter-efficient fine-tuning (PEFT) procedures. These approaches basically enable you to get performance comparable to full fine-tuning while only having a small number of trainable parameters.  
+However, based on the current model sizes a full fine-tuning becomes infeasible to train on consumer hardware (which makes me a bit sad). In addition when you want to store and deploy multiple fine-tuning model instances for different tasks, this becomes very expensive because they are the same size as the base LLM. Because of these two main problems, people came up with more efficient methods for doing this which are referred to as Parameter-Efficient Fine-Tuning (PEFT) procedures. These approaches basically enable you to get performance comparable to full fine-tuning while only having a small number of trainable parameters.  
 </p>
 
 <p align="justify">
@@ -34,7 +34,14 @@ In the following I will going to dive a bit deeper in how some of these methods 
 </p>
 
 
-## Prefix Tuning  
+## Soft Prompts 
+
+<p align="justify">
+- concatenate learnable tensors with the input embeddings that can be optimized to a dataset
+- not human readable tokens
+</p>
+
+### Prefix Tuning  
 
 <p align="justify">
 There exists different forms of prompt tuning, one of them is hard prompt tuning, also called prompt engineering or in context learning, where you change the input to the model, e.g. provide examples for how the model should answer. This form of tuning is non-differentiable, so the weights don't change and you don't add any weights. Prefix tuning is a form of soft prompt tuning where you concatenate a trainable tensor to the embeddings of the input tokens. This tensor is trainable, so you add a small amount of weights. The model parameters are kept frozen and you just optimize a small continuous task-specific vector which is called prefix.  
@@ -45,6 +52,15 @@ There exists different forms of prompt tuning, one of them is hard prompt tuning
 <p align="justify">
 Prefix tuning shines especially in low-data settings and the extrapolation to new tasks, e.g. summarization of texts with different topics, is better. It has up to 1000x fewer parameters to learn than in a fine-tuning setting. Another very cool thing is, that it enables personalization by having a different prefix per user trained only on the user data (no cross-contamination) and you could do batch processing of multiple users/tasks and one LLM. 
 </p>
+
+
+### P-Tuning 
+
+<p align="justify"></p>
+
+### Multitask Prompt Tuning
+
+<p align="justify"></p>
 
 ## Adapters 
 
@@ -64,10 +80,22 @@ Llama-Adapter combines the two ideas of prefix tuning and adapters for LLaMA mod
 
 
 
-## Low Rank Adaptation (LoRA)
+### Low Rank Adaptation (LoRA)
 
 <p align="justify">
 LoRA and QLoRA 
+</p>
+
+
+### IA3 
+
+<p align="justify">
+</p>
+
+
+### OFT/BOFT
+
+<p align="justify">
 </p>
 
 
