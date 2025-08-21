@@ -36,46 +36,46 @@ $$</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Symbol</th>
-          <th style="text-align: left">Description</th>
+          <th>Symbol</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">$\mathbb{1}_{i}^{obj}$</td>
-          <td style="text-align: left">indicator of whether the cell $i$ contains an object</td>
+          <td>$\mathbb{1}_{i}^{obj}$</td>
+          <td>indicator of whether the cell $i$ contains an object</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\mathbb{1}_{ij}^{obj}$</td>
-          <td style="text-align: left">ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+          <td>$\mathbb{1}_{ij}^{obj}$</td>
+          <td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$C_{i}$</td>
-          <td style="text-align: left">confidence score of cell $i$, $Pr(contains object) * IoU (pred, truth)$</td>
+          <td>$C_{i}$</td>
+          <td>confidence score of cell $i$, $Pr(contains object) * IoU (pred, truth)$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\hat{C}_{i}$</td>
-          <td style="text-align: left">predicted confidence score (box with higher IoU of the two predicted boxes)</td>
+          <td>$\hat{C}_{i}$</td>
+          <td>predicted confidence score (box with higher IoU of the two predicted boxes)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\mathcal{C}$</td>
-          <td style="text-align: left">set of all classes (Pascal VOC: 20)</td>
+          <td>$\mathcal{C}$</td>
+          <td>set of all classes (Pascal VOC: 20)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$p_{i}$</td>
-          <td style="text-align: left">conditional probability of whether cell $i$ contains an object of class $c \in \mathcal{C}$</td>
+          <td>$p_{i}$</td>
+          <td>conditional probability of whether cell $i$ contains an object of class $c \in \mathcal{C}$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\hat{p}_{i}$</td>
-          <td style="text-align: left">predicted conditional class probabilities</td>
+          <td>$\hat{p}_{i}$</td>
+          <td>predicted conditional class probabilities</td>
       </tr>
       <tr>
-          <td style="text-align: left">$S^{2}$</td>
-          <td style="text-align: left">grid size, here $S=7$</td>
+          <td>$S^{2}$</td>
+          <td>grid size, here $S=7$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$B$</td>
-          <td style="text-align: left">number of predicted bounding boxes per grid cell</td>
+          <td>$B$</td>
+          <td>number of predicted bounding boxes per grid cell</td>
       </tr>
   </tbody>
 </table>
@@ -332,30 +332,30 @@ $$</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Symbol</th>
-          <th style="text-align: left">Description</th>
+          <th>Symbol</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">$p$</td>
-          <td style="text-align: left">discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
+          <td>$p$</td>
+          <td>discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
       </tr>
       <tr>
-          <td style="text-align: left">$u$</td>
-          <td style="text-align: left">ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+          <td>$u$</td>
+          <td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$t^{u}$</td>
-          <td style="text-align: left">predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
+          <td>$t^{u}$</td>
+          <td>predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$v$</td>
-          <td style="text-align: left">true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
+          <td>$v$</td>
+          <td>true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\lambda$</td>
-          <td style="text-align: left">hyperparameter to control the balance between the two losses</td>
+          <td>$\lambda$</td>
+          <td>hyperparameter to control the balance between the two losses</td>
       </tr>
   </tbody>
 </table>
@@ -412,38 +412,38 @@ $$</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Symbol</th>
-          <th style="text-align: left">Description</th>
+          <th>Symbol</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">$p_{i}$</td>
-          <td style="text-align: left">predicted probability that anchor $i$ is an object</td>
+          <td>$p_{i}$</td>
+          <td>predicted probability that anchor $i$ is an object</td>
       </tr>
       <tr>
-          <td style="text-align: left">$p_{i}^{\ast}$</td>
-          <td style="text-align: left">ground-truth label (1 or 0)</td>
+          <td>$p_{i}^{\ast}$</td>
+          <td>ground-truth label (1 or 0)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$t_{i}$</td>
-          <td style="text-align: left">predicted parameterized coordinates $(x,y,w,h)$</td>
+          <td>$t_{i}$</td>
+          <td>predicted parameterized coordinates $(x,y,w,h)$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$t_{i}^{\ast}$</td>
-          <td style="text-align: left">ground-truth parameterized coordinates $(x,y,w,h)$</td>
+          <td>$t_{i}^{\ast}$</td>
+          <td>ground-truth parameterized coordinates $(x,y,w,h)$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\lambda$</td>
-          <td style="text-align: left">balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
+          <td>$\lambda$</td>
+          <td>balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$N_{cls}$</td>
-          <td style="text-align: left">normalization term, set to be the same as the mini batch size (256)</td>
+          <td>$N_{cls}$</td>
+          <td>normalization term, set to be the same as the mini batch size (256)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$N_{reg}$</td>
-          <td style="text-align: left">normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
+          <td>$N_{reg}$</td>
+          <td>normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
       </tr>
   </tbody>
 </table>

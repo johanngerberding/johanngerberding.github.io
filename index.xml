@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Johanns Blog</title><link>https://johanngerberding.github.io/</link><description>Recent content on Johanns Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 23 Aug 2024 10:00:00 +0200</lastBuildDate><atom:link href="https://johanngerberding.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Vision Language Models</title><link>https://johanngerberding.github.io/posts/2024-08-23-vision-language-models/</link><pubDate>Fri, 23 Aug 2024 10:00:00 +0200</pubDate><guid>https://johanngerberding.github.io/posts/2024-08-23-vision-language-models/</guid><description>LLMs are boring but VLMs are awesome, let&amp;rsquo;s see why.</description><content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Johanns Blog</title><link>https://johanngerberding.github.io/</link><description>Recent content on Johanns Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 06 Nov 2024 10:00:00 +0200</lastBuildDate><atom:link href="https://johanngerberding.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Vision Language Models</title><link>https://johanngerberding.github.io/posts/2024-08-23-vision-language-models/</link><pubDate>Fri, 23 Aug 2024 10:00:00 +0200</pubDate><guid>https://johanngerberding.github.io/posts/2024-08-23-vision-language-models/</guid><description>LLMs are boring but VLMs are awesome, let&amp;rsquo;s see why.</description><content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
 <p align="justify">
 Vision Language Models (VLM) are multimodal models that can learn from text and images and generate text as an output (some are able to generate images too). Typical use cases for this range from image chatting, image recognition, visual question answering to image captioning, document understanding and more. In addition to that some models are also able to perform object detection, segmentation or reasoning about relative positions of objects (which is kinda fire).
 </p>
@@ -810,41 +810,41 @@ For the further development of the methods we need a more finegrained evaluation
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Framework</th>
-          <th style="text-align: left">Aspects</th>
-          <th style="text-align: left">Methods</th>
-          <th style="text-align: left">Metrics</th>
-          <th style="text-align: left">Datasets</th>
+          <th>Framework</th>
+          <th>Aspects</th>
+          <th>Methods</th>
+          <th>Metrics</th>
+          <th>Datasets</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">RAGAS <a href="#references">[13]</a></td>
-          <td style="text-align: left">Quality of RAG Systems</td>
-          <td style="text-align: left">Context Relevance, Answer Relevance, Faithfulness</td>
-          <td style="text-align: left">Extracted Sentences / Total Sentences, Average Cosine Similarity, Supported Statements / Total Statements</td>
-          <td style="text-align: left">WikiEval</td>
+          <td>RAGAS <a href="#references">[13]</a></td>
+          <td>Quality of RAG Systems</td>
+          <td>Context Relevance, Answer Relevance, Faithfulness</td>
+          <td>Extracted Sentences / Total Sentences, Average Cosine Similarity, Supported Statements / Total Statements</td>
+          <td>WikiEval</td>
       </tr>
       <tr>
-          <td style="text-align: left">ARES <a href="#references">[14]</a></td>
-          <td style="text-align: left">Improving RAGAS</td>
-          <td style="text-align: left">Context Relevance, Answer Relevance, Answer Faithfulness</td>
-          <td style="text-align: left">Confidence Intervals</td>
-          <td style="text-align: left">KILT, SuperGLUE</td>
+          <td>ARES <a href="#references">[14]</a></td>
+          <td>Improving RAGAS</td>
+          <td>Context Relevance, Answer Relevance, Answer Faithfulness</td>
+          <td>Confidence Intervals</td>
+          <td>KILT, SuperGLUE</td>
       </tr>
       <tr>
-          <td style="text-align: left">RECALL <a href="#$references">[15]</a></td>
-          <td style="text-align: left">Counterfactual Robustness</td>
-          <td style="text-align: left">Response Quality, Robustness</td>
-          <td style="text-align: left">Accuracy (QA), BLEU, ROGUE-L</td>
-          <td style="text-align: left">EventKG, UJ</td>
+          <td>RECALL <a href="#$references">[15]</a></td>
+          <td>Counterfactual Robustness</td>
+          <td>Response Quality, Robustness</td>
+          <td>Accuracy (QA), BLEU, ROGUE-L</td>
+          <td>EventKG, UJ</td>
       </tr>
       <tr>
-          <td style="text-align: left">RGB <a href="#references">[16]</a></td>
-          <td style="text-align: left">Impact of RAG on LLMs</td>
-          <td style="text-align: left">Noise Robustness, Negative Rejection, Information Integration, Counterfactual Robustness</td>
-          <td style="text-align: left">Accuracy, Rejection Rate, Error Detection Rate, Error Correction Rate</td>
-          <td style="text-align: left">Synthetic Dataset including English and Chinese</td>
+          <td>RGB <a href="#references">[16]</a></td>
+          <td>Impact of RAG on LLMs</td>
+          <td>Noise Robustness, Negative Rejection, Information Integration, Counterfactual Robustness</td>
+          <td>Accuracy, Rejection Rate, Error Detection Rate, Error Correction Rate</td>
+          <td>Synthetic Dataset including English and Chinese</td>
       </tr>
   </tbody>
 </table>
@@ -1467,46 +1467,46 @@ $$</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Symbol</th>
-          <th style="text-align: left">Description</th>
+          <th>Symbol</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">$\mathbb{1}_{i}^{obj}$</td>
-          <td style="text-align: left">indicator of whether the cell $i$ contains an object</td>
+          <td>$\mathbb{1}_{i}^{obj}$</td>
+          <td>indicator of whether the cell $i$ contains an object</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\mathbb{1}_{ij}^{obj}$</td>
-          <td style="text-align: left">ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+          <td>$\mathbb{1}_{ij}^{obj}$</td>
+          <td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$C_{i}$</td>
-          <td style="text-align: left">confidence score of cell $i$, $Pr(contains object) * IoU (pred, truth)$</td>
+          <td>$C_{i}$</td>
+          <td>confidence score of cell $i$, $Pr(contains object) * IoU (pred, truth)$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\hat{C}_{i}$</td>
-          <td style="text-align: left">predicted confidence score (box with higher IoU of the two predicted boxes)</td>
+          <td>$\hat{C}_{i}$</td>
+          <td>predicted confidence score (box with higher IoU of the two predicted boxes)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\mathcal{C}$</td>
-          <td style="text-align: left">set of all classes (Pascal VOC: 20)</td>
+          <td>$\mathcal{C}$</td>
+          <td>set of all classes (Pascal VOC: 20)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$p_{i}$</td>
-          <td style="text-align: left">conditional probability of whether cell $i$ contains an object of class $c \in \mathcal{C}$</td>
+          <td>$p_{i}$</td>
+          <td>conditional probability of whether cell $i$ contains an object of class $c \in \mathcal{C}$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\hat{p}_{i}$</td>
-          <td style="text-align: left">predicted conditional class probabilities</td>
+          <td>$\hat{p}_{i}$</td>
+          <td>predicted conditional class probabilities</td>
       </tr>
       <tr>
-          <td style="text-align: left">$S^{2}$</td>
-          <td style="text-align: left">grid size, here $S=7$</td>
+          <td>$S^{2}$</td>
+          <td>grid size, here $S=7$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$B$</td>
-          <td style="text-align: left">number of predicted bounding boxes per grid cell</td>
+          <td>$B$</td>
+          <td>number of predicted bounding boxes per grid cell</td>
       </tr>
   </tbody>
 </table>
@@ -1763,30 +1763,30 @@ $$</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Symbol</th>
-          <th style="text-align: left">Description</th>
+          <th>Symbol</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">$p$</td>
-          <td style="text-align: left">discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
+          <td>$p$</td>
+          <td>discrete probability distribution (per RoI) over K+1 classes, $p=(p_{0}, &hellip;, p_{K})$ computed by a softmax</td>
       </tr>
       <tr>
-          <td style="text-align: left">$u$</td>
-          <td style="text-align: left">ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
+          <td>$u$</td>
+          <td>ground-truth class label, $u = 1, &hellip;, K$ (background $u = 0$)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$t^{u}$</td>
-          <td style="text-align: left">predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
+          <td>$t^{u}$</td>
+          <td>predicted bounding box offsets, $t^{u} = (t_{x}^{u},t_{y}^{u},t_{w}^{u},t_{h}^{u})$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$v$</td>
-          <td style="text-align: left">true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
+          <td>$v$</td>
+          <td>true bouding box regression targets $v = (v_{x},v_{y},v_{w},v_{h})$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\lambda$</td>
-          <td style="text-align: left">hyperparameter to control the balance between the two losses</td>
+          <td>$\lambda$</td>
+          <td>hyperparameter to control the balance between the two losses</td>
       </tr>
   </tbody>
 </table>
@@ -1843,38 +1843,38 @@ $$</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Symbol</th>
-          <th style="text-align: left">Description</th>
+          <th>Symbol</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">$p_{i}$</td>
-          <td style="text-align: left">predicted probability that anchor $i$ is an object</td>
+          <td>$p_{i}$</td>
+          <td>predicted probability that anchor $i$ is an object</td>
       </tr>
       <tr>
-          <td style="text-align: left">$p_{i}^{\ast}$</td>
-          <td style="text-align: left">ground-truth label (1 or 0)</td>
+          <td>$p_{i}^{\ast}$</td>
+          <td>ground-truth label (1 or 0)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$t_{i}$</td>
-          <td style="text-align: left">predicted parameterized coordinates $(x,y,w,h)$</td>
+          <td>$t_{i}$</td>
+          <td>predicted parameterized coordinates $(x,y,w,h)$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$t_{i}^{\ast}$</td>
-          <td style="text-align: left">ground-truth parameterized coordinates $(x,y,w,h)$</td>
+          <td>$t_{i}^{\ast}$</td>
+          <td>ground-truth parameterized coordinates $(x,y,w,h)$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$\lambda$</td>
-          <td style="text-align: left">balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
+          <td>$\lambda$</td>
+          <td>balancing parameter, set to be 10, to balance out $L_{reg}$ and $L_{cls}$</td>
       </tr>
       <tr>
-          <td style="text-align: left">$N_{cls}$</td>
-          <td style="text-align: left">normalization term, set to be the same as the mini batch size (256)</td>
+          <td>$N_{cls}$</td>
+          <td>normalization term, set to be the same as the mini batch size (256)</td>
       </tr>
       <tr>
-          <td style="text-align: left">$N_{reg}$</td>
-          <td style="text-align: left">normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
+          <td>$N_{reg}$</td>
+          <td>normalization term, set to be approx. the number of anchor boxes ($\sim$ 2400)</td>
       </tr>
   </tbody>
 </table>
