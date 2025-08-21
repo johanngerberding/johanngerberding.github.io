@@ -6,6 +6,8 @@ include_toc: false
 showToc: false
 ---
 
+{{< figure align=center alt="Johann Gerberding" src="/imgs/johann.jpeg" width=75% >}}
+
 <p align="justify">
 Hello everybody, my name is Johann, I am a Machine Learning Engineer from Germany working for a startup called <a href="https://www.lector.ai/">lector.ai</a>.  
 </p>
